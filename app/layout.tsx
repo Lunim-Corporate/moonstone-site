@@ -2,6 +2,9 @@
 import type { Metadata } from "next";
 // Styles
 import "./globals.css";
+// Prismic
+import { PrismicPreview } from "@prismicio/next";
+import { repositoryName } from "@/prismicio";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,6 +21,7 @@ export default function RootLayout({
       <body>
         {children}
       </body>
+      <PrismicPreview repositoryName={repositoryName} />
     </html>
   );
 }
