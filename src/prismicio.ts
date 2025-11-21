@@ -32,6 +32,7 @@ const routes: Route[] = [
  */
 export const createClient = (config: ClientConfig = {}) => {
   const client = baseCreateClient(repositoryName, {
+    accessToken: process.env.PRISMIC_ACCESS_TOKEN,
     routes,
     fetchOptions:
       process.env.NODE_ENV === "production"
