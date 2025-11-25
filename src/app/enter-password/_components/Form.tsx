@@ -38,7 +38,7 @@ export default function Form() {
     }
   return (
     <>
-        <form onSubmit={submit} className="bg-blue-100 py-6 px-10 max-w-80 rounded-2xl">
+        <form onSubmit={submit} className="bg-black py-6 px-10 max-w-80 rounded-2xl">
             <h1 className="mb-4 font-bold">Enter Password</h1>
             <div className="mb-8">
                 <label htmlFor="password">Password:</label>
@@ -52,7 +52,7 @@ export default function Form() {
                   />
             </div>
             <div>
-                <button type="submit" className="cursor-pointer rounded px-4 py-1.5 w-full bg-blue-200 hover:bg-blue-400 transition-colors duration-600">Enter</button>
+                <button type="submit" className="cursor-pointer rounded px-4 py-1.5 w-full bg-blue-900 hover:bg-blue-400 transition-colors duration-600">Enter</button>
             </div>
         </form>
         {error && <div className="text-red-500 mt-4">{error}</div>}
