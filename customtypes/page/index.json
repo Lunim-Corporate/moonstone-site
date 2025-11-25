@@ -12,67 +12,15 @@
           "label": "UID"
         }
       },
-      "heading": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Heading",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "heading1,strong,em"
-        }
-      },
-      "body_text": {
-        "type": "Text",
-        "config": {
-          "label": "Body Text",
-          "placeholder": ""
-        }
-      },
-      "team_member": {
-        "type": "Group",
-        "config": {
-          "label": "Team Member",
-          "repeat": true,
-          "fields": {
-            "headshot": {
-              "type": "Image",
-              "config": {
-                "label": "Headshot",
-                "constraint": {},
-                "thumbnails": []
-              }
-            },
-            "name": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Name",
-                "placeholder": "",
-                "allowTargetBlank": true,
-                "multi": "heading2,heading3,heading4,heading5,heading6,strong,em"
-              }
-            },
-            "role": {
-              "type": "Text",
-              "config": {
-                "label": "Role",
-                "placeholder": ""
-              }
-            },
-            "bio": {
-              "type": "Text",
-              "config": {
-                "label": "Bio",
-                "placeholder": ""
-              }
-            }
-          }
-        }
-      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {}
+          "choices": {
+            "team": {
+              "type": "SharedSlice"
+            }
+          }
         }
       }
     },
