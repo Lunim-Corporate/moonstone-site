@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+:root {
+    --heading-color: #FFFBD0;
+    --main-text-color: #F8F8F8;
+    --cta-color: #03ECF2;
+    --background-color: #252222;
+    /* --header-font: Lora Bold; */
+    /* --body-font: Raleway Regular */
+}
+
 /* Add base styles here */
 @layer base {
     html, body {
@@ -7,6 +16,6 @@
     }
 
     h1 {
-        font-size: 1.5em;
+        font-size: 1.5rem;
     }
 }
