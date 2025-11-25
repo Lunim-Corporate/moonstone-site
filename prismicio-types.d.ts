@@ -134,127 +134,160 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Item in *Page → Team Member*
- */
-export interface PageDocumentDataTeamMemberItem {
-  /**
-   * Headshot field in *Page → Team Member*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page.team_member[].headshot
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  headshot: prismic.ImageField<never>;
+type SigninDocumentDataSlicesSlice = never;
 
+/**
+ * Content for Sign-in documents
+ */
+interface SigninDocumentData {
   /**
-   * Name field in *Page → Team Member*
+   * heading field in *Sign-in*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.team_member[].name
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  name: prismic.RichTextField;
-
-  /**
-   * Role field in *Page → Team Member*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page.team_member[].role
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  role: prismic.KeyTextField;
-
-  /**
-   * Bio field in *Page → Team Member*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page.team_member[].bio
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  bio: prismic.KeyTextField;
-}
-
-type PageDocumentDataSlicesSlice = never;
-
-/**
- * Content for Page documents
- */
-interface PageDocumentData {
-  /**
-   * Heading field in *Page*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page.heading
+   * - **API ID Path**: signin.heading
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   heading: prismic.RichTextField;
 
   /**
-   * Body Text field in *Page*
+   * sub-heading field in *Sign-in*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.subheading
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subheading: prismic.RichTextField;
+
+  /**
+   * email-address field in *Sign-in*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.body_text
+   * - **API ID Path**: signin.email_address
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  body_text: prismic.KeyTextField;
+  email_address: prismic.KeyTextField;
 
   /**
-   * Team Member field in *Page*
+   * password field in *Sign-in*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.team_member[]
+   * - **API ID Path**: signin.password
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  team_member: prismic.GroupField<Simplify<PageDocumentDataTeamMemberItem>>;
+  password: prismic.KeyTextField;
 
   /**
-   * Slice Zone field in *Page*
+   * sign-in-btn field in *Sign-in*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.sign_in_btn
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  sign_in_btn: prismic.KeyTextField;
+
+  /**
+   * forget-password field in *Sign-in*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.forget_password
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  forget_password: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * no-account field in *Sign-in*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.no_account
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  no_account: prismic.KeyTextField;
+
+  /**
+   * create-account-btn field in *Sign-in*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.create_account_btn
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  create_account_btn: prismic.KeyTextField;
+
+  /**
+   * back-to-home field in *Sign-in*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.back_to_home
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  back_to_home: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Slice Zone field in *Sign-in*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.slices[]
+   * - **API ID Path**: signin.slices[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
-   * Meta Title field in *Page*
+  slices: prismic.SliceZone<SigninDocumentDataSlicesSlice> /**
+   * Meta Title field in *Sign-in*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: page.meta_title
+   * - **API ID Path**: signin.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
    */;
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *Page*
+   * Meta Description field in *Sign-in*
    *
    * - **Field Type**: Text
    * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: page.meta_description
+   * - **API ID Path**: signin.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *Page*
+   * Meta Image field in *Sign-in*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: page.meta_image
+   * - **API ID Path**: signin.meta_image
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/image
    */
@@ -262,18 +295,18 @@ interface PageDocumentData {
 }
 
 /**
- * Page document from Prismic
+ * Sign-in document from Prismic
  *
- * - **API ID**: `page`
- * - **Repeatable**: `true`
+ * - **API ID**: `signin`
+ * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
+export type SigninDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<SigninDocumentData>, "signin", Lang>;
 
-export type AllDocumentTypes = HomepageDocument | PageDocument;
+export type AllDocumentTypes = HomepageDocument | SigninDocument;
 
 declare module "@prismicio/client" {
   interface CreateClient {
@@ -299,10 +332,9 @@ declare module "@prismicio/client" {
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
-      PageDocument,
-      PageDocumentData,
-      PageDocumentDataTeamMemberItem,
-      PageDocumentDataSlicesSlice,
+      SigninDocument,
+      SigninDocumentData,
+      SigninDocumentDataSlicesSlice,
       AllDocumentTypes,
     };
   }
