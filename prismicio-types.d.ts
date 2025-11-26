@@ -69,6 +69,34 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+/**
+ * Content for Footer documents
+ */
+interface FooterDocumentData {
+  /**
+   * Company Name field in *Footer*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.company_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  company_name: prismic.RichTextField;
+}
+
+/**
+ * Footer document from Prismic
+ *
+ * - **API ID**: `footer`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type FooterDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<FooterDocumentData>, "footer", Lang>;
+
 type HomepageDocumentDataSlicesSlice = never;
 
 /**
@@ -131,6 +159,75 @@ export type HomepageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<
     Simplify<HomepageDocumentData>,
     "homepage",
+    Lang
+  >;
+
+/**
+ * Item in *Navigation → Nav Links*
+ */
+export interface NavigationDocumentDataNavLinksItem {
+  /**
+   * Link field in *Navigation → Nav Links*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.nav_links[].link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+  /**
+   * Home field in *Navigation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.home
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  home: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * Logo field in *Navigation*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.logo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  logo: prismic.ImageField<never>;
+
+  /**
+   * Nav Links field in *Navigation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.nav_links[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  nav_links: prismic.GroupField<Simplify<NavigationDocumentDataNavLinksItem>>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<NavigationDocumentData>,
+    "navigation",
     Lang
   >;
 
@@ -367,7 +464,12 @@ interface SigninDocumentData {
 export type SigninDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<SigninDocumentData>, "signin", Lang>;
 
-export type AllDocumentTypes = HomepageDocument | PageDocument | SigninDocument;
+export type AllDocumentTypes =
+  | FooterDocument
+  | HomepageDocument
+  | NavigationDocument
+  | PageDocument
+  | SigninDocument;
 
 /**
  * Item in *Team → Default → Primary → Team Member*
@@ -499,9 +601,14 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      FooterDocument,
+      FooterDocumentData,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      NavigationDocument,
+      NavigationDocumentData,
+      NavigationDocumentDataNavLinksItem,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
