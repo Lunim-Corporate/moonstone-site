@@ -72,9 +72,13 @@
 				"thumbnails": {}
 			},
 			"cta": {
-				"__TYPE__": "FieldContent",
-				"value": "needs",
-				"type": "Text"
+				"__TYPE__": "LinkContent",
+				"key": "9193f3b3-627a-4972-8cb3-94eb7d1acaac",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://slicemachine.dev",
+					"text": "go"
+				}
 			}
 		},
 		"items": []
