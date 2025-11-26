@@ -42,9 +42,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${raleway.variable} ${lora.variable}`}>
       <body>
-        <Navigation />
-        {children}
-        <Footer />
+        <div className="min-h-full flex flex-col" id="layout-container">
+          <Navigation />
+          {children}
+          <Footer />
+        </div>
       </body>
       {gaId && <GoogleAnalytics gaId={gaId} />}
       <PrismicPreview repositoryName={repositoryName} />
