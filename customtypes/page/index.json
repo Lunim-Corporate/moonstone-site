@@ -17,6 +17,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "password_form": {
+              "type": "SharedSlice"
+            },
             "team": {
               "type": "SharedSlice"
             }

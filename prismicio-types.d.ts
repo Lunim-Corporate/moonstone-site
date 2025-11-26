@@ -231,7 +231,7 @@ export type NavigationDocument<Lang extends string = string> =
     Lang
   >;
 
-type PageDocumentDataSlicesSlice = TeamSlice;
+type PageDocumentDataSlicesSlice = PasswordFormSlice | TeamSlice;
 
 /**
  * Content for Page documents
@@ -472,6 +472,241 @@ export type AllDocumentTypes =
   | SigninDocument;
 
 /**
+ * Primary content in *PasswordForm → Password Form → Primary*
+ */
+export interface PasswordFormSliceDefaultPrimary {
+  /**
+   * Background Image field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Password Label field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  password_label: prismic.KeyTextField;
+
+  /**
+   * CTA Label field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+
+  /**
+   * Success Message field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.success_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  success_message: prismic.RichTextField;
+
+  /**
+   * Error Message field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.error_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  error_message: prismic.RichTextField;
+}
+
+/**
+ * Password Form variation for PasswordForm Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<PasswordFormSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *PasswordForm → Access Form → Primary*
+ */
+export interface PasswordFormSliceAccessFormPrimary {
+  /**
+   * Background Image field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Full Name Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.full_name_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  full_name_label: prismic.KeyTextField;
+
+  /**
+   * Email Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.email_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  email_label: prismic.KeyTextField;
+
+  /**
+   * Phone Number Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.phone_number_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  phone_number_label: prismic.KeyTextField;
+
+  /**
+   * Company Name field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.company_name
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  company_name: prismic.KeyTextField;
+
+  /**
+   * Message Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.message_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  message_label: prismic.KeyTextField;
+
+  /**
+   * CTA Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+}
+
+/**
+ * Access Form variation for PasswordForm Slice
+ *
+ * - **API ID**: `accessForm`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSliceAccessForm = prismic.SharedSliceVariation<
+  "accessForm",
+  Simplify<PasswordFormSliceAccessFormPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *PasswordForm*
+ */
+type PasswordFormSliceVariation =
+  | PasswordFormSliceDefault
+  | PasswordFormSliceAccessForm;
+
+/**
+ * PasswordForm Shared Slice
+ *
+ * - **API ID**: `password_form`
+ * - **Description**: PasswordForm
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSlice = prismic.SharedSlice<
+  "password_form",
+  PasswordFormSliceVariation
+>;
+
+/**
  * Item in *Team → Default → Primary → Team Member*
  */
 export interface TeamSliceDefaultPrimaryTeamMemberItem {
@@ -616,6 +851,12 @@ declare module "@prismicio/client" {
       SigninDocumentData,
       SigninDocumentDataSlicesSlice,
       AllDocumentTypes,
+      PasswordFormSlice,
+      PasswordFormSliceDefaultPrimary,
+      PasswordFormSliceAccessFormPrimary,
+      PasswordFormSliceVariation,
+      PasswordFormSliceDefault,
+      PasswordFormSliceAccessForm,
       TeamSlice,
       TeamSliceDefaultPrimaryTeamMemberItem,
       TeamSliceDefaultPrimary,
