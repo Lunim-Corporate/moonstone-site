@@ -641,12 +641,12 @@ export interface ImageAndTextSliceDefaultPrimary {
   /**
    * CTA field in *ImageAndText → Default → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Link
    * - **Placeholder**: *None*
    * - **API ID Path**: image_and_text.default.primary.cta
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/link
    */
-  cta: prismic.KeyTextField;
+  cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
