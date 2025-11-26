@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <main
       style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
-      className="bg-center bg-cover min-h-full pt-20"
+      className="bg-center bg-cover min-h-full pt-30"
     >
       <div className="max-w-4xl mx-auto">
         <div className="max-w-lg mx-auto py-10">
