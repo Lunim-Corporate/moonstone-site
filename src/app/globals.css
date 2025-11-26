@@ -26,4 +26,15 @@
     :is(h1, h2, h3, h4, h5, h6) {
         color: var(--heading-color);
     }
+
+    /* Sticky footer */
+    header, footer {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    
+    #layout-container > *:not(header):not(footer) {
+        flex-grow: 1;
+    }
+    /* End Sticky footer */
 }

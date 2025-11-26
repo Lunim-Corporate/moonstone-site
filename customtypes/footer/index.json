@@ -14,12 +14,10 @@
         }
       },
       "company_name": {
-        "type": "StructuredText",
+        "type": "Text",
         "config": {
           "label": "Company Name",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "heading2,heading3,heading4,heading5,heading6,strong,em,paragraph"
+          "placeholder": ""
         }
       }
     }

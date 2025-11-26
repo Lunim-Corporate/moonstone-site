@@ -76,13 +76,13 @@ interface FooterDocumentData {
   /**
    * Company Name field in *Footer*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: footer.company_name
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  company_name: prismic.RichTextField;
+  company_name: prismic.KeyTextField;
 }
 
 /**
