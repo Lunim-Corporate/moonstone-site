@@ -3,5 +3,6 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  password_form: dynamic(() => import("./PasswordForm")),
   team: dynamic(() => import("./Team")),
 };
