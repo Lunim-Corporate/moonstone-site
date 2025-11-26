@@ -10,7 +10,7 @@ export default async function Footer() {
   if (!doc) return notFound();
 
   return (
-    <footer className="bg-[#201e1e] py-8 px-10 mt-8">
+    <footer className="bg-[#201e1e] px-10 py-6">
       <div>
         &copy; {new Date().getFullYear()} {doc.data.company_name}. All rights reserved.
       </div>
