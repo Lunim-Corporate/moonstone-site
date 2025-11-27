@@ -697,6 +697,16 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
   item: prismic.GroupField<
     Simplify<ImageAndTextSliceImageAboveTextBelowPrimaryItemItem>
   >;
+
+  /**
+   * Body field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  body: prismic.KeyTextField;
 }
 
 /**
