@@ -89,7 +89,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     type="text"
                     name="full-name"
                     id="full-name"
-                    className="bg-white w-full p-2 rounded"
+                    className="w-full p-2 rounded border"
                   />
                 </div>
                 <div>
@@ -100,7 +100,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-white w-full p-2 rounded"
+                    className="w-full p-2 rounded border"
                   />
                 </div>
               </div>
@@ -114,7 +114,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     type="text"
                     name="phone-number"
                     id="phone-number"
-                    className="bg-white w-full p-2 rounded"
+                    className="w-full p-2 rounded border"
                   />
                 </div>
                 <div>
@@ -125,7 +125,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     type="text"
                     name="company-name"
                     id="company-name"
-                    className="bg-white w-full p-2 rounded"
+                    className="w-full p-2 rounded border"
                   />
                 </div>
               </div>
@@ -136,11 +136,13 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 <textarea
                   name="message"
                   id="message"
-                  className="bg-white w-full p-2 rounded"
+                  className="w-full p-2 rounded border"
                 ></textarea>
               </div>
               <div className="text-center mt-4">
-                <button className="bg-(--cta-color) text-black p-3.5 rounded cursor-pointer hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300">
+                <button
+                  className="bg-(--cta-color) text-black p-3.5 rounded cursor-pointer hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300"
+                  type="button">
                   {asText(slice.primary.cta)}
                 </button>
               </div>
