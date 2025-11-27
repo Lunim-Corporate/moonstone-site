@@ -1,3 +1,4 @@
+"use client"
 // Prismic
 import { Content } from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
