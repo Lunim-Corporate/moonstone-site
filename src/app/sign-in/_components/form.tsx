@@ -120,11 +120,11 @@ function SignInFormContent({ doc }: { doc: any }) {
           </div>
 
           <div className="pt-4 mt-3">
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-between">
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#03ECF2] text-black px-8 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] transition-colors disabled:opacity-50 cursor-pointer"
+                className="bg-[#03ECF2] text-black px-4 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] transition-colors disabled:opacity-50 cursor-pointer"
                 style={{ letterSpacing: "0.05em" }}
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
@@ -201,7 +201,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#03ECF2] text-black px-8 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] cursor-pointer transition-colors disabled:opacity-50 min-w-[100px]"
+            className="bg-[#03ECF2] text-black px-4 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] cursor-pointer transition-colors disabled:opacity-50 min-w-[100px]"
             style={{ letterSpacing: "0.05em" }}
           >
             {loading ? "SIGNING IN..." : doc.data.sign_in_btn || "SIGN IN"}
@@ -221,7 +221,6 @@ function SignInFormContent({ doc }: { doc: any }) {
         className="flex justify-center mb-3 -mx-20"
         style={{ marginTop: "1.5rem" }}
       >
-        <div className="w-full border-t border-[#B5B4B5]"></div>
       </div>
 
       <div

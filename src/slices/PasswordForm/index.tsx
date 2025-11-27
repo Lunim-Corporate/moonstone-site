@@ -49,6 +49,10 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
           "_blank",
           "noopener,noreferrer"
         );
+        // Reset form
+        setSuccessMessage(
+          ""
+        );
       } else {
         setError("Incorrect password");
         setIsIncorrectPassword(true);

@@ -8,30 +8,35 @@ export default async function Page() {
   const doc = await client.getSingle("signin");
 
   return (
-    <div className="w-full max-w-[320px] mx-auto pt-32">
-      <PrismicRichText
-        field={doc.data.heading}
-        components={{
-          heading1: ({ children }: { children: React.ReactNode }) => (
-            <h1 className="text-xl font-bold text-center mb-0 mt-3">
-              {children}
-            </h1>
-          ),
-        }}
-      />
+    <main
+      className="bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${doc.data.background_image.url})`,
+      }}
+    >
+      <div className="min-h-screen pt-40 bg-[rgba(0,0,0,0.8)]">
+        <div className="max-w-lg mx-auto p-4">
+          <PrismicRichText
+            field={doc.data.heading}
+            components={{
+              heading1: ({ children }: { children: React.ReactNode }) => (
+                <h1 className="text-xl font-bold text-center mb-0 mt-3">
+                  {children}
+                </h1>
+              ),
+            }}
+          />
 
-      <div className="flex justify-center mb-3 mt-3 -mx-20">
-        <div className="w-full border-t border-[#B5B4B5]"></div>
+          <SignInForm doc={doc} />
+
+          <div className="mt-8 text-center">
+            <PrismicNextLink
+              field={doc.data.back_to_home}
+              className="text-xs hover:underline"
+            />
+          </div>
+        </div>
       </div>
-
-      <SignInForm doc={doc} />
-
-      <div className="mt-4 text-center">
-        <PrismicNextLink
-          field={doc.data.back_to_home}
-          className="text-xs hover:underline"
-        />
-      </div>
-    </div>
+    </main>
   );
 }
