@@ -163,10 +163,7 @@ function SignInFormContent({ doc }: { doc: any }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-xs font-normal mb-1"
-          >
+          <label htmlFor="email" className="block text-xs font-normal mb-1">
             {doc.data.email_address}
           </label>
           <input
@@ -186,10 +183,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           )}
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-xs font-normal mb-1"
-          >
+          <label htmlFor="password" className="block text-xs font-normal mb-1">
             {doc.data.password}
           </label>
           <input
