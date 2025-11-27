@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { createClient } from "../prismicio"
 
 export default async function Footer() {
-
   const client = createClient()
   const doc = await client.getSingle("footer")
   if (!doc) return notFound();

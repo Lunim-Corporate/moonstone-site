@@ -12,6 +12,7 @@ export type ImageAndTextProps = SliceComponentProps<Content.ImageAndTextSlice>;
  * Component for "ImageAndText" Slices.
  */
 export default function ImageAndText({ slice }: ImageAndTextProps) {
+  // The Hook, Why now, Transmedia, Potential Investors
   if (slice.variation === "default") {
     return (
       <div
@@ -67,6 +68,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
       </div>
     );
   }
+  // Comparables, Synopsis
   if (slice.variation === "imageAboveTextBelow") {
     return (
       <div
@@ -84,7 +86,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
               field={slice.primary.heading}
               components={{
                 heading2: ({ children }) => (
-                  <h2 className="mb-4">{children}</h2>
+                  <h2 className="mb-10">{children}</h2>
                 ),
               }}
             />

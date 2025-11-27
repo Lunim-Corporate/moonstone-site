@@ -8,6 +8,6 @@ export default async function Navigation() {
   const client = createClient()
   const doc = await client.getSingle("navigation")
   if (!doc) notFound()
-
+  
   return <NavigationClient data={doc.data} />
 }
