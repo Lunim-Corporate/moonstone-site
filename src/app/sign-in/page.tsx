@@ -7,7 +7,6 @@ export default async function Page() {
   const client = createClient();
   const doc = await client.getSingle("signin");
 
-
   return (
     <div className="w-full max-w-[320px] mx-auto pt-32">
       <PrismicRichText

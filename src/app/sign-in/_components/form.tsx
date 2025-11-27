@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { PrismicNextLink } from "@prismicio/next";
+import { PrismicRichText } from "@prismicio/react";
 import { signIn } from "next-auth/react";
 import { PrismicRichText } from "@prismicio/react";
 
@@ -84,7 +85,7 @@ function SignInFormContent({ doc }: { doc: any }) {
   if (showForgotPassword) {
     return (
       <div className="py-1">
-        <p className="text-[#161616] text-xs mb-4 mt-4">
+        <p className="text-xs mb-4 mt-4">
           Enter your email address and we'll send instructions on how to reset
           your password.
         </p>
@@ -105,7 +106,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <div>
             <label
               htmlFor="forgot-email"
-              className="block text-[#161616] text-xs font-normal mb-1"
+              className="block text-xs font-normal mb-1"
             >
               {doc.data.email_address}
             </label>
