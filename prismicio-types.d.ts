@@ -566,6 +566,28 @@ interface SigninDocumentData {
   >;
 
   /**
+   * full-name field in *Sign-in*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.full_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  full_name: prismic.KeyTextField;
+
+  /**
+   * nick-name field in *Sign-in*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.nick_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  nick_name: prismic.KeyTextField;
+
+  /**
    * Slice Zone field in *Sign-in*
    *
    * - **Field Type**: Slice Zone

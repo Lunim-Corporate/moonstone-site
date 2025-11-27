@@ -96,6 +96,20 @@
           "repeat": false
         }
       },
+      "full_name": {
+        "type": "Text",
+        "config": {
+          "label": "full-name",
+          "placeholder": ""
+        }
+      },
+      "nick_name": {
+        "type": "Text",
+        "config": {
+          "label": "nick-name",
+          "placeholder": ""
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
