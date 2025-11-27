@@ -1067,11 +1067,130 @@ export type PasswordFormSliceAccessForm = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *PasswordForm → Contact Form → Primary*
+ */
+export interface PasswordFormSliceContactFormPrimary {
+  /**
+   * Background Image field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Full Name Label field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.full_name_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  full_name_label: prismic.KeyTextField;
+
+  /**
+   * Email Label field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.email_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  email_label: prismic.KeyTextField;
+
+  /**
+   * Phone Number Label field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.phone_number_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  phone_number_label: prismic.KeyTextField;
+
+  /**
+   * Company Name field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.company_name
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  company_name: prismic.KeyTextField;
+
+  /**
+   * Message Label field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.message_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  message_label: prismic.KeyTextField;
+
+  /**
+   * CTA Label field in *PasswordForm → Contact Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.contactForm.primary.cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+}
+
+/**
+ * Contact Form variation for PasswordForm Slice
+ *
+ * - **API ID**: `contactForm`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSliceContactForm = prismic.SharedSliceVariation<
+  "contactForm",
+  Simplify<PasswordFormSliceContactFormPrimary>,
+  never
+>;
+
+/**
  * Slice variation for *PasswordForm*
  */
 type PasswordFormSliceVariation =
   | PasswordFormSliceDefault
-  | PasswordFormSliceAccessForm;
+  | PasswordFormSliceAccessForm
+  | PasswordFormSliceContactForm;
 
 /**
  * PasswordForm Shared Slice
@@ -1247,9 +1366,11 @@ declare module "@prismicio/client" {
       PasswordFormSlice,
       PasswordFormSliceDefaultPrimary,
       PasswordFormSliceAccessFormPrimary,
+      PasswordFormSliceContactFormPrimary,
       PasswordFormSliceVariation,
       PasswordFormSliceDefault,
       PasswordFormSliceAccessForm,
+      PasswordFormSliceContactForm,
       TeamSlice,
       TeamSliceDefaultPrimaryTeamMemberItem,
       TeamSliceDefaultPrimary,
