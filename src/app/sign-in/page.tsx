@@ -1,6 +1,5 @@
 import { createClient } from "@/src/prismicio";
 import { PrismicNextLink } from "@prismicio/next";
-import { PrismicRichText } from "@prismicio/react";
 import SignInForm from "./_components/form";
 
 export default async function Page() {
@@ -16,17 +15,6 @@ export default async function Page() {
     >
       <div className="min-h-screen pt-40 bg-[rgba(0,0,0,0.8)]">
         <div className="max-w-lg mx-auto p-4">
-          <PrismicRichText
-            field={doc.data.heading}
-            components={{
-              heading1: ({ children }: { children: React.ReactNode }) => (
-                <h1 className="text-xl font-bold text-center mb-0 mt-3">
-                  {children}
-                </h1>
-              ),
-            }}
-          />
-
           <SignInForm doc={doc} />
 
           <div className="mt-8 text-center">
