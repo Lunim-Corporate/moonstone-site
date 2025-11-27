@@ -93,7 +93,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 return (
                   <div key={idx} className="flex flex-col">
                     {isFilled.image(item.main_image) ? (
-                    <div className="rounded-lg overflow-hidden mb-6 shadow-[10px_10px_20px_white]">
+                    <div className="rounded-lg overflow-hidden mb-6 shadow-[0px_0px_10px_4px_white]">
                       <PrismicNextImage
                         field={item.main_image}
                         className="w-full rounded"
