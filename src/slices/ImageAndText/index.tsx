@@ -1,6 +1,6 @@
 "use client"
 import { Content, isFilled } from "@prismicio/client";
-import { PrismicRichText, PrismicText, SliceComponentProps } from "@prismicio/react";
+import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 
 /**
@@ -85,16 +85,20 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 ),
               }}
             />
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10 my-counter">
               {slice.primary.item.map((item, idx) => {
                 return (
                   <div key={idx} className="flex flex-col">
+                    {isFilled.image(item.main_image) ? (
                     <div className="rounded-lg overflow-hidden mb-6 shadow-[10px_10px_20px_white]">
                       <PrismicNextImage
                         field={item.main_image}
                         className="w-full rounded"
                       />
                     </div>
+                    ) : (
+                        <div className="my-counter-section border-b-2 my-4"></div>
+                    )}
                     <div>
                       <PrismicRichText field={item.body} />
                     </div>

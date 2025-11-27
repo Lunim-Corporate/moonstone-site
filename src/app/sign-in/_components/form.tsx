@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { PrismicNextLink } from "@prismicio/next";
 import { signIn } from "next-auth/react";
+import { PrismicRichText } from "@prismicio/react";
 
 function SignInFormContent({ doc }: { doc: any }) {
   const router = useRouter();
@@ -123,7 +124,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#006f9e] text-white px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50"
+                className="bg-[#006f9e] text-white px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50 cursor-pointer"
                 style={{ letterSpacing: "0.05em" }}
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
@@ -136,7 +137,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                   setForgotPasswordMessage("");
                   setError("");
                 }}
-                className="text-[#006f9e] px-4 py-2 rounded text-xs font-bold uppercase hover:underline transition-all"
+                className="text-[#006f9e] px-4 py-2 rounded text-xs font-bold uppercase hover:underline transition-all cursor-pointer"
               >
                 CANCEL
               </button>
@@ -149,15 +150,18 @@ function SignInFormContent({ doc }: { doc: any }) {
 
   return (
     <div className="py-1">
-      <h2 className="text-xs font-normal text-center text-[#7f7f7f] mb-4 mt-4">
-        Using your email:
-      </h2>
+      <PrismicRichText
+        field={doc.data.subheading}
+        components={{
+          heading2: ({ children }) => <h2 className="text-sm text-center my-4">{children}</h2>
+        }}
+      />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="email"
-            className="block text-[#161616] text-xs font-normal mb-1"
+            className="block text-xs font-normal mb-1"
           >
             {doc.data.email_address}
           </label>
@@ -171,7 +175,7 @@ function SignInFormContent({ doc }: { doc: any }) {
             }}
             className={`w-full px-3 py-2 rounded border ${
               emailError ? "border-red-500 border-2" : "border-[#b5b4b5]"
-            } bg-white text-[#161616] text-sm focus:outline-none focus:border-[#006f9e] focus:border-2`}
+            } text-sm focus:outline-none focus:border-[#006f9e] focus:border-2`}
           />
           {emailError && (
             <p className="text-red-500 text-xs mt-1">{emailError}</p>
@@ -180,7 +184,7 @@ function SignInFormContent({ doc }: { doc: any }) {
         <div>
           <label
             htmlFor="password"
-            className="block text-[#161616] text-xs font-normal mb-1"
+            className="block text-xs font-normal mb-1"
           >
             {doc.data.password}
           </label>
@@ -192,7 +196,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               setPassword(e.target.value);
               setError("");
             }}
-            className="w-full px-3 py-2 rounded border border-[#b5b4b5] bg-white text-[#161616] text-sm focus:outline-none focus:border-[#006f9e] focus:border-2"
+            className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-sm focus:outline-none focus:border-[#006f9e] focus:border-2"
           />
           {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
@@ -201,7 +205,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#006f9e] text-white px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50 min-w-[100px]"
+            className="bg-[#006f9e] px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50 min-w-[100px]"
             style={{ letterSpacing: "0.05em" }}
           >
             {loading ? "SIGNING IN..." : doc.data.sign_in_btn || "SIGN IN"}
@@ -210,7 +214,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="button"
             onClick={() => setShowForgotPassword(true)}
-            className="text-[#006f9e] text-xs font-normal hover:underline transition-all"
+            className="text-xs font-normal hover:underline transition-all"
           >
             <PrismicNextLink field={doc.data.forget_password} />
           </button>
@@ -228,10 +232,10 @@ function SignInFormContent({ doc }: { doc: any }) {
         className="flex items-center justify-center gap-3"
         style={{ marginTop: "1.5rem" }}
       >
-        <p className="text-[#161616] text-xs">{doc.data.no_account}</p>
+        <p className="text-xs">{doc.data.no_account}</p>
         <button
           onClick={() => router.push("/")}
-          className="border border-[#161616] text-[#161616] px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-[#161616] hover:text-white transition-colors"
+          className="border border-[#161616] px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-[#161616] hover:text-white transition-colors"
           style={{ letterSpacing: "0.05em" }}
         >
           {doc.data.create_account_btn || "CREATE ACCOUNT"}

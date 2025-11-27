@@ -14,7 +14,7 @@ export default async function Page() {
         field={doc.data.heading}
         components={{
           heading1: ({ children }: { children: React.ReactNode }) => (
-            <h1 className="text-xl font-bold text-center text-[#161616] mb-0 mt-3">
+            <h1 className="text-xl font-bold text-center mb-0 mt-3">
               {children}
             </h1>
           ),
@@ -30,7 +30,7 @@ export default async function Page() {
       <div className="mt-4 text-center">
         <PrismicNextLink
           field={doc.data.back_to_home}
-          className="text-[#006f9e] text-xs hover:underline"
+          className="text-xs hover:underline"
         />
       </div>
     </div>

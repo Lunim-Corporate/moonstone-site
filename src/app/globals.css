@@ -163,3 +163,13 @@
     @apply bg-background text-foreground;
     }
 } */
+
+/* Synopsis section: see ImageAndText slice  */
+.my-counter {
+    counter-reset: section;
+}
+
+.my-counter-section::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+}
