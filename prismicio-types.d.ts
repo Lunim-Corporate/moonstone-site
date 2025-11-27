@@ -184,7 +184,10 @@ interface FooterDocumentData {
 export type FooterDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<FooterDocumentData>, "footer", Lang>;
 
-type HomepageDocumentDataSlicesSlice = ImageAndTextSlice | HeroSlice;
+type HomepageDocumentDataSlicesSlice =
+  | ContactUsSlice
+  | ImageAndTextSlice
+  | HeroSlice;
 
 /**
  * Content for Homepage documents
