@@ -64,24 +64,10 @@ function SignInFormContent({ doc }: { doc: any }) {
     setError("");
     setLoading(true);
 
-    try {
-      const API_URL =
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-      const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: forgotPasswordEmail }),
-      });
-
-      const data = await response.json();
-      setForgotPasswordMessage(data.message);
-    } catch (err: any) {
-      setError(err.message || "Failed to send reset email");
-    } finally {
+    setTimeout(() => {
+      setForgotPasswordMessage("Password reset functionality coming soon!");
       setLoading(false);
-    }
+    }, 1000);
   };
 
   const handleCreateAccount = async (e: React.FormEvent) => {
@@ -111,44 +97,16 @@ function SignInFormContent({ doc }: { doc: any }) {
 
     setLoading(true);
 
-    try {
-      const API_URL =
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-      const response = await fetch(`${API_URL}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName,
-          nickName,
-          email,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Failed to create account");
-      }
-
-      const result = await signIn("credentials", {
+    setTimeout(() => {
+      console.log("Account creation data:", {
+        fullName,
+        nickName,
         email,
         password,
-        redirect: false,
       });
-
-      if (result?.error) {
-        setError("Account created but failed to sign in");
-      } else {
-        const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-        router.push(callbackUrl);
-      }
-    } catch (err: any) {
-      setError(err.message || "An error occurred during account creation");
-    } finally {
+      setError("Account creation functionality coming soon!");
       setLoading(false);
-    }
+    }, 1000);
   };
 
   if (showCreateAccount) {
@@ -458,11 +416,6 @@ function SignInFormContent({ doc }: { doc: any }) {
           </button>
         </div>
       </form>
-
-      <div
-        className="flex justify-center mb-3 -mx-20"
-        style={{ marginTop: "1.5rem" }}
-      ></div>
 
       <div
         className="flex items-center justify-center gap-3"
