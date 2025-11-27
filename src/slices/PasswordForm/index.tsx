@@ -38,21 +38,20 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
 
       const data = await res.json().catch(() => null);
       if (data && data.valid) {
+        const link = (data.link ?? "") as string;
+        if (!link) {
+          setError("Server not configured");
+          return;
+        }
         setError(null);
         setSuccessMessage(
           "Password correct! The pitch deck will now open in a new tab"
         );
         // Wait 5 seconds before opening the link
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        window.open(
-          "https://gamma.app/docs/Moonstone-Pitch-z7glhnvm9hs5xex",
-          "_blank",
-          "noopener,noreferrer"
-        );
+        window.open(link, "_blank", "noopener,noreferrer");
         // Reset form
-        setSuccessMessage(
-          ""
-        );
+        setSuccessMessage("");
       } else {
         setError("Incorrect password");
         setIsIncorrectPassword(true);
