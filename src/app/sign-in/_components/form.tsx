@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import { PrismicNextLink } from "@prismicio/next";
+import { PrismicRichText } from "@prismicio/react";
 import { signIn } from "next-auth/react";
 
 function SignInFormContent({ doc }: { doc: any }) {
@@ -83,7 +84,7 @@ function SignInFormContent({ doc }: { doc: any }) {
   if (showForgotPassword) {
     return (
       <div className="py-1">
-        <p className="text-[#161616] text-xs mb-4 mt-4">
+        <p className="text-xs mb-4 mt-4">
           Enter your email address and we'll send instructions on how to reset
           your password.
         </p>
@@ -104,7 +105,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <div>
             <label
               htmlFor="forgot-email"
-              className="block text-[#161616] text-xs font-normal mb-1"
+              className="block text-xs font-normal mb-1"
             >
               {doc.data.email_address}
             </label>
@@ -149,16 +150,20 @@ function SignInFormContent({ doc }: { doc: any }) {
 
   return (
     <div className="py-1">
-      <h2 className="text-xs font-normal text-center text-[#7f7f7f] mb-4 mt-4">
-        Using your email:
-      </h2>
+      <PrismicRichText
+        field={doc.data.subheading}
+        components={{
+          heading2: ({ children }: { children: React.ReactNode }) => (
+            <h2 className="text-xs font-normal text-center mb-4 mt-4">
+              {children}
+            </h2>
+          ),
+        }}
+      />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-[#161616] text-xs font-normal mb-1"
-          >
+          <label htmlFor="email" className="block text-xs font-normal mb-1">
             {doc.data.email_address}
           </label>
           <input
@@ -178,10 +183,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           )}
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-[#161616] text-xs font-normal mb-1"
-          >
+          <label htmlFor="password" className="block text-xs font-normal mb-1">
             {doc.data.password}
           </label>
           <input
@@ -228,10 +230,10 @@ function SignInFormContent({ doc }: { doc: any }) {
         className="flex items-center justify-center gap-3"
         style={{ marginTop: "1.5rem" }}
       >
-        <p className="text-[#161616] text-xs">{doc.data.no_account}</p>
+        <p className="text-xs">{doc.data.no_account}</p>
         <button
           onClick={() => router.push("/")}
-          className="border border-[#161616] text-[#161616] px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-[#161616] hover:text-white transition-colors"
+          className="border border-[#161616] px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-[#161616] hover:text-white transition-colors"
           style={{ letterSpacing: "0.05em" }}
         >
           {doc.data.create_account_btn || "CREATE ACCOUNT"}
