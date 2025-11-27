@@ -422,6 +422,17 @@ type SigninDocumentDataSlicesSlice = never;
  */
 interface SigninDocumentData {
   /**
+   * background-image field in *Sign-in*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: signin.background_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
    * heading field in *Sign-in*
    *
    * - **Field Type**: Rich Text
