@@ -114,7 +114,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               id="forgot-email"
               value={forgotPasswordEmail}
               onChange={(e) => setForgotPasswordEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded border border-[#b5b4b5] bg-white text-[#161616] text-sm focus:outline-none focus:border-[#006f9e] focus:border-2"
+              className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-[#161616] text-sm"
               required
             />
           </div>
@@ -124,7 +124,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#006f9e] text-white px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50 cursor-pointer"
+                className="bg-[#03ECF2] text-black px-8 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] transition-colors disabled:opacity-50 cursor-pointer"
                 style={{ letterSpacing: "0.05em" }}
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
@@ -137,7 +137,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                   setForgotPasswordMessage("");
                   setError("");
                 }}
-                className="text-[#006f9e] px-4 py-2 rounded text-xs font-bold uppercase hover:underline transition-all cursor-pointer"
+                className="px-4 py-2 rounded text-xs font-bold uppercase text-[#03ECF2] transition-all cursor-pointer"
               >
                 CANCEL
               </button>
@@ -174,7 +174,7 @@ function SignInFormContent({ doc }: { doc: any }) {
             }}
             className={`w-full px-3 py-2 rounded border ${
               emailError ? "border-red-500 border-2" : "border-[#b5b4b5]"
-            } text-sm focus:outline-none focus:border-[#006f9e] focus:border-2`}
+            } text-sm`}
           />
           {emailError && (
             <p className="text-red-500 text-xs mt-1">{emailError}</p>
@@ -192,7 +192,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               setPassword(e.target.value);
               setError("");
             }}
-            className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-sm focus:outline-none focus:border-[#006f9e] focus:border-2"
+            className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-sm"
           />
           {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
