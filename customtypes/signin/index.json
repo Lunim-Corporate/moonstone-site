@@ -13,6 +13,14 @@
           "placeholder": ""
         }
       },
+      "background_image": {
+        "type": "Image",
+        "config": {
+          "label": "background-image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
       "heading": {
         "type": "StructuredText",
         "config": {
