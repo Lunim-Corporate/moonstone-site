@@ -629,6 +629,223 @@ export type AllDocumentTypes =
   | SigninDocument;
 
 /**
+ * Item in *ContactUs → Default → Primary → Contact Us Items*
+ */
+export interface ContactUsSliceDefaultPrimaryContactUsItemsItem {
+  /**
+   * Item Info field in *ContactUs → Default → Primary → Contact Us Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.contact_us_items[].item_info
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  item_info: prismic.RichTextField;
+}
+
+/**
+ * Item in *ContactUs → Default → Primary → Times*
+ */
+export interface ContactUsSliceDefaultPrimaryTimesItem {
+  /**
+   * Days field in *ContactUs → Default → Primary → Times*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.times[].days
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  days: prismic.RichTextField;
+
+  /**
+   * Hours field in *ContactUs → Default → Primary → Times*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.times[].hours
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  hours: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *ContactUs → Default → Primary*
+ */
+export interface ContactUsSliceDefaultPrimary {
+  /**
+   * Heading field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Contact Us Heading field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.contact_us_heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  contact_us_heading: prismic.RichTextField;
+
+  /**
+   * Contact Us Body field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.contact_us_body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  contact_us_body: prismic.RichTextField;
+
+  /**
+   * Contact Us Items field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.contact_us_items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  contact_us_items: prismic.GroupField<
+    Simplify<ContactUsSliceDefaultPrimaryContactUsItemsItem>
+  >;
+
+  /**
+   * Office Hours Heading field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.office_hours_heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  office_hours_heading: prismic.RichTextField;
+
+  /**
+   * Times field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.times[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  times: prismic.GroupField<Simplify<ContactUsSliceDefaultPrimaryTimesItem>>;
+
+  /**
+   * Form Heading field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.form_heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  form_heading: prismic.RichTextField;
+
+  /**
+   * Full Name field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.full_name
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  full_name: prismic.RichTextField;
+
+  /**
+   * Email field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.email
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  email: prismic.RichTextField;
+
+  /**
+   * Phone Number field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.phone_number
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  phone_number: prismic.RichTextField;
+
+  /**
+   * Company Name field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.company_name
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  company_name: prismic.RichTextField;
+
+  /**
+   * Message field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  message: prismic.RichTextField;
+
+  /**
+   * CTA field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta: prismic.RichTextField;
+}
+
+/**
+ * Default variation for ContactUs Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ContactUsSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ContactUsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ContactUs*
+ */
+type ContactUsSliceVariation = ContactUsSliceDefault;
+
+/**
+ * ContactUs Shared Slice
+ *
+ * - **API ID**: `contact_us`
+ * - **Description**: ContactUs
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ContactUsSlice = prismic.SharedSlice<
+  "contact_us",
+  ContactUsSliceVariation
+>;
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -1255,6 +1472,12 @@ declare module "@prismicio/client" {
       SigninDocumentData,
       SigninDocumentDataSlicesSlice,
       AllDocumentTypes,
+      ContactUsSlice,
+      ContactUsSliceDefaultPrimaryContactUsItemsItem,
+      ContactUsSliceDefaultPrimaryTimesItem,
+      ContactUsSliceDefaultPrimary,
+      ContactUsSliceVariation,
+      ContactUsSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,

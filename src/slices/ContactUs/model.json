@@ -1,0 +1,172 @@
+{
+  "id": "contact_us",
+  "type": "SharedSlice",
+  "name": "ContactUs",
+  "description": "ContactUs",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading1,strong,em"
+          }
+        },
+        "body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Body",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+          }
+        },
+        "contact_us_heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Contact Us Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading2,heading3,heading4,heading5,heading6,strong,em,paragraph"
+          }
+        },
+        "contact_us_body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Contact Us Body",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+          }
+        },
+        "contact_us_items": {
+          "type": "Group",
+          "config": {
+            "label": "Contact Us Items",
+            "repeat": true,
+            "fields": {
+              "item_info": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Item Info",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+                }
+              }
+            }
+          }
+        },
+        "office_hours_heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Office Hours Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading2,heading3,heading4,heading5,heading6,strong,em"
+          }
+        },
+        "times": {
+          "type": "Group",
+          "config": {
+            "label": "Times",
+            "repeat": true,
+            "fields": {
+              "days": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Days",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+                }
+              },
+              "hours": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Hours",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+                }
+              }
+            }
+          }
+        },
+        "form_heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Form Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading2,heading4,heading3,heading5,heading6,strong,em"
+          }
+        },
+        "full_name": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Full Name",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,paragraph"
+          }
+        },
+        "email": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Email",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,paragraph"
+          }
+        },
+        "phone_number": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Phone Number",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "company_name": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Company Name",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "message": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Message",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,em,strong"
+          }
+        },
+        "cta": {
+          "type": "StructuredText",
+          "config": {
+            "label": "CTA",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,paragraph"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
