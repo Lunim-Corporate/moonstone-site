@@ -28,8 +28,7 @@ type PickContentRelationshipFieldData<
       TSubRelationship["customtypes"],
       TLang
     >;
-  } & // Group
-  {
+  } & { // Group
     [TGroup in Extract<
       TRelationship["fields"][number],
       | prismic.CustomTypeModelFetchGroupLevel1
@@ -41,8 +40,7 @@ type PickContentRelationshipFieldData<
           PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
         >
       : never;
-  } & // Other fields
-  {
+  } & { // Other fields
     [TFieldKey in Extract<
       TRelationship["fields"][number],
       string
@@ -69,83 +67,6 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-<<<<<<< HEAD
-type DashboardDocumentDataSlicesSlice = never;
-
-/**
- * Content for Dashboard documents
- */
-interface DashboardDocumentData {
-  /**
-   * heading field in *Dashboard*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.heading
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  heading: prismic.RichTextField;
-
-  /**
-   * sub-heading field in *Dashboard*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.subheading
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  subheading: prismic.RichTextField;
-
-  /**
-   * Slice Zone field in *Dashboard*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
-   */
-  slices: prismic.SliceZone<DashboardDocumentDataSlicesSlice> /**
-   * Meta Title field in *Dashboard*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: dashboard.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
-  meta_title: prismic.KeyTextField;
-
-  /**
-   * Meta Description field in *Dashboard*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: dashboard.meta_description
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_description: prismic.KeyTextField;
-
-  /**
-   * Meta Image field in *Dashboard*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  meta_image: prismic.ImageField<never>;
-}
-
-/**
- * Dashboard document from Prismic
- *
- * - **API ID**: `dashboard`
-=======
 /**
  * Content for Footer documents
  */
@@ -166,27 +87,15 @@ interface FooterDocumentData {
  * Footer document from Prismic
  *
  * - **API ID**: `footer`
->>>>>>> origin/main
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
-<<<<<<< HEAD
-export type DashboardDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<DashboardDocumentData>,
-    "dashboard",
-    Lang
-  >;
-
-type HomepageDocumentDataSlicesSlice = never;
-=======
 export type FooterDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<FooterDocumentData>, "footer", Lang>;
 
 type HomepageDocumentDataSlicesSlice = ImageAndTextSlice | HeroSlice;
->>>>>>> origin/main
 
 /**
  * Content for Homepage documents
@@ -590,11 +499,6 @@ export type SigninDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<SigninDocumentData>, "signin", Lang>;
 
 export type AllDocumentTypes =
-<<<<<<< HEAD
-  | DashboardDocument
-  | HomepageDocument
-  | SigninDocument;
-=======
   | FooterDocument
   | HomepageDocument
   | NavigationDocument
@@ -1168,20 +1072,19 @@ type TeamSliceVariation = TeamSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type TeamSlice = prismic.SharedSlice<"team", TeamSliceVariation>;
->>>>>>> origin/main
 
 declare module "@prismicio/client" {
   interface CreateClient {
     (
       repositoryNameOrEndpoint: string,
-      options?: prismic.ClientConfig,
+      options?: prismic.ClientConfig
     ): prismic.Client<AllDocumentTypes>;
   }
 
   interface CreateWriteClient {
     (
       repositoryNameOrEndpoint: string,
-      options: prismic.WriteClientConfig,
+      options: prismic.WriteClientConfig
     ): prismic.WriteClient<AllDocumentTypes>;
   }
 
@@ -1191,14 +1094,8 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-<<<<<<< HEAD
-      DashboardDocument,
-      DashboardDocumentData,
-      DashboardDocumentDataSlicesSlice,
-=======
       FooterDocument,
       FooterDocumentData,
->>>>>>> origin/main
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
