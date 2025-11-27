@@ -5,7 +5,6 @@ import { useState, Suspense } from "react";
 import { PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText } from "@prismicio/react";
 import { signIn } from "next-auth/react";
-import { PrismicRichText } from "@prismicio/react";
 
 function SignInFormContent({ doc }: { doc: any }) {
   const router = useRouter();
@@ -154,16 +153,15 @@ function SignInFormContent({ doc }: { doc: any }) {
       <PrismicRichText
         field={doc.data.subheading}
         components={{
-          heading2: ({ children }) => <h2 className="text-sm text-center my-4">{children}</h2>
+          heading2: ({ children }) => (
+            <h2 className="text-sm text-center my-4">{children}</h2>
+          ),
         }}
       />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-xs font-normal mb-1"
-          >
+          <label htmlFor="email" className="block text-xs font-normal mb-1">
             {doc.data.email_address}
           </label>
           <input
@@ -183,10 +181,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           )}
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-xs font-normal mb-1"
-          >
+          <label htmlFor="password" className="block text-xs font-normal mb-1">
             {doc.data.password}
           </label>
           <input
@@ -206,7 +201,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#006f9e] px-8 py-2 rounded text-xs font-bold uppercase hover:bg-[#005580] transition-colors disabled:opacity-50 min-w-[100px]"
+            className="bg-[#03ECF2] text-black px-8 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] cursor-pointer transition-colors disabled:opacity-50 min-w-[100px]"
             style={{ letterSpacing: "0.05em" }}
           >
             {loading ? "SIGNING IN..." : doc.data.sign_in_btn || "SIGN IN"}
@@ -236,7 +231,7 @@ function SignInFormContent({ doc }: { doc: any }) {
         <p className="text-xs">{doc.data.no_account}</p>
         <button
           onClick={() => router.push("/")}
-          className="border border-[#161616] px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-[#161616] hover:text-white transition-colors"
+          className="px-4 py-1.5 text-[#03ECF2] rounded text-xs font-bold uppercase hover:bg-[#03ECF2] hover:text-black transition-colors cursor-pointer"
           style={{ letterSpacing: "0.05em" }}
         >
           {doc.data.create_account_btn || "CREATE ACCOUNT"}
