@@ -172,9 +172,15 @@
 				]
 			},
 			"body": {
-				"__TYPE__": "FieldContent",
-				"value": "pan",
-				"type": "Text"
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Sint anim aliquip qui id consequat nisi mollit laboris. Tempor do id excepteur consequat tempor non elit."
+						}
+					}
+				]
 			}
 		},
 		"items": [

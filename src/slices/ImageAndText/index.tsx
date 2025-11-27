@@ -1,6 +1,6 @@
 "use client"
 import { Content, isFilled } from "@prismicio/client";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { PrismicRichText, PrismicText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 
 /**
@@ -102,6 +102,11 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 );
               })}
             </div>
+            {isFilled.richText(slice.primary.body) && (
+              <div className="mt-12 text-center">
+                <PrismicRichText field={slice.primary.body} />
+              </div>
+            )}
           </div>
         </div>
       </div>
