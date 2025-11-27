@@ -13,7 +13,7 @@ export type TeamProps = SliceComponentProps<Content.TeamSlice>;
  */
 export default function Team({ slice }: TeamProps) {
   return (
-    <div className="max-w-4xl mx-auto pt-30">
+    <div className="max-w-7xl mx-auto mt-30 mb-10">
       <div className="mb-14 max-w-lg text-center mx-auto">
         <PrismicRichText
           field={slice.primary.heading}
