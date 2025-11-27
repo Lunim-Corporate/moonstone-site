@@ -112,10 +112,12 @@
           }
         },
         "body": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Body",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading2,heading3,paragraph,heading4,heading5,heading6,strong,em"
           }
         }
       },

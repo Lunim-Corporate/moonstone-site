@@ -701,12 +701,12 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
   /**
    * Body field in *ImageAndText → ImageAboveTextBelow → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.body
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  body: prismic.KeyTextField;
+  body: prismic.RichTextField;
 }
 
 /**
