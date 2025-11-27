@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <main
-      className="bg-cover bg-center"
+      className="bg-cover bg-top"
       style={{
         backgroundImage: `url(${doc.data.background_image.url})`,
       }}
