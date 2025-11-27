@@ -69,6 +69,7 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+<<<<<<< HEAD
 type DashboardDocumentDataSlicesSlice = never;
 
 /**
@@ -144,11 +145,34 @@ interface DashboardDocumentData {
  * Dashboard document from Prismic
  *
  * - **API ID**: `dashboard`
+=======
+/**
+ * Content for Footer documents
+ */
+interface FooterDocumentData {
+  /**
+   * Company Name field in *Footer*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: footer.company_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  company_name: prismic.KeyTextField;
+}
+
+/**
+ * Footer document from Prismic
+ *
+ * - **API ID**: `footer`
+>>>>>>> origin/main
  * - **Repeatable**: `false`
  * - **Documentation**: https://prismic.io/docs/content-modeling
  *
  * @typeParam Lang - Language API ID of the document.
  */
+<<<<<<< HEAD
 export type DashboardDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<
     Simplify<DashboardDocumentData>,
@@ -157,6 +181,12 @@ export type DashboardDocument<Lang extends string = string> =
   >;
 
 type HomepageDocumentDataSlicesSlice = never;
+=======
+export type FooterDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<FooterDocumentData>, "footer", Lang>;
+
+type HomepageDocumentDataSlicesSlice = ImageAndTextSlice | HeroSlice;
+>>>>>>> origin/main
 
 /**
  * Content for Homepage documents
@@ -220,6 +250,172 @@ export type HomepageDocument<Lang extends string = string> =
     "homepage",
     Lang
   >;
+
+/**
+ * Item in *Navigation → Nav Links*
+ */
+export interface NavigationDocumentDataNavLinksItem {
+  /**
+   * Link field in *Navigation → Nav Links*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.nav_links[].link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+  /**
+   * Home field in *Navigation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.home
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  home: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * Logo field in *Navigation*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.logo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  logo: prismic.ImageField<never>;
+
+  /**
+   * Nav Links field in *Navigation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: navigation.nav_links[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  nav_links: prismic.GroupField<Simplify<NavigationDocumentDataNavLinksItem>>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<NavigationDocumentData>,
+    "navigation",
+    Lang
+  >;
+
+type PageDocumentDataSlicesSlice =
+  | ImageAndTextSlice
+  | PasswordFormSlice
+  | TeamSlice;
+
+/**
+ * Content for Page documents
+ */
+interface PageDocumentData {
+  /**
+   * Heading field in *Page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.heading
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *Page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.body
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Main Image field in *Page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.main_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  main_image: prismic.ImageField<never>;
+
+  /**
+   * Slice Zone field in *Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+   * Meta Title field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: page.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Page*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Page document from Prismic
+ *
+ * - **API ID**: `page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
 type SigninDocumentDataSlicesSlice = never;
 
@@ -394,9 +590,585 @@ export type SigninDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<SigninDocumentData>, "signin", Lang>;
 
 export type AllDocumentTypes =
+<<<<<<< HEAD
   | DashboardDocument
   | HomepageDocument
   | SigninDocument;
+=======
+  | FooterDocument
+  | HomepageDocument
+  | NavigationDocument
+  | PageDocument
+  | SigninDocument;
+
+/**
+ * Primary content in *Hero → Default → Primary*
+ */
+export interface HeroSliceDefaultPrimary {
+  /**
+   * Background Image field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Hero Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<HeroSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Hero*
+ */
+type HeroSliceVariation = HeroSliceDefault;
+
+/**
+ * Hero Shared Slice
+ *
+ * - **API ID**: `hero`
+ * - **Description**: Hero
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
+
+/**
+ * Item in *ImageAndText → ImageAboveTextBelow → Primary → Item*
+ */
+export interface ImageAndTextSliceImageAboveTextBelowPrimaryItemItem {
+  /**
+   * Main Image field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.item[].main_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  main_image: prismic.ImageField<never>;
+
+  /**
+   * Body field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.item[].body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *ImageAndText → Default → Primary*
+ */
+export interface ImageAndTextSliceDefaultPrimary {
+  /**
+   * Background Image field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.default.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Main Image field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.default.primary.main_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  main_image: prismic.ImageField<never>;
+
+  /**
+   * CTA field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.default.primary.cta
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Default variation for ImageAndText Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ImageAndTextSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *ImageAndText → ImageAboveTextBelow → Primary*
+ */
+export interface ImageAndTextSliceImageAboveTextBelowPrimary {
+  /**
+   * Background Image field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Item field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.item[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  item: prismic.GroupField<
+    Simplify<ImageAndTextSliceImageAboveTextBelowPrimaryItemItem>
+  >;
+}
+
+/**
+ * ImageAboveTextBelow variation for ImageAndText Slice
+ *
+ * - **API ID**: `imageAboveTextBelow`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSliceImageAboveTextBelow = prismic.SharedSliceVariation<
+  "imageAboveTextBelow",
+  Simplify<ImageAndTextSliceImageAboveTextBelowPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ImageAndText*
+ */
+type ImageAndTextSliceVariation =
+  | ImageAndTextSliceDefault
+  | ImageAndTextSliceImageAboveTextBelow;
+
+/**
+ * ImageAndText Shared Slice
+ *
+ * - **API ID**: `image_and_text`
+ * - **Description**: ImageAndText
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSlice = prismic.SharedSlice<
+  "image_and_text",
+  ImageAndTextSliceVariation
+>;
+
+/**
+ * Primary content in *PasswordForm → Password Form → Primary*
+ */
+export interface PasswordFormSliceDefaultPrimary {
+  /**
+   * Background Image field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Password Label field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  password_label: prismic.KeyTextField;
+
+  /**
+   * CTA Label field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+
+  /**
+   * Success Message field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.success_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  success_message: prismic.RichTextField;
+
+  /**
+   * Error Message field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.error_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  error_message: prismic.RichTextField;
+}
+
+/**
+ * Password Form variation for PasswordForm Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<PasswordFormSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *PasswordForm → Access Form → Primary*
+ */
+export interface PasswordFormSliceAccessFormPrimary {
+  /**
+   * Background Image field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Full Name Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.full_name_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  full_name_label: prismic.KeyTextField;
+
+  /**
+   * Email Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.email_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  email_label: prismic.KeyTextField;
+
+  /**
+   * Phone Number Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.phone_number_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  phone_number_label: prismic.KeyTextField;
+
+  /**
+   * Company Name field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.company_name
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  company_name: prismic.KeyTextField;
+
+  /**
+   * Message Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.message_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  message_label: prismic.KeyTextField;
+
+  /**
+   * CTA Label field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+}
+
+/**
+ * Access Form variation for PasswordForm Slice
+ *
+ * - **API ID**: `accessForm`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSliceAccessForm = prismic.SharedSliceVariation<
+  "accessForm",
+  Simplify<PasswordFormSliceAccessFormPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *PasswordForm*
+ */
+type PasswordFormSliceVariation =
+  | PasswordFormSliceDefault
+  | PasswordFormSliceAccessForm;
+
+/**
+ * PasswordForm Shared Slice
+ *
+ * - **API ID**: `password_form`
+ * - **Description**: PasswordForm
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PasswordFormSlice = prismic.SharedSlice<
+  "password_form",
+  PasswordFormSliceVariation
+>;
+
+/**
+ * Item in *Team → Default → Primary → Team Member*
+ */
+export interface TeamSliceDefaultPrimaryTeamMemberItem {
+  /**
+   * Headshot field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].headshot
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  headshot: prismic.ImageField<never>;
+
+  /**
+   * Name field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].name
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  name: prismic.RichTextField;
+
+  /**
+   * Role field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].role
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  role: prismic.RichTextField;
+
+  /**
+   * Bio field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].bio
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bio: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Team → Default → Primary*
+ */
+export interface TeamSliceDefaultPrimary {
+  /**
+   * Heading field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body Text field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.body_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body_text: prismic.RichTextField;
+
+  /**
+   * Team Member field in *Team → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  team_member: prismic.GroupField<
+    Simplify<TeamSliceDefaultPrimaryTeamMemberItem>
+  >;
+}
+
+/**
+ * Default variation for Team Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TeamSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<TeamSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Team*
+ */
+type TeamSliceVariation = TeamSliceDefault;
+
+/**
+ * Team Shared Slice
+ *
+ * - **API ID**: `team`
+ * - **Description**: Team
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TeamSlice = prismic.SharedSlice<"team", TeamSliceVariation>;
+>>>>>>> origin/main
 
 declare module "@prismicio/client" {
   interface CreateClient {
@@ -419,16 +1191,49 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+<<<<<<< HEAD
       DashboardDocument,
       DashboardDocumentData,
       DashboardDocumentDataSlicesSlice,
+=======
+      FooterDocument,
+      FooterDocumentData,
+>>>>>>> origin/main
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      NavigationDocument,
+      NavigationDocumentData,
+      NavigationDocumentDataNavLinksItem,
+      PageDocument,
+      PageDocumentData,
+      PageDocumentDataSlicesSlice,
       SigninDocument,
       SigninDocumentData,
       SigninDocumentDataSlicesSlice,
       AllDocumentTypes,
+      HeroSlice,
+      HeroSliceDefaultPrimary,
+      HeroSliceVariation,
+      HeroSliceDefault,
+      ImageAndTextSlice,
+      ImageAndTextSliceDefaultPrimary,
+      ImageAndTextSliceImageAboveTextBelowPrimaryItemItem,
+      ImageAndTextSliceImageAboveTextBelowPrimary,
+      ImageAndTextSliceVariation,
+      ImageAndTextSliceDefault,
+      ImageAndTextSliceImageAboveTextBelow,
+      PasswordFormSlice,
+      PasswordFormSliceDefaultPrimary,
+      PasswordFormSliceAccessFormPrimary,
+      PasswordFormSliceVariation,
+      PasswordFormSliceDefault,
+      PasswordFormSliceAccessForm,
+      TeamSlice,
+      TeamSliceDefaultPrimaryTeamMemberItem,
+      TeamSliceDefaultPrimary,
+      TeamSliceVariation,
+      TeamSliceDefault,
     };
   }
 }

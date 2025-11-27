@@ -1,0 +1,81 @@
+{
+  "id": "team",
+  "type": "SharedSlice",
+  "name": "Team",
+  "description": "Team",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,heading1"
+          }
+        },
+        "body_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Body Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "strong,em,paragraph,heading2,heading3,heading5,heading4,heading6"
+          }
+        },
+        "team_member": {
+          "type": "Group",
+          "config": {
+            "label": "Team Member",
+            "repeat": true,
+            "fields": {
+              "headshot": {
+                "type": "Image",
+                "config": {
+                  "label": "Headshot",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              },
+              "name": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Name",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "heading2,heading3,heading4,heading5,heading6,strong,em"
+                }
+              },
+              "role": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Role",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,strong,heading6,em"
+                }
+              },
+              "bio": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Bio",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

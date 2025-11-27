@@ -1,0 +1,54 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"background_image": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2",
+					"width": 3648,
+					"height": 4560
+				},
+				"url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2",
+				"width": 3648,
+				"height": 4560,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "sudden",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Nodded"
+						}
+					}
+				]
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Minim sunt veniam reprehenderit ad ex ipsum. Cillum laboris occaecat adipisicing elit dolor consequat laborum cupidatat irure eu commodo aliquip aliquip et. Magna amet sunt ipsum aliqua aute ut voluptate ea ad esse."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

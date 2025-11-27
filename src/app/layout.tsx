@@ -9,6 +9,9 @@ import { repositoryName } from "../prismicio";
 import { GoogleAnalytics } from "@next/third-parties/google" 
 // Fonts
 import { Raleway, Lora } from "next/font/google";
+// Components
+import Navigation from "@/src/_components/navigation";
+import Footer from "@/src/_components/footer"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -39,7 +42,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${raleway.variable} ${lora.variable}`}>
       <body>
-        {children}
+        <div className="min-h-full flex flex-col" id="layout-container">
+          <Navigation />
+          {children}
+          <Footer />
+        </div>
       </body>
       {gaId && <GoogleAnalytics gaId={gaId} />}
       <PrismicPreview repositoryName={repositoryName} />

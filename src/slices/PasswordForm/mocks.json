@@ -1,0 +1,207 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"background_image": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1589321578146-4c1ba445cc88",
+					"width": 3168,
+					"height": 4752
+				},
+				"url": "https://images.unsplash.com/photo-1589321578146-4c1ba445cc88",
+				"width": 3168,
+				"height": 4752,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "satellites",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Curious"
+						}
+					}
+				]
+			},
+			"subtitle": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Announced"
+						}
+					}
+				]
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Consectetur incididunt irure consequat aliqua mollit commodo nostrud reprehenderit laborum. Ex duis esse eu excepteur officia."
+						}
+					}
+				]
+			},
+			"password_label": {
+				"__TYPE__": "FieldContent",
+				"value": "live",
+				"type": "Text"
+			},
+			"cta_label": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Consequat qui anim consequat veniam officia cupidatat consequat dolor et sint adipisicing minim irure ut sint. Qui duis ullamco consequat irure commodo. Tempor eiusmod nostrud amet duis reprehenderit sint."
+						}
+					}
+				]
+			},
+			"success_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Aliqua non labore incididunt consequat labore."
+						}
+					}
+				]
+			},
+			"error_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Voluptate reprehenderit reprehenderit anim ut voluptate sunt veniam tempor minim eu in ut. Nostrud laboris est duis ut duis id ex."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "accessForm",
+		"primary": {
+			"background_image": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f",
+					"width": 6597,
+					"height": 4398
+				},
+				"url": "https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f",
+				"width": 6597,
+				"height": 4398,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "go",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Making"
+						}
+					}
+				]
+			},
+			"subtitle": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Thousand"
+						}
+					}
+				]
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Elit amet ipsum sit est enim velit et consectetur sunt sint officia."
+						}
+					}
+				]
+			},
+			"cta_label": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Eu velit reprehenderit ad ex."
+						}
+					}
+				]
+			},
+			"full_name_label": {
+				"__TYPE__": "FieldContent",
+				"value": "observe",
+				"type": "Text"
+			},
+			"email_label": {
+				"__TYPE__": "FieldContent",
+				"value": "fewer",
+				"type": "Text"
+			},
+			"phone_number_label": {
+				"__TYPE__": "FieldContent",
+				"value": "pond",
+				"type": "Text"
+			},
+			"company_name": {
+				"__TYPE__": "FieldContent",
+				"value": "characteristic",
+				"type": "Text"
+			},
+			"message_label": {
+				"__TYPE__": "FieldContent",
+				"value": "central",
+				"type": "Text"
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
+	}
+]
