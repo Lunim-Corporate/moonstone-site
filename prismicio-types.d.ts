@@ -87,15 +87,37 @@ interface DashboardDocumentData {
   heading: prismic.RichTextField;
 
   /**
-   * sub-heading field in *Dashboard*
+   * background-image field in *Dashboard*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dashboard.background_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * name field in *Dashboard*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.subheading
+   * - **API ID Path**: dashboard.name_heading
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  subheading: prismic.RichTextField;
+  name_heading: prismic.RichTextField;
+
+  /**
+   * sub-name field in *Dashboard*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: dashboard.sub_name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  sub_name: prismic.RichTextField;
 
   /**
    * Slice Zone field in *Dashboard*
