@@ -776,6 +776,16 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
   background_image: prismic.ImageField<never>;
 
   /**
+   * Seconday Background Image field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.seconday_background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  seconday_background_image: prismic.ImageField<never>;
+
+  /**
    * Heading field in *ImageAndText → ImageAboveTextBelow → Primary*
    *
    * - **Field Type**: Rich Text

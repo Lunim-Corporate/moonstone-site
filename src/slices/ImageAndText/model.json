@@ -76,6 +76,14 @@
             "thumbnails": []
           }
         },
+        "seconday_background_image": {
+          "type": "Image",
+          "config": {
+            "label": "Seconday Background Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
         "heading": {
           "type": "StructuredText",
           "config": {
