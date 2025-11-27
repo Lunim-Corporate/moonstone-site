@@ -27,7 +27,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
           }
         >
-          <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 py-20 max-w-7xl mx-auto">
+          <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-7xl mx-auto">
             <div>
               <div className="w-[60ch]">
                 <PrismicRichText
@@ -70,11 +70,14 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   if (slice.variation === "imageAboveTextBelow") {
     return (
       <div
-        className="bg-cover bg-center"
+        className="bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${slice.primary.background_image?.url})`,
         }}
       >
+        {isFilled.image(slice.primary.seconday_background_image) && (
+          <div className="bg-cover bg-center h-60" style={{ backgroundImage: `url(${slice.primary.seconday_background_image?.url})` }}></div>
+        )}
         <div className={"py-20 " + (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")}>
           <div className="max-w-7xl mx-auto">
             <PrismicRichText
