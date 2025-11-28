@@ -69,115 +69,6 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type DashboardDocumentDataSlicesSlice = never;
-
-/**
- * Content for Dashboard documents
- */
-interface DashboardDocumentData {
-  /**
-   * heading field in *Dashboard*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.heading
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  heading: prismic.RichTextField;
-
-  /**
-   * background-image field in *Dashboard*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.background_image
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  background_image: prismic.ImageField<never>;
-
-  /**
-   * name field in *Dashboard*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.name_heading
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  name_heading: prismic.RichTextField;
-
-  /**
-   * sub-name field in *Dashboard*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.sub_name
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  sub_name: prismic.RichTextField;
-
-  /**
-   * Slice Zone field in *Dashboard*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
-   */
-  slices: prismic.SliceZone<DashboardDocumentDataSlicesSlice> /**
-   * Meta Title field in *Dashboard*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: dashboard.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
-  meta_title: prismic.KeyTextField;
-
-  /**
-   * Meta Description field in *Dashboard*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: dashboard.meta_description
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_description: prismic.KeyTextField;
-
-  /**
-   * Meta Image field in *Dashboard*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: dashboard.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  meta_image: prismic.ImageField<never>;
-}
-
-/**
- * Dashboard document from Prismic
- *
- * - **API ID**: `dashboard`
- * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type DashboardDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<DashboardDocumentData>,
-    "dashboard",
-    Lang
-  >;
-
 /**
  * Content for Footer documents
  */
@@ -646,7 +537,6 @@ export type SigninDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<SigninDocumentData>, "signin", Lang>;
 
 export type AllDocumentTypes =
-  | DashboardDocument
   | FooterDocument
   | HomepageDocument
   | NavigationDocument
@@ -1479,9 +1369,6 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      DashboardDocument,
-      DashboardDocumentData,
-      DashboardDocumentDataSlicesSlice,
       FooterDocument,
       FooterDocumentData,
       HomepageDocument,
