@@ -28,7 +28,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
           }
         >
-          <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
             <div>
               <div className="w-[60ch]">
                 <PrismicRichText
@@ -81,7 +81,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           <div className="bg-cover bg-bottom h-100" style={{ backgroundImage: `url(${slice.primary.seconday_background_image?.url})` }}></div>
         )}
         <div className={"py-20 " + (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")}>
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-(--max-wrapper-width) mx-auto">
             <PrismicRichText
               field={slice.primary.heading}
               components={{

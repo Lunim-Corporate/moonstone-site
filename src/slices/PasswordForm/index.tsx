@@ -103,9 +103,14 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             <div>
               <button
                 type="submit"
-                className="w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer"
+                className="w-full py-2 rounded bg-(--cta-color) hover:bg-transparent transition-colors duration-300 hover:text-(--cta-color) text-(--black-secondary-color) cursor-pointer"
               >
-                <PrismicRichText field={slice.primary.cta_label} />
+                <PrismicRichText
+                  field={slice.primary.cta_label}
+                  components={{
+                    paragraph: ({children}) => <span>{children}</span>
+                  }}
+                />
               </button>
             </div>
           </form>
@@ -250,7 +255,12 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 type="button"
                 className="w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer"
               >
-                <PrismicRichText field={slice.primary.cta_label} />
+                <PrismicRichText
+                  field={slice.primary.cta_label}
+                  components={{
+                    paragraph: ({children}) => <span>{children}</span>
+                  }}
+                />
               </button>
             </div>
           </form>

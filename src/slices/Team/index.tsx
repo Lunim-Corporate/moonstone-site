@@ -14,7 +14,7 @@ export type TeamProps = SliceComponentProps<Content.TeamSlice>;
  */
 export default function Team({ slice }: TeamProps) {
   return (
-    <div className="max-w-7xl mx-auto mt-30 mb-10">
+    <div className="max-w-(--max-wrapper-width) mx-auto mt-30 mb-10">
       <div className="mb-14 max-w-lg text-center mx-auto">
         <PrismicRichText
           field={slice.primary.heading}
@@ -28,7 +28,10 @@ export default function Team({ slice }: TeamProps) {
         {slice.primary.team_member.map((teamMember, idx) => (
             <div key={idx} className="rounded overflow-hidden bg-[#2d2b2b]">
               <div className="relative mb-4">
-                <PrismicNextImage field={teamMember.headshot} />
+                <PrismicNextImage 
+                  field={teamMember.headshot}
+
+              />
                 <div className="px-5 absolute bottom-0 py-6">
                   <PrismicRichText field={teamMember.name} />
                 </div>

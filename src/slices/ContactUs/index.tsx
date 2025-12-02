@@ -18,7 +18,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
         <PrismicRichText field={slice.primary.heading} />
         <PrismicRichText field={slice.primary.body} />
       </div>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-(--max-wrapper-width) mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {/* Contact Us and Opening Hours */}
           <div className="flex flex-col gap-8">
