@@ -20,7 +20,7 @@ export default function NavigationClient({
   }, []);
 
   const navClass = `py-6 transition-colors duration-300 ${
-    scrolled ? "bg-[#201e1e] shadow-md" : "bg-transparent"
+    scrolled ? "bg-(--black-primary-color) shadow-md" : "bg-transparent"
   }`;
   
   return (
