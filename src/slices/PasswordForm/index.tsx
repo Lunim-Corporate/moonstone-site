@@ -64,7 +64,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
   if (slice.variation === "default" && context) {
     return (
       <>
-        <div className="p-8 bg-[#2d2929] rounded">
+        <div className="p-8 bg-(--black-primary-color) rounded">
           <PrismicRichText
             field={slice.primary.subtitle}
             components={{
@@ -88,7 +88,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 type="password"
                 name="password"
                 id="password"
-                className="border rounded w-full mt-1.5"
+                className="border rounded w-full mt-1.5" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -96,7 +96,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             <div>
               <button
                 type="submit"
-                className="w-full py-2 rounded bg-[#524545] hover:bg-[#252222] transition-colors duration-500 cursor-pointer"
+                className="w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer"
               >
                 <PrismicRichText field={slice.primary.cta_label} />
               </button>
@@ -143,15 +143,15 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
   if (slice.variation === "accessForm" && !context) {
     return (
       <>
-        <div>
+        {/* <div>
           <div className="text-center"></div>
-        </div>
-        <div className="p-8 bg-[#2d2929] rounded">
+        </div> */}
+        <div className="p-8 bg-(--black-primary-color) rounded">
           <PrismicRichText
             field={slice.primary.subtitle}
             components={{
               heading2: ({ children }) => (
-                <h2 className="mb-2 text-lg">{children}</h2>
+                <h2 className="mb-2">{children}</h2>
               ),
             }}
           />
@@ -159,7 +159,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             field={slice.primary.body}
             components={{
               heading3: ({ children }) => (
-                <p className="mb-6 text-sm">{children}</p>
+                <p className="mb-6">{children}</p>
               ),
             }}
           />
@@ -213,7 +213,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             <div>
               <button
                 type="button"
-                className="w-full py-2 rounded bg-[#524545] hover:bg-[#252222] transition-colors duration-500 cursor-pointer"
+                className="w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer"
               >
                 <PrismicRichText field={slice.primary.cta_label} />
               </button>

@@ -154,7 +154,7 @@ function SignInFormContent({ doc }: { doc: any }) {
   if (showCreateAccount) {
     return (
       <div className="py-1">
-        <h1 className="text-xl font-bold text-center mb-0 mt-3">Join Us</h1>
+        <h1 className="text-xl text-center mb-0 mt-3">Join Us</h1>
 
         <p className="text-xs mb-4 mt-4">Create account using email:</p>
 
@@ -172,15 +172,15 @@ function SignInFormContent({ doc }: { doc: any }) {
             >
               {doc.data.full_name || "Full name"}
             </label>
-            <p className="text-[10px] uppercase mb-1 text-gray-600">
-              AT LEAST YOUR FIRST NAME AND YOUR LAST NAME
+            <p className="uppercase mb-1 text-gray-600 text-xs">
+              At least your first name and your last name
             </p>
             <input
               type="text"
               id="full-name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-white text-sm"
+              className="w-full px-3 py-2 rounded border text-sm"
               required
             />
           </div>
@@ -192,15 +192,15 @@ function SignInFormContent({ doc }: { doc: any }) {
             >
               {doc.data.nick_name || "What shall we call you?"}
             </label>
-            <p className="text-[10px] uppercase mb-1 text-gray-600">
-              JUST ONE WORD - A FIRST NAME OR NICKNAME ETC.
+            <p className="uppercase mb-1 text-gray-600 text-xs">
+              Just one word - a first name or nickname etc.
             </p>
             <input
               type="text"
               id="nick-name"
               value={nickName}
               onChange={(e) => setNickName(e.target.value)}
-              className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-white text-sm"
+              className="w-full px-3 py-2 rounded border text-sm"
               required
             />
           </div>
@@ -221,7 +221,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                 setEmailError("");
               }}
               className={`w-full px-3 py-2 rounded border ${
-                emailError ? "border-red-500 border-2" : "border-[#b5b4b5]"
+                emailError ? "border-red-500 border-2" : ""
               } text-white text-sm`}
               required
             />
@@ -231,10 +231,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           </div>
 
           <div>
-            <label
-              htmlFor="create-password"
-              className="block text-xs font-normal mb-1"
-            >
+            <label htmlFor="create-password" className="block text-xs mb-1">
               {doc.data.password}
             </label>
             <input
@@ -245,7 +242,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                 setPassword(e.target.value);
                 setError("");
               }}
-              className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-white text-sm"
+              className="w-full px-3 py-2 rounded border text-sm"
               required
             />
           </div>
@@ -255,8 +252,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#03ECF2] text-black px-4 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] transition-colors disabled:opacity-50 cursor-pointer"
-                style={{ letterSpacing: "0.05em" }}
+                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
               >
                 {loading ? "CREATING..." : "CREATE ACCOUNT"}
               </button>
@@ -272,7 +268,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                   setEmail("");
                   setPassword("");
                 }}
-                className="px-4 py-2 rounded text-xs font-bold uppercase text-[#03ECF2] transition-all cursor-pointer"
+                className="px-4 py-2 rounded text-xs uppercase text-(--cta-color) transition-all cursor-pointer"
               >
                 CANCEL
               </button>
@@ -291,8 +287,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               setError("");
               setEmailError("");
             }}
-            className="px-4 py-1.5 text-[#03ECF2] rounded text-xs font-bold uppercase hover:bg-[#03ECF2] hover:text-black transition-colors cursor-pointer"
-            style={{ letterSpacing: "0.05em" }}
+            className="px-4 py-1.5 text-(--cta-color) rounded text-xs uppercase hover:bg-(--cta-color) hover:text-(--black-primary-color) transition-colors cursor-pointer tracking-[0.05rem]"
           >
             SIGN IN
           </button>
@@ -308,7 +303,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           field={doc.data.heading}
           components={{
             heading1: ({ children }) => (
-              <h1 className="text-xl font-bold text-center mb-0 mt-3">
+              <h1 className="text-xl text-center mb-0 mt-3">
                 {children}
               </h1>
             ),
@@ -336,7 +331,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <div>
             <label
               htmlFor="forgot-email"
-              className="block text-xs font-normal mb-1"
+              className="block text-xs mb-1"
             >
               {doc.data.email_address}
             </label>
@@ -345,7 +340,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               id="forgot-email"
               value={forgotPasswordEmail}
               onChange={(e) => setForgotPasswordEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-white text-sm"
+              className="w-full px-3 py-2 rounded border text-sm"
               required
             />
           </div>
@@ -355,8 +350,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#03ECF2] text-black px-4 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] transition-colors disabled:opacity-50 cursor-pointer"
-                style={{ letterSpacing: "0.05em" }}
+                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
               </button>
@@ -368,7 +362,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                   setForgotPasswordMessage("");
                   setError("");
                 }}
-                className="px-4 py-2 rounded text-xs font-bold uppercase text-[#03ECF2] transition-all cursor-pointer"
+                className="px-4 py-2 rounded text-xs uppercase text-(--cta-color) transition-all cursor-pointer"
               >
                 CANCEL
               </button>
@@ -385,7 +379,7 @@ function SignInFormContent({ doc }: { doc: any }) {
         field={doc.data.heading}
         components={{
           heading1: ({ children }) => (
-            <h1 className="text-xl font-bold text-center mb-0 mt-3">
+            <h1 className="text-xl text-center mb-0 mt-3">
               {children}
             </h1>
           ),
@@ -403,7 +397,7 @@ function SignInFormContent({ doc }: { doc: any }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-xs font-normal mb-1">
+          <label htmlFor="email" className="block text-xs mb-1">
             {doc.data.email_address}
           </label>
           <input
@@ -415,7 +409,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               setEmailError("");
             }}
             className={`w-full px-3 py-2 rounded border ${
-              emailError ? "border-red-500 border-2" : "border-[#b5b4b5]"
+              emailError ? "border-red-500 border-2" : ""
             } text-white text-sm`}
           />
           {emailError && (
@@ -423,7 +417,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           )}
         </div>
         <div>
-          <label htmlFor="password" className="block text-xs font-normal mb-1">
+          <label htmlFor="password" className="block text-xs mb-1">
             {doc.data.password}
           </label>
           <input
@@ -434,7 +428,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               setPassword(e.target.value);
               setError("");
             }}
-            className="w-full px-3 py-2 rounded border border-[#b5b4b5] text-white text-sm"
+            className="w-full px-3 py-2 rounded border text-sm"
           />
           {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
@@ -443,8 +437,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#03ECF2] text-black px-4 py-2 rounded text-xs font-bold uppercase hover:bg-transparent hover:text-[#03ECF2] cursor-pointer transition-colors disabled:opacity-50 min-w-[100px]"
-            style={{ letterSpacing: "0.05em" }}
+            className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) cursor-pointer transition-colors disabled:opacity-50 min-w-[100px] tracking-[0.05rem]"
           >
             {loading ? "SIGNING IN..." : doc.data.sign_in_btn || "SIGN IN"}
           </button>
@@ -452,7 +445,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="button"
             onClick={() => setShowForgotPassword(true)}
-            className="text-xs font-normal hover:underline transition-all"
+            className="text-xs hover:underline transition-all"
           >
             <PrismicNextLink field={doc.data.forget_password} />
           </button>
@@ -460,19 +453,16 @@ function SignInFormContent({ doc }: { doc: any }) {
       </form>
 
       <div
-        className="flex justify-center mb-3 -mx-20"
-        style={{ marginTop: "1.5rem" }}
+        className="flex justify-center mb-3 -mx-20 mt-6"
       ></div>
 
       <div
-        className="flex items-center justify-center gap-3"
-        style={{ marginTop: "1.5rem" }}
+        className="flex items-center justify-center gap-3 mt-6"
       >
         <p className="text-xs">{doc.data.no_account}</p>
         <button
           onClick={() => setShowCreateAccount(true)}
-          className="px-4 py-1.5 text-[#03ECF2] rounded text-xs font-bold uppercase hover:bg-[#03ECF2] hover:text-black transition-colors cursor-pointer"
-          style={{ letterSpacing: "0.05em" }}
+          className="px-4 py-1.5 text-(--cta-color) rounded text-xs uppercase hover:bg-(--cta-color) hover:text-(--black-primary-color) transition-colors cursor-pointer tracking-[0.05em]"
         >
           {doc.data.create_account_btn || "CREATE ACCOUNT"}
         </button>
