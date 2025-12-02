@@ -83,7 +83,14 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
           />
           <form onSubmit={onSubmit}>
             <div className="mb-6">
-              <label htmlFor="password">{slice.primary.password_label}</label>
+              <label htmlFor="password">
+                <PrismicRichText
+                  field={slice.primary.password_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }}
+                />
+              </label>
               <input
                 type="password"
                 name="password"
@@ -165,7 +172,13 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
           />
           <form>
             <div className="mb-6">
-              <label htmlFor="full-name">{slice.primary.full_name_label}</label>
+              <label htmlFor="full-name">
+                <PrismicRichText
+                  field={slice.primary.full_name_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }} />
+              </label>
               <input
                 type="text"
                 name="full-name"
@@ -174,7 +187,13 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="email">{slice.primary.email_label}</label>
+              <label htmlFor="email">
+                <PrismicRichText
+                  field={slice.primary.email_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }} />
+              </label>
               <input
                 type="email"
                 name="email"
@@ -184,7 +203,11 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             </div>
             <div className="mb-6">
               <label htmlFor="phone_number">
-                {slice.primary.phone_number_label}
+                <PrismicRichText
+                  field={slice.primary.phone_number_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }} />
               </label>
               <input
                 type="tel"
@@ -194,7 +217,13 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="company_name">{slice.primary.company_name}</label>
+              <label htmlFor="company_name">
+                <PrismicRichText
+                  field={slice.primary.company_name_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }} />
+                  </label>
               <input
                 type="text"
                 name="company_name"
@@ -203,7 +232,13 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="message">{slice.primary.message_label}</label>
+              <label htmlFor="message">
+                <PrismicRichText
+                  field={slice.primary.message_label}
+                  components={{
+                    paragraph: ({ children }) => <span>{children}</span>,
+                  }} />
+                  </label>
               <textarea
                 name="message"
                 id="message"

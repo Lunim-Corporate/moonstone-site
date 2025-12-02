@@ -48,10 +48,12 @@
           }
         },
         "password_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Password Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "cta_label": {
@@ -128,38 +130,48 @@
           }
         },
         "full_name_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Full Name Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "email_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Email Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "phone_number_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Phone Number Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
-        "company_name": {
-          "type": "Text",
+        "company_name_label": {
+          "type": "StructuredText",
           "config": {
-            "label": "Company Name",
-            "placeholder": ""
+            "label": "Company Name Label",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "message_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Message Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "cta_label": {

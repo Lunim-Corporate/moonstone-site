@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 // Prismic
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next"
 import { NavigationDocumentData, NavigationDocumentDataNavLinksItem, Simplify } from "@/prismicio-types";
+// Next
+import { usePathname } from "next/navigation";
+import { asLink } from "@prismicio/client";
 
 export default function NavigationClient({
   data,
@@ -11,6 +14,7 @@ export default function NavigationClient({
   data: Simplify<NavigationDocumentData>;
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -39,7 +43,7 @@ export default function NavigationClient({
                   link: Simplify<NavigationDocumentDataNavLinksItem>,
                   idx: number
                 ) => {
-                  return <PrismicNextLink key={idx} field={link.link} />;
+                  return <PrismicNextLink key={idx} field={link.link} className={pathname === asLink(link.link) ? "text-(--cta-color)" : ""} />;
                 }
               )}
             </menu>

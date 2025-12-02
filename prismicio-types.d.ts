@@ -1051,12 +1051,12 @@ export interface PasswordFormSliceDefaultPrimary {
   /**
    * Password Label field in *PasswordForm → Password Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.default.primary.password_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  password_label: prismic.KeyTextField;
+  password_label: prismic.RichTextField;
 
   /**
    * CTA Label field in *PasswordForm → Password Form → Primary*
@@ -1149,52 +1149,52 @@ export interface PasswordFormSliceAccessFormPrimary {
   /**
    * Full Name Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.full_name_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  full_name_label: prismic.KeyTextField;
+  full_name_label: prismic.RichTextField;
 
   /**
    * Email Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.email_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  email_label: prismic.KeyTextField;
+  email_label: prismic.RichTextField;
 
   /**
    * Phone Number Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.phone_number_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  phone_number_label: prismic.KeyTextField;
+  phone_number_label: prismic.RichTextField;
 
   /**
-   * Company Name field in *PasswordForm → Access Form → Primary*
+   * Company Name Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: password_form.accessForm.primary.company_name
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **API ID Path**: password_form.accessForm.primary.company_name_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  company_name: prismic.KeyTextField;
+  company_name_label: prismic.RichTextField;
 
   /**
    * Message Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.message_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  message_label: prismic.KeyTextField;
+  message_label: prismic.RichTextField;
 
   /**
    * CTA Label field in *PasswordForm → Access Form → Primary*
