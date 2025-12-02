@@ -1,6 +1,6 @@
 "use client"
 import { FC } from "react";
-import { asText, Content } from "@prismicio/client";
+import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 
 /**
@@ -140,11 +140,18 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 ></textarea>
               </div>
               <div className="text-center mt-4">
-                <button
-                  className="bg-(--cta-color) text-black p-3.5 rounded cursor-pointer hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300"
-                  type="button">
-                  {asText(slice.primary.cta)}
-                </button>
+                  <PrismicRichText
+                    field={slice.primary.cta}
+                    components={{
+                      paragraph: ({ children }) => (
+                        <button className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300"
+                          type="button"
+                        >
+                          {children}
+                        </button>
+                      ),
+                    }}
+                  />
               </div>
             </form>
           </div>

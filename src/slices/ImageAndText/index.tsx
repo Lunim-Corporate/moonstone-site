@@ -47,14 +47,14 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                     ),
                   }}
                 />
-                <div>
-                  {isFilled.link(slice.primary.cta) && (
-                    <PrismicNextLink
-                      field={slice.primary.cta}
-                      className="p-2.5 text-black bg-[#03ECF2] rounded hover:bg-transparent hover:text-[#03ECF2] transition-colors duration-300"
-                    />
-                  )}
-                </div>
+                {isFilled.link(slice.primary.cta) && (
+                  <div>
+                      <PrismicNextLink
+                        field={slice.primary.cta}
+                        className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                      />
+                  </div>
+                )}
               </div>
             </div>
             <div>
@@ -78,7 +78,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         }}
       >
         {isFilled.image(slice.primary.seconday_background_image) && (
-          <div className="bg-cover bg-center h-60" style={{ backgroundImage: `url(${slice.primary.seconday_background_image?.url})` }}></div>
+          <div className="bg-cover bg-bottom h-100" style={{ backgroundImage: `url(${slice.primary.seconday_background_image?.url})` }}></div>
         )}
         <div className={"py-20 " + (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")}>
           <div className="max-w-7xl mx-auto">
