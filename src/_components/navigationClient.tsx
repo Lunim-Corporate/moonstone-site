@@ -43,7 +43,7 @@ export default function NavigationClient({
                   link: Simplify<NavigationDocumentDataNavLinksItem>,
                   idx: number
                 ) => {
-                  return <PrismicNextLink key={idx} field={link.link} className={pathname === asLink(link.link) ? "text-(--cta-color)" : ""} />;
+                  return <PrismicNextLink key={idx} field={link.link} className={"hover:opacity-75 " + (pathname === asLink(link.link) ? "text-(--cta-color)" : "")} />;
                 }
               )}
             </menu>
