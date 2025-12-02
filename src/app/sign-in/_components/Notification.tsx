@@ -40,7 +40,7 @@ const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`fixed top-4 right-4 z-[9999] ${getBackgroundColor()} text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] max-w-[500px] animate-slide-in`}
+      className={`fixed top-4 right-4 z-9999 ${getBackgroundColor()} text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 min-w-[300px] max-w-[500px] animate-slide-in`}
     >
       <span className="flex-1 text-sm">{message}</span>
       <button
