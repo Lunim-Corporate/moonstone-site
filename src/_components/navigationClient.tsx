@@ -90,7 +90,7 @@ export default function NavigationClient({
           (isOpen && !windowInnerWidthGreaterThanMd ? "flex!" : "")
         }
       >
-        <menu className={"flex gap-8 mx-auto " + (isOpen ? "flex-col w-100" : "")}>
+        <menu className={"flex gap-8 mx-auto " + (isOpen ? "flex-col w-full" : "")}>
           {data.nav_links.map(
             (
               link: Simplify<NavigationDocumentDataNavLinksItem>,
