@@ -13,7 +13,7 @@ export default async function Page() {
   if (!doc) notFound()
 
   return (
-    <main>
+    <main className="px-5 sm:px-0">
       <SliceZone slices={doc.data.slices} components={components} />
     </main>
   )
