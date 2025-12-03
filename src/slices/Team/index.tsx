@@ -24,13 +24,13 @@ export default function Team({ slice }: TeamProps) {
         />
         <PrismicRichText field={slice.primary.body_text} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-20 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-y-20 sm:gap-x-5 sm:p-2.5">
         {slice.primary.team_member.map((teamMember, idx) => (
             <div key={idx} className="rounded overflow-hidden bg-[#2d2b2b]">
               <div className="relative mb-4">
                 <PrismicNextImage 
-                  field={teamMember.headshot}
-
+                field={teamMember.headshot}
+                className="w-full"
               />
                 <div className="px-5 absolute bottom-0 py-6">
                   <PrismicRichText field={teamMember.name} />
