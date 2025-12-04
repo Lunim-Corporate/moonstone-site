@@ -40,7 +40,19 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     <PrismicRichText
                       field={item.item_info}
                       components={{
-                        paragraph: ({ children }) => <span>{children}</span>
+                        // Detects phone-like strings even if they contain spaces, parentheses or dashes
+                        // (e.g. "020 3051 9057", "(020)-3051-9057" → digits = "02030519057").
+                        // Prevents hydrataion errors by ensuring the href is consistent between server and client.
+                        paragraph: ({ children, text }) => {
+                          const raw = (text ?? "").trim();
+                          const digits = raw.replace(/\D/g, ""); // remove non-digits
+                          if (/^\d{8,12}$/.test(digits)) {
+                            // 8–12 numeric digits
+                            const telHref = `tel:${digits}`; // normalized href (no spaces)
+                            return <a href={telHref}>{raw}</a>;
+                          }
+                          return <span>{children}</span>;
+                        },
                       }}
                     />
                   </div>
