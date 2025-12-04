@@ -51,6 +51,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                             const telHref = `tel:${digits}`; // normalized href (no spaces)
                             return <a href={telHref}>{raw}</a>;
                           }
+                          if (raw.includes("@")) {  // rudimentary email check
+                            const mailtoHref = `mailto:${raw}`;
+                            return <a href={mailtoHref}>{raw}</a>;
+                          }
                           return <span>{children}</span>;
                         },
                       }}
