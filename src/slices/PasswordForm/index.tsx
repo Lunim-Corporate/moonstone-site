@@ -64,23 +64,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
   if (slice.variation === "default" && context) {
     return (
       <>
-        <div className="p-8 bg-(--black-primary-color) rounded">
-          <PrismicRichText
-            field={slice.primary.subtitle}
-            components={{
-              heading2: ({ children }) => (
-                <h2 className="mb-2 text-lg">{children}</h2>
-              ),
-            }}
-          />
-          <PrismicRichText
-            field={slice.primary.body}
-            components={{
-              heading3: ({ children }) => (
-                <p className="mb-6 text-sm">{children}</p>
-              ),
-            }}
-          />
+        <div className="">
           <form onSubmit={onSubmit}>
             <div className="mb-6">
               <label htmlFor="password">
@@ -155,26 +139,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
   if (slice.variation === "accessForm" && !context) {
     return (
       <>
-        {/* <div>
-          <div className="text-center"></div>
-        </div> */}
-        <div className="p-8 bg-(--black-primary-color) rounded">
-          <PrismicRichText
-            field={slice.primary.subtitle}
-            components={{
-              heading2: ({ children }) => (
-                <h2 className="mb-2">{children}</h2>
-              ),
-            }}
-          />
-          <PrismicRichText
-            field={slice.primary.body}
-            components={{
-              heading3: ({ children }) => (
-                <p className="mb-6">{children}</p>
-              ),
-            }}
-          />
+        <div className="">
           <form>
             <div className="mb-6">
               <label htmlFor="full-name">
