@@ -37,7 +37,12 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
               {slice.primary.contact_us_items.map((item, index) => {
                 return (
                   <div key={index} className="ms-8 mb-4 last:mb-0">
-                    <PrismicRichText field={item.item_info} />
+                    <PrismicRichText
+                      field={item.item_info}
+                      components={{
+                        paragraph: ({ children }) => <span>{children}</span>
+                      }}
+                    />
                   </div>
                 );
               })}
