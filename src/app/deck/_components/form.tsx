@@ -46,7 +46,7 @@ export default function Form({ slices }: { slices: unknown[] }) {
   return (
     <>
       <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
-        <div className="flex justify-around py-6 gap-6 mb-5">
+        <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Password Form toggle */}
           <div
             className={`rounded-2xl p-4 transform transition-transform duration-200 hover:scale-105 focus:scale-105 cursor-pointer ${
