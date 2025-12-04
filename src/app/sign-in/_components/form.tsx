@@ -212,7 +212,7 @@ function SignInFormContent({ doc }: { doc: any }) {
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
               >
-                {loading ? "CREATING..." : "CREATE ACCOUNT"}
+                {loading ? "Creating..." : "Create Account"}
               </button>
 
               <button
@@ -226,9 +226,9 @@ function SignInFormContent({ doc }: { doc: any }) {
                   setEmail("");
                   setPassword("");
                 }}
-                className="px-4 py-2 rounded text-xs uppercase text-(--cta-color) transition-all cursor-pointer"
+                className="px-4 py-2 rounded text-xs uppercase text-(--cta-color) hover:bg-(--cta-color) hover:text-(--black-primary-color) transition-all cursor-pointer"
               >
-                CANCEL
+                Cancel
               </button>
             </div>
           </div>
@@ -247,7 +247,7 @@ function SignInFormContent({ doc }: { doc: any }) {
             }}
             className="px-4 py-1.5 text-(--cta-color) rounded text-xs uppercase hover:bg-(--cta-color) hover:text-(--black-primary-color) transition-colors cursor-pointer tracking-[0.05rem]"
           >
-            SIGN IN
+            Sign in
           </button>
         </div>
       </div>
