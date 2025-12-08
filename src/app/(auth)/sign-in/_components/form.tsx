@@ -48,7 +48,7 @@ function SignInFormContent({ doc }: { doc: any }) {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+        const callbackUrl = searchParams.get("callbackUrl") || "/deal-room";
         router.push(callbackUrl);
       }
     } catch (err: any) {
@@ -97,16 +97,43 @@ function SignInFormContent({ doc }: { doc: any }) {
 
     setLoading(true);
 
-    setTimeout(() => {
-      console.log("Account creation data:", {
-        fullName,
-        nickName,
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          name: fullName,
+          friendly_name: nickName,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Registration failed");
+        return;
+      }
+
+      // Auto sign-in after registration
+      const result = await signIn("credentials", {
         email,
         password,
+        redirect: false,
       });
-      setError("Account creation functionality coming soon!");
+
+      if (result?.error) {
+        setError("Account created but sign-in failed. Please try signing in.");
+      } else {
+        const callbackUrl = searchParams.get("callbackUrl") || "/deal-room";
+        router.push(callbackUrl);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred during registration");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   if (showCreateAccount) {
