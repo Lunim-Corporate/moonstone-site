@@ -1,5 +1,14 @@
 // Style according to your email template needs
-export default function GeneralEnquiryEmailTemplate({ name, email, phoneNumber, companyName, message }: { name: string; email: string; phoneNumber: string; companyName: string; message: string }) {
+
+interface GeneralEnquiryEmailTemplateProps {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  companyName: string;
+  message: string;
+}
+
+export default function GeneralEnquiryEmailTemplate({ name, email, phoneNumber, companyName, message }: GeneralEnquiryEmailTemplateProps) {
   return (
     <div>
       <p className="font-bold">Name: {name}</p>
