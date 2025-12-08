@@ -21,16 +21,21 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing email configuration" }, { status: 500 });
         }
         
-        await resend.emails.send({
+        const { data, error } = await resend.emails.send({
             from,
             to,
             subject: "New General Enquiry",
-            react: jsx(EmailTemplate, { name: name, email: email, phoneNumber: phoneNumber, companyName: companyName, message: message }),
+            react: jsx(EmailTemplate, {  name, email, phoneNumber, companyName, message }),
         });
 
-        return NextResponse.json({ ok: true });
-  } catch (err) {
+        if (error) {
+            console.error("Resend error:", error);
+            return NextResponse.json({ error }, { status: 500 });
+        }
+
+        return NextResponse.json(data);
+    } catch (err) {
         console.error("send-email error:", err);
-        return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+        return NextResponse.json({ err }, { status: 500 });
   }
 }
