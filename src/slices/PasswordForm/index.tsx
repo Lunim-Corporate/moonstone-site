@@ -53,6 +53,8 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     accessFormSubmitted = false,
   } = context ?? {} as Partial<PasswordFormContext>;
 
+  // Password Form (consists of password input and submit button)
+  // Only display if showPasswordForm is true (user wants to enter a password), password is NOT correct (user has not entered in a password OR has entered an incorrect password), and access form has NOT been submitted
   if (slice.variation === "default" && showPasswordForm && !passwordIsCorrect && !accessFormSubmitted) {
     return (
       <>
@@ -120,6 +122,8 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
       </>
     );
   }
+  // Access Form (consists of name, email, phone number, company name, message inputs and submit button)
+  // Only display if showPasswordForm is false (user wants to get access to password by submitting the access form), password is NOT correct (user has not entered in a password OR has entered an incorrect password), and access form has NOT been submitted
   if (slice.variation === "accessForm" && !showPasswordForm && !passwordIsCorrect && !accessFormSubmitted) {
     return (
       <>
