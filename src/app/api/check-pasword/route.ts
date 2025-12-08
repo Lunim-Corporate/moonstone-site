@@ -13,10 +13,10 @@ export async function POST(req: Request) {
 
     const link = process.env.PROTECTED_ROUTE_LINK ?? "";
     if (password === secret) {
-      return NextResponse.json({ valid: true, link });
+      return NextResponse.json({ valid: true, link}, {status: 200});
     }
 
-    return NextResponse.json({ valid: false, error: "Invalid password" }, { status: 401 });
+    return NextResponse.json({ valid: false }, { status: 200 });
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }

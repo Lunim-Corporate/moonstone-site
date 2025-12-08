@@ -1,60 +1,34 @@
 "use client"
-import React, { useState } from "react";
 // Prismic
 import { Content } from "@prismicio/client";
+import type { FormEvent } from "react";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 
 /**
  * Component for "PasswordForm" Slices.
  */
-type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice>
+type PasswordFormContext = {
+  showPasswordForm: boolean;
+  isSuccess: boolean;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> | void;
+  password: string;
+  setPassword: (p: string) => void;
+  isError: boolean;
+  isIncorrectPassword: boolean;
+};
 
-export default function PasswordForm({ slice, context: { showPasswordForm, isSuccess, setIsSuccess } }: PasswordFormProps) {
+type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice, PasswordFormContext>;
 
-  const [isError, setIsError] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>("");
-  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!password) return;
-
-    setIsIncorrectPassword(false);
-    setIsError(false);
-    setIsSuccess(false)
-
-    try {
-      const res = await fetch("/api/check-pasword", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-
-      if (!res.ok) {
-        setIsError(true);
-        return;
-      }
-
-      const data = await res.json();
-
-      if (data?.valid) { // password correct
-        const link = data.link;
-        if (!link) {
-          setIsError(true);
-          return;
-        }
-        
-        setIsSuccess(true);
-
-      } else { // password incorrect
-        setIsError(true);
-        setIsIncorrectPassword(true);
-      }
-    } catch {
-      setIsError(true);
-    }
-  };
-
+export default function PasswordForm({ slice, context }: PasswordFormProps) {
+  const {
+    showPasswordForm = true,
+    isSuccess = false,
+    onSubmit,
+    password,
+    setPassword,
+    isError = false,
+    isIncorrectPassword = false,
+  } = context ?? {} as Partial<PasswordFormContext>;
 
   if (slice.variation === "default" && showPasswordForm && !isSuccess) {
     return (
@@ -134,7 +108,8 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                   field={slice.primary.full_name_label}
                   components={{
                     paragraph: ({ children }) => <span>{children}</span>,
-                  }} />
+                  }}
+                />
               </label>
               <input
                 type="text"
@@ -149,7 +124,8 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                   field={slice.primary.email_label}
                   components={{
                     paragraph: ({ children }) => <span>{children}</span>,
-                  }} />
+                  }}
+                />
               </label>
               <input
                 type="email"
@@ -164,7 +140,8 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                   field={slice.primary.phone_number_label}
                   components={{
                     paragraph: ({ children }) => <span>{children}</span>,
-                  }} />
+                  }}
+                />
               </label>
               <input
                 type="tel"
@@ -179,8 +156,9 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                   field={slice.primary.company_name_label}
                   components={{
                     paragraph: ({ children }) => <span>{children}</span>,
-                  }} />
-                  </label>
+                  }}
+                />
+              </label>
               <input
                 type="text"
                 name="company_name"
@@ -194,8 +172,9 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                   field={slice.primary.message_label}
                   components={{
                     paragraph: ({ children }) => <span>{children}</span>,
-                  }} />
-                  </label>
+                  }}
+                />
+              </label>
               <textarea
                 name="message"
                 id="message"
@@ -210,7 +189,7 @@ export default function PasswordForm({ slice, context: { showPasswordForm, isSuc
                 <PrismicRichText
                   field={slice.primary.cta_label}
                   components={{
-                    paragraph: ({children}) => <span>{children}</span>
+                    paragraph: ({ children }) => <span>{children}</span>,
                   }}
                 />
               </button>
