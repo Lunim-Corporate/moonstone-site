@@ -27,7 +27,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
     e.preventDefault()
     setError(false)
     try {
-      const res = await fetch("/api/send-email", {
+      const res = await fetch("/api/email/general-enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

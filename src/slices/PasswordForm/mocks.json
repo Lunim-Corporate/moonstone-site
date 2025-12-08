@@ -253,6 +253,28 @@
 						}
 					}
 				]
+			},
+			"form_successfully_submitted_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Excepteur et velit qui cupidatat culpa occaecat Lorem anim enim enim ullamco. Aliquip eu velit ad irure Lorem officia fugiat enim cillum elit laborum aliqua excepteur irure id. Do cupidatat est esse non elit consectetur eiusmod laborum est ut enim occaecat aliqua Lorem do."
+						}
+					}
+				]
+			},
+			"form_unsuccessfully_submitted_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Cillum enim anim incididunt et elit dolore id pariatur ut minim aliquip aliquip eu qui. Aliqua qui commodo et consectetur do reprehenderit id labore minim dolor sunt nostrud Lorem."
+						}
+					}
+				]
 			}
 		},
 		"items": [

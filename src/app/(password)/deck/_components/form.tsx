@@ -21,6 +21,12 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   const [password, setPassword] = useState<string>("");
   const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
   const [protectedLink, setProtectedLink] = useState<string>("");
+  // Access form variables
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [companyName, setCompanyName] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const isPasswordFormSlice = (s: unknown): s is Content.PasswordFormSlice => {
     if (typeof s !== "object" || s === null) return false;
@@ -78,7 +84,8 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   
       setIsIncorrectPassword(false);
       setIsError(false);
-  
+
+    if (showPasswordForm) {
       try {
         const res = await fetch("/api/check-pasword", {
           method: "POST",
@@ -107,6 +114,40 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
       } catch {
         setIsError(true);
       }
+      // Access form submission
+    } else {
+        try {
+          const res = await fetch("/api/email/password-access", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, phoneNumber, companyName, message }),
+          });
+
+          if (!res.ok) {
+            setIsError(true);
+            return;
+          }
+
+          const data = await res.json();
+
+          if (data?.valid) {
+            // password correct
+            if (!data?.link) {
+              // link missing
+              setIsError(true);
+              return;
+            }
+            setIsSuccess(true);
+            setProtectedLink(data.link);
+          } else {
+            // password incorrect
+            setIsError(true);
+            setIsIncorrectPassword(true);
+          }
+        } catch {
+          setIsError(true);
+        }
+    }
     };
 
   return (
@@ -190,7 +231,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         <SliceZone
           slices={slices}
           components={components}
-          context={{ showPasswordForm, isSuccess, onSubmit, password, setPassword, isError, isIncorrectPassword }}
+          context={{ showPasswordForm, isSuccess, onSubmit, password, setPassword, isError, isIncorrectPassword, name, setName, email, setEmail, phoneNumber, setPhoneNumber, companyName, setCompanyName, message, setMessage }}
         />
         {/* Password Success */}
         {isSuccess && (

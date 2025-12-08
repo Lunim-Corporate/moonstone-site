@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // Resend
 import { Resend } from "resend";
 // Components
-import EmailTemplate from "@/src/_components/emailTemplate";
+import EmailTemplate from "@/src/_components/generalEnquiryEmailTemplate";
 // Reactr
 import { jsx } from "react/jsx-runtime";
 
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
         await resend.emails.send({
             from,
             to,
-            subject: "New Request",
+            subject: "New General Enquiry",
             react: jsx(EmailTemplate, { name: name, email: email, phoneNumber: phoneNumber, companyName: companyName, message: message }),
         });
 

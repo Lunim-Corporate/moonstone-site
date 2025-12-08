@@ -1245,6 +1245,26 @@ export interface PasswordFormSliceAccessFormPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   cta_label: prismic.RichTextField;
+
+  /**
+   * Form Successfully Submitted Text field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.form_successfully_submitted_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  form_successfully_submitted_text: prismic.RichTextField;
+
+  /**
+   * Form Unsuccessfully Submitted Text field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.form_unsuccessfully_submitted_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  form_unsuccessfully_submitted_text: prismic.RichTextField;
 }
 
 /**

@@ -200,6 +200,24 @@
             "allowTargetBlank": true,
             "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,em,strong"
           }
+        },
+        "form_successfully_submitted_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Form Successfully Submitted Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "form_unsuccessfully_submitted_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Form Unsuccessfully Submitted Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
         }
       },
       "items": {}
