@@ -196,6 +196,28 @@
 						}
 					}
 				]
+			},
+			"email_success_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Veniam duis non eu fugiat fugiat Lorem anim aliqua sit esse cillum. Eiusmod voluptate aute dolor nulla sint ipsum cillum officia et ullamco anim nostrud fugiat irure veniam."
+						}
+					}
+				]
+			},
+			"email_error_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Eu ipsum labore sint aute officia magna est minim ullamco. Incididunt mollit minim aliquip. Consectetur est aute reprehenderit amet nulla sit ipsum sit."
+						}
+					}
+				]
 			}
 		},
 		"items": []
