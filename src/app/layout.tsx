@@ -6,12 +6,13 @@ import "./globals.css";
 import { PrismicPreview } from "@prismicio/next";
 import { repositoryName } from "../prismicio";
 // Google Analytics
-import { GoogleAnalytics } from "@next/third-parties/google" 
+import { GoogleAnalytics } from "@next/third-parties/google"
 // Fonts
 import { Raleway, Lora } from "next/font/google";
 // Components
 import Navigation from "@/src/_components/navigation";
-import Footer from "@/src/_components/footer"
+import Footer from "@/src/_components/footer";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -42,11 +43,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${raleway.variable} ${lora.variable}`}>
       <body>
-        <div className="min-h-full flex flex-col" id="layout-container">
-          <Navigation />
-          {children}
-          <Footer />
-        </div>
+        <Providers>
+          <div className="min-h-full flex flex-col" id="layout-container">
+            <Navigation />
+            {children}
+            <Footer />
+          </div>
+        </Providers>
       </body>
       {gaId && <GoogleAnalytics gaId={gaId} />}
       <PrismicPreview repositoryName={repositoryName} />
