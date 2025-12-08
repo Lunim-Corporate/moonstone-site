@@ -70,13 +70,35 @@
 					}
 				]
 			},
-			"success_message": {
+			"password_label": {
 				"__TYPE__": "StructuredTextContent",
 				"value": [
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Aliqua non labore incididunt consequat labore."
+							"text": "Aliquip nostrud anim exercitation adipisicing laboris incididunt veniam amet esse do. Amet occaecat nisi quis consectetur. Id eiusmod qui magna sint."
+						}
+					}
+				]
+			},
+			"success_cta_label": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Laborum aute consequat enim pariatur ut incididunt fugiat Lorem dolore dolore. Nostrud dolore voluptate consequat qui officia irure deserunt ullamco. Lorem voluptate cupidatat duis fugiat amet Lorem."
+						}
+					}
+				]
+			},
+			"password_correct_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Qui dolore commodo sit esse laborum fugiat amet aute laboris ut amet culpa nulla nostrud id."
 						}
 					}
 				]
@@ -87,18 +109,18 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Voluptate reprehenderit reprehenderit anim ut voluptate sunt veniam tempor minim eu in ut. Nostrud laboris est duis ut duis id ex."
+							"text": "Voluptate officia dolore aliqua voluptate et cillum eu laboris ullamco elit laborum consequat. Laboris commodo sit adipisicing fugiat."
 						}
 					}
 				]
 			},
-			"password_label": {
+			"password_incorrect_text": {
 				"__TYPE__": "StructuredTextContent",
 				"value": [
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Aliquip nostrud anim exercitation adipisicing laboris incididunt veniam amet esse do. Amet occaecat nisi quis consectetur. Id eiusmod qui magna sint."
+							"text": "Ea ea aliquip dolor."
 						}
 					}
 				]

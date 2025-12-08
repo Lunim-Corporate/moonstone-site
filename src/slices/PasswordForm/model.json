@@ -65,13 +65,31 @@
             "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,em,strong"
           }
         },
-        "success_message": {
+        "success_cta_label": {
           "type": "StructuredText",
           "config": {
-            "label": "Success Message",
+            "label": "Success CTA Label",
             "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "strong,em,paragraph"
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "password_correct_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Password Correct Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "password_incorrect_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Password Incorrect Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "error_message": {

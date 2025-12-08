@@ -1069,14 +1069,34 @@ export interface PasswordFormSliceDefaultPrimary {
   cta_label: prismic.RichTextField;
 
   /**
-   * Success Message field in *PasswordForm → Password Form → Primary*
+   * Success CTA Label field in *PasswordForm → Password Form → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: password_form.default.primary.success_message
+   * - **API ID Path**: password_form.default.primary.success_cta_label
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  success_message: prismic.RichTextField;
+  success_cta_label: prismic.RichTextField;
+
+  /**
+   * Password Correct Text field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_correct_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  password_correct_text: prismic.RichTextField;
+
+  /**
+   * Password Incorrect Text field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_incorrect_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  password_incorrect_text: prismic.RichTextField;
 
   /**
    * Error Message field in *PasswordForm → Password Form → Primary*
