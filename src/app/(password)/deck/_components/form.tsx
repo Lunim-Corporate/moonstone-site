@@ -1,49 +1,114 @@
 "use client"
 // Prismic
 import { PrismicRichText, SliceZone } from "@prismicio/react";
+import { Content, RichTextField } from "@prismicio/client";
 // components map is imported inside the client wrapper to avoid passing functions to client components
 import { components } from "@/src/slices";
 // React
 import { useEffect, useRef, useState } from "react";
-import { PageDocumentDataSlicesSlice } from "@/prismicio-types";
+import type { ComponentProps } from "react";
+// Next
 import Link from "next/link";
 
-export default function Form({ slices }: { slices: unknown[] }) {
+type SliceZoneSlices = ComponentProps<typeof SliceZone>["slices"];
+
+export default function Form({ slices }: { slices: SliceZoneSlices }) {
   const [showPasswordForm, setShowPasswordForm] = useState<boolean>(true);
   const passwordFormToggle = useRef<HTMLDivElement | null>(null);
   const accessFormToggle = useRef<HTMLDivElement | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>("");
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [protectedLink, setProtectedLink] = useState<string>("");
 
-  const accessFormSlice = slices.find((slice: unknown) => (slice as PageDocumentDataSlicesSlice).variation === "accessForm") as PageDocumentDataSlicesSlice;
-  const defaultSlice = slices.find((slice: unknown) => (slice as PageDocumentDataSlicesSlice).variation === "default") as PageDocumentDataSlicesSlice;
+  const isPasswordFormSlice = (s: unknown): s is Content.PasswordFormSlice => {
+    if (typeof s !== "object" || s === null) return false;
+    const record = s as Record<string, unknown>;
+    return record.slice_type === "password_form";
+  };
+
+  const safeSlices = slices ?? [];
+
+  const accessFormSlice = safeSlices.find(
+    (s): s is Content.PasswordFormSlice => isPasswordFormSlice(s) && s.variation === "accessForm"
+  );
+
+  const defaultSlice = safeSlices.find(
+    (s): s is Content.PasswordFormSlice => isPasswordFormSlice(s) && s.variation === "default"
+  );
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
   const inactiveClass = "bg-transparent";
 
   // Keyboard accessibility for toggling forms
   useEffect(() => {
-    const toggleFormState = (e: KeyboardEvent) => {
+    const handleKeyDownOnPasswordToggle = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         e.preventDefault();
         if (!showPasswordForm) setShowPasswordForm(true);
       }
-    }
-    const currentElement = passwordFormToggle.current;
-    currentElement?.addEventListener("keydown", (e) => toggleFormState(e));
-    return () => currentElement?.removeEventListener("keydown", (e) => toggleFormState(e));
-    }, [passwordFormToggle, showPasswordForm]);
-  
+    };
+
+    const element = passwordFormToggle.current;
+    if (element) element.addEventListener("keydown", handleKeyDownOnPasswordToggle);
+    return () => {
+      if (element) element.removeEventListener("keydown", handleKeyDownOnPasswordToggle);
+    };
+  }, [passwordFormToggle, showPasswordForm]);
+
   useEffect(() => {
-    const toggleFormState = (e: KeyboardEvent) => {
+    const handleKeyDownOnAccessToggle = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         e.preventDefault();
         if (showPasswordForm) setShowPasswordForm(false);
       }
-    }
-    const currentElement = accessFormToggle.current;
-    currentElement?.addEventListener("keydown", e => toggleFormState(e));
-    return () => currentElement?.removeEventListener("keydown", e => toggleFormState(e));
-    }, [accessFormToggle, showPasswordForm]);
+    };
+
+    const element = accessFormToggle.current;
+    if (element) element.addEventListener("keydown", handleKeyDownOnAccessToggle);
+    return () => {
+      if (element) element.removeEventListener("keydown", handleKeyDownOnAccessToggle);
+    };
+  }, [accessFormToggle, showPasswordForm]);
+    
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!password) return;
+  
+      setIsIncorrectPassword(false);
+      setIsError(false);
+      setIsSuccess(false)
+  
+      try {
+        const res = await fetch("/api/check-pasword", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        });
+  
+        if (!res.ok) {
+          setIsError(true);
+          return;
+        }
+  
+        const data = await res.json();
+  
+        if (data?.valid) { // password correct
+          if (!data?.link) { // link missing
+            setIsError(true);
+            return;
+          }
+          setIsSuccess(true);
+          setProtectedLink(data.link);
+        } else { // password incorrect
+          setIsError(true);
+          setIsIncorrectPassword(true);
+        }
+      } catch {
+        setIsError(true);
+      }
+    };
 
   return (
     <>
@@ -124,15 +189,20 @@ export default function Form({ slices }: { slices: unknown[] }) {
           </div>
         </div>
         <SliceZone
-          // @ts-expect-error: slices come from Prismic and are compatible with SliceZone
           slices={slices}
           components={components}
-          context={{ showPasswordForm, isSuccess, setIsSuccess }}
+          context={{ showPasswordForm, isSuccess, onSubmit, password, setPassword, isError, isIncorrectPassword }}
         />
+        {/* Password Success */}
         {isSuccess && (
           <div>
             <PrismicRichText
-              field={defaultSlice.primary.success_message}
+              field={
+                defaultSlice?.primary &&
+                "password_correct_text" in defaultSlice.primary
+                  ? (defaultSlice.primary.password_correct_text as RichTextField)
+                  : null
+              }
               components={{
                 paragraph: ({ children }) => (
                   <p className="text-green-500 text-center mt-4" role="alert">
@@ -142,11 +212,21 @@ export default function Form({ slices }: { slices: unknown[] }) {
               }}
             />
             <Link
-              href=""
+              href={protectedLink}
               target="_blank"
               className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer text-center"
             >
-              Hello
+              <PrismicRichText
+                field={
+                  defaultSlice?.primary &&
+                  "success_cta_label" in defaultSlice.primary
+                    ? (defaultSlice.primary.success_cta_label as RichTextField)
+                    : null
+                }
+                components={{
+                  paragraph: ({ children }) => <span>{children}</span>,
+                }}
+              />
             </Link>
           </div>
         )}
