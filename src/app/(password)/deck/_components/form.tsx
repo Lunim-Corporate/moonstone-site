@@ -78,7 +78,6 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   
       setIsIncorrectPassword(false);
       setIsError(false);
-      setIsSuccess(false)
   
       try {
         const res = await fetch("/api/check-pasword", {
