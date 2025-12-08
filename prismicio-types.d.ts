@@ -728,6 +728,26 @@ export interface ContactUsSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   cta: prismic.RichTextField;
+
+  /**
+   * Email Success Message field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.email_success_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  email_success_message: prismic.RichTextField;
+
+  /**
+   * Email Error Message field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.email_error_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  email_error_message: prismic.RichTextField;
 }
 
 /**

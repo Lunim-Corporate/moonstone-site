@@ -164,6 +164,24 @@
             "allowTargetBlank": true,
             "multi": "strong,em,paragraph"
           }
+        },
+        "email_success_message": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Email Success Message",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong"
+          }
+        },
+        "email_error_message": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Email Error Message",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
         }
       },
       "items": {}
