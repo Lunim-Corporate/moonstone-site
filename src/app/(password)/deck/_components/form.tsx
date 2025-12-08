@@ -6,11 +6,13 @@ import { components } from "@/src/slices";
 // React
 import { useEffect, useRef, useState } from "react";
 import { PageDocumentDataSlicesSlice } from "@/prismicio-types";
+import Link from "next/link";
 
 export default function Form({ slices }: { slices: unknown[] }) {
-  const [showPasswordForm, setShowPasswordForm] = useState(true);
+  const [showPasswordForm, setShowPasswordForm] = useState<boolean>(true);
   const passwordFormToggle = useRef<HTMLDivElement | null>(null);
   const accessFormToggle = useRef<HTMLDivElement | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const accessFormSlice = slices.find((slice: unknown) => (slice as PageDocumentDataSlicesSlice).variation === "accessForm") as PageDocumentDataSlicesSlice;
   const defaultSlice = slices.find((slice: unknown) => (slice as PageDocumentDataSlicesSlice).variation === "default") as PageDocumentDataSlicesSlice;
@@ -59,7 +61,11 @@ export default function Form({ slices }: { slices: unknown[] }) {
             }}
           >
             <PrismicRichText
-              field={defaultSlice?.primary && 'subtitle' in defaultSlice.primary ? defaultSlice.primary.subtitle : null}
+              field={
+                defaultSlice?.primary && "subtitle" in defaultSlice.primary
+                  ? defaultSlice.primary.subtitle
+                  : null
+              }
               components={{
                 heading2: ({ children }) => (
                   <h2 className="mb-2 text-xl">{children}</h2>
@@ -67,7 +73,11 @@ export default function Form({ slices }: { slices: unknown[] }) {
               }}
             />
             <PrismicRichText
-              field={defaultSlice?.primary && 'body' in defaultSlice.primary ? defaultSlice.primary.body : null}
+              field={
+                defaultSlice?.primary && "body" in defaultSlice.primary
+                  ? defaultSlice.primary.body
+                  : null
+              }
               components={{
                 heading3: ({ children }) => (
                   <p className="mb-6 text-sm">{children}</p>
@@ -87,7 +97,12 @@ export default function Form({ slices }: { slices: unknown[] }) {
             }}
           >
             <PrismicRichText
-              field={accessFormSlice?.primary && 'subtitle' in accessFormSlice.primary ? accessFormSlice.primary.subtitle : null}
+              field={
+                accessFormSlice?.primary &&
+                "subtitle" in accessFormSlice.primary
+                  ? accessFormSlice.primary.subtitle
+                  : null
+              }
               components={{
                 heading2: ({ children }) => (
                   <h2 className="mb-2 text-xl">{children}</h2>
@@ -95,7 +110,11 @@ export default function Form({ slices }: { slices: unknown[] }) {
               }}
             />
             <PrismicRichText
-              field={accessFormSlice?.primary && 'body' in accessFormSlice.primary ? accessFormSlice.primary.body : null}
+              field={
+                accessFormSlice?.primary && "body" in accessFormSlice.primary
+                  ? accessFormSlice.primary.body
+                  : null
+              }
               components={{
                 heading3: ({ children }) => (
                   <p className="mb-6 text-sm">{children}</p>
@@ -108,8 +127,29 @@ export default function Form({ slices }: { slices: unknown[] }) {
           // @ts-expect-error: slices come from Prismic and are compatible with SliceZone
           slices={slices}
           components={components}
-          context={showPasswordForm}
+          context={{ showPasswordForm, isSuccess, setIsSuccess }}
         />
+        {isSuccess && (
+          <div>
+            <PrismicRichText
+              field={defaultSlice.primary.success_message}
+              components={{
+                paragraph: ({ children }) => (
+                  <p className="text-green-500 text-center mt-4" role="alert">
+                    {children}
+                  </p>
+                ),
+              }}
+            />
+            <Link
+              href=""
+              target="_blank"
+              className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer text-center"
+            >
+              Hello
+            </Link>
+          </div>
+        )}
       </div>
     </>
   );

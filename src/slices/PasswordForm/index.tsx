@@ -7,21 +7,21 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 /**
  * Component for "PasswordForm" Slices.
  */
-type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice> & {
-  context?: boolean
-}
+type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice>
 
-export default function PasswordForm({ slice, context }: PasswordFormProps) {
+export default function PasswordForm({ slice, context: { showPasswordForm, isSuccess, setIsSuccess } }: PasswordFormProps) {
 
-  const [error, setError] = useState<string | null>(null);
+  const [isError, setIsError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!password) return
+    if (!password) return;
+
     setIsIncorrectPassword(false);
+    setIsError(false);
+    setIsSuccess(false)
 
     try {
       const res = await fetch("/api/check-pasword", {
@@ -31,37 +31,32 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        setError((body && body.error) || "Password check failed");
+        setIsError(true);
         return;
       }
 
-      const data = await res.json().catch(() => null);
-      if (data && data.valid) {
-        const link = (data.link ?? "") as string;
+      const data = await res.json();
+
+      if (data?.valid) { // password correct
+        const link = data.link;
         if (!link) {
-          setError("Server not configured");
+          setIsError(true);
           return;
         }
-        setError(null);
-        setSuccessMessage(
-          "Password correct! The pitch deck will now open in a new tab"
-        );
-        // Wait 5 seconds before opening the link
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        window.open(link, "_blank", "noopener,noreferrer");
-        // Reset form
-        setSuccessMessage("");
-      } else {
-        setError("Incorrect password");
+        
+        setIsSuccess(true);
+
+      } else { // password incorrect
+        setIsError(true);
         setIsIncorrectPassword(true);
       }
     } catch {
-      setError("Network error");
+      setIsError(true);
     }
-  }
+  };
 
-  if (slice.variation === "default" && context) {
+
+  if (slice.variation === "default" && showPasswordForm && !isSuccess) {
     return (
       <>
         <div className="">
@@ -79,7 +74,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 type="password"
                 name="password"
                 id="password"
-                className="border rounded w-full mt-1.5" 
+                className="border rounded w-full mt-1.5"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -92,23 +87,14 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 <PrismicRichText
                   field={slice.primary.cta_label}
                   components={{
-                    paragraph: ({children}) => <span>{children}</span>
+                    paragraph: ({ children }) => <span>{children}</span>,
                   }}
                 />
               </button>
             </div>
           </form>
           {/* Error NOT relating to incorrect password */}
-          {error && (
-            <p
-              className="text-sm text-red-500 mb-4 text-center mt-4"
-              role="alert"
-            >
-              {error}
-            </p>
-          )}
-          {/* Error relating to incorrect password */}
-          {error && isIncorrectPassword && (
+          {isError && !isIncorrectPassword && (
             <PrismicRichText
               field={slice.primary.error_message}
               components={{
@@ -120,12 +106,13 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
               }}
             />
           )}
-          {successMessage && (
+          {/* Error relating to incorrect password */}
+          {isError && isIncorrectPassword && (
             <PrismicRichText
-              field={slice.primary.success_message}
+              field={slice.primary.password_incorrect_text}
               components={{
                 paragraph: ({ children }) => (
-                  <p className="text-green-500 text-center mt-4" role="alert">
+                  <p className="text-red-500 text-center mt-4" role="alert">
                     {children}
                   </p>
                 ),
@@ -136,7 +123,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
       </>
     );
   }
-  if (slice.variation === "accessForm" && !context) {
+  if (slice.variation === "accessForm" && !showPasswordForm && !isSuccess) {
     return (
       <>
         <div className="">
