@@ -1,8 +1,9 @@
 "use client"
 // Prismic
 import { Content } from "@prismicio/client";
-import { useEffect, useState, type FormEvent } from "react";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+// React
+import { useEffect, useState, type FormEvent } from "react";
 
 /**
  * Component for "PasswordForm" Slices.
@@ -15,6 +16,16 @@ type PasswordFormContext = {
   setPassword: (p: string) => void;
   isError: boolean;
   isIncorrectPassword: boolean;
+  name: string;
+  setName: (n: string) => void;
+  email: string;
+  setEmail: (e: string) => void;
+  phoneNumber: string;
+  setPhoneNumber: (p: string) => void;
+  companyName: string;
+  setCompanyName: (c: string) => void;
+  message: string;
+  setMessage: (m: string) => void;
 };
 
 type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice, PasswordFormContext>;
@@ -28,6 +39,16 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     setPassword,
     isError = false,
     isIncorrectPassword = false,
+    name,
+    setName,
+    email,
+    setEmail,
+    phoneNumber,
+    setPhoneNumber,
+    companyName,
+    setCompanyName,
+    message,
+    setMessage,
   } = context ?? {} as Partial<PasswordFormContext>;
 
   const [isShaking, setIsShaking] = useState(false);
@@ -45,7 +66,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
   if (slice.variation === "default" && showPasswordForm && !isSuccess) {
     return (
       <>
-        <div className="">
+        <div>
           <form onSubmit={onSubmit}>
             <div className="mb-6">
               <label htmlFor="password">
@@ -128,6 +149,8 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 name="full-name"
                 id="full-name"
                 className="border rounded w-full mt-1.5"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -144,6 +167,9 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 name="email"
                 id="email"
                 className="border rounded w-full mt-1.5"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                inputMode="email"
               />
             </div>
             <div className="mb-6">
@@ -160,6 +186,9 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 name="phone_number"
                 id="phone_number"
                 className="border rounded w-full mt-1.5"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                inputMode="tel"
               />
             </div>
             <div className="mb-6">
@@ -176,6 +205,8 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 name="company_name"
                 id="company_name"
                 className="border rounded w-full mt-1.5"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
             </div>
             <div className="mb-6">
@@ -191,6 +222,8 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 name="message"
                 id="message"
                 className="border rounded w-full mt-1.5"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
               ></textarea>
             </div>
             <div>
