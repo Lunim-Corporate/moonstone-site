@@ -3,7 +3,7 @@
 import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 // React
-import { useEffect, useState, type FormEvent } from "react";
+import { type FormEvent } from "react";
 
 /**
  * Component for "PasswordForm" Slices.
@@ -53,18 +53,6 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     accessFormSubmitted = false,
   } = context ?? {} as Partial<PasswordFormContext>;
 
-  const [isShaking, setIsShaking] = useState(false);
-
-  useEffect(() => {
-    if (!isError) return;
-    const shakeTimeout = setTimeout(() => setIsShaking(true), 0);
-    const resetTimeout = setTimeout(() => setIsShaking(false), 800);
-    return () => {
-      clearTimeout(shakeTimeout);
-      clearTimeout(resetTimeout);
-    };
-  }, [isError]);
-
   if (slice.variation === "default" && showPasswordForm && !passwordIsCorrect && !accessFormSubmitted) {
     return (
       <>
@@ -91,7 +79,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             <div>
               <button
                 type="submit"
-                className={`w-full py-2 rounded bg-(--cta-color) hover:bg-transparent transition-colors duration-300 hover:text-(--cta-color) text-(--black-secondary-color) cursor-pointer ${isShaking ? "animate-shake" : ""}`}
+                className={`w-full py-2 rounded bg-(--cta-color) hover:bg-transparent transition-colors duration-300 hover:text-(--cta-color) text-(--black-secondary-color) cursor-pointer ${isError ? "animate-shake" : ""}`}
               >
                 <PrismicRichText
                   field={slice.primary.cta_label}
