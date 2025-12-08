@@ -16,11 +16,12 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   const [showPasswordForm, setShowPasswordForm] = useState<boolean>(true);
   const passwordFormToggle = useRef<HTMLDivElement | null>(null);
   const accessFormToggle = useRef<HTMLDivElement | null>(null);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [passwordIsCorrect, setPasswordIsCorrect] = useState<boolean>(false); // Password form
+  const [isError, setIsError] = useState<boolean>(false); // General error state
   const [password, setPassword] = useState<string>("");
-  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false);
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false); // Password form
   const [protectedLink, setProtectedLink] = useState<string>("");
+  const [accessFormSubmitted, setAccessFormSubmitted] = useState<boolean>(false);
   // Access form variables
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -79,76 +80,80 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   }, [accessFormToggle, showPasswordForm]);
     
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (!password) return;
-  
-      setIsIncorrectPassword(false);
-      setIsError(false);
+    event.preventDefault();
+
+    // Reset state
+    setIsError(false);
+    setIsIncorrectPassword(false);
 
     if (showPasswordForm) {
+      if (!password || password.trim() === "") {
+        return;
+      }
       try {
         const res = await fetch("/api/check-pasword", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ password }),
         });
-  
+
         if (!res.ok) {
           setIsError(true);
           return;
         }
-  
+
         const data = await res.json();
-  
-        if (data?.valid) { // password correct
-          if (!data?.link) { // link missing
+
+        if (data?.valid) {
+          // password correct
+          if (!data?.link) {
+            // protected link missing
             setIsError(true);
             return;
           }
-          setIsSuccess(true);
+          setPasswordIsCorrect(true);
           setProtectedLink(data.link);
-        } else { // password incorrect
+        } else {
+          // password incorrect
           setIsError(true);
           setIsIncorrectPassword(true);
         }
       } catch {
         setIsError(true);
       }
-      // Access form submission
     } else {
-        try {
-          const res = await fetch("/api/email/password-access", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, phoneNumber, companyName, message }),
-          });
+      // Access form submission
+      try {
+        const res = await fetch("/api/email/password-access", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            phoneNumber,
+            companyName,
+            message,
+          }),
+        });
 
-          if (!res.ok) {
-            setIsError(true);
-            return;
-          }
-
-          const data = await res.json();
-
-          if (data?.valid) {
-            // password correct
-            if (!data?.link) {
-              // link missing
-              setIsError(true);
-              return;
-            }
-            setIsSuccess(true);
-            setProtectedLink(data.link);
-          } else {
-            // password incorrect
-            setIsError(true);
-            setIsIncorrectPassword(true);
-          }
-        } catch {
+        if (!res.ok) {
           setIsError(true);
+          return;
         }
+
+        // success - clear form
+        setAccessFormSubmitted(true);
+        setName("");
+        setEmail("");
+        setPhoneNumber("");
+        setCompanyName("");
+        setMessage("");
+      } catch (err) {
+        console.error(err);
+        setIsError(true);
+      }
     }
-    };
+  };
 
   return (
     <>
@@ -162,7 +167,11 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
             tabIndex={0}
             ref={passwordFormToggle}
             onClick={() => {
-              if (!showPasswordForm) setShowPasswordForm(true);
+              if (!showPasswordForm) {
+                // Reset states when switching forms
+                setShowPasswordForm(true);
+                setIsError(false);
+              }
             }}
           >
             <PrismicRichText
@@ -198,7 +207,12 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
             tabIndex={0}
             ref={accessFormToggle}
             onClick={() => {
-              if (showPasswordForm) setShowPasswordForm(false);
+              if (showPasswordForm) {
+                // Reset states when switching forms
+                setShowPasswordForm(false);
+                setIsError(false);
+                setIsIncorrectPassword(false);
+              } 
             }}
           >
             <PrismicRichText
@@ -231,10 +245,10 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         <SliceZone
           slices={slices}
           components={components}
-          context={{ showPasswordForm, isSuccess, onSubmit, password, setPassword, isError, isIncorrectPassword, name, setName, email, setEmail, phoneNumber, setPhoneNumber, companyName, setCompanyName, message, setMessage }}
+          context={{ showPasswordForm, passwordIsCorrect, onSubmit, password, setPassword, isError, isIncorrectPassword, name, setName, email, setEmail, phoneNumber, setPhoneNumber, companyName, setCompanyName, message, setMessage, accessFormSubmitted }}
         />
         {/* Password Success */}
-        {isSuccess && (
+        {passwordIsCorrect && (
           <div>
             <PrismicRichText
               field={
@@ -270,6 +284,23 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
             </Link>
           </div>
         )}
+        {/* Access Form successfully submitted */}
+        {accessFormSubmitted && (
+          <div>
+            <PrismicRichText
+              field={accessFormSlice?.primary && "form_successfully_submitted_text" in accessFormSlice.primary
+                ? (accessFormSlice.primary.form_successfully_submitted_text as RichTextField)
+                : null}
+              components={{
+                paragraph: ({ children }) => (
+                  <p className="text-green-500 text-center mt-4" role="alert">
+                    {children}
+                  </p>
+                ),
+              }}
+            />
+          </div>
+            )}
       </div>
     </>
   );

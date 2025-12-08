@@ -10,7 +10,7 @@ import { useEffect, useState, type FormEvent } from "react";
  */
 type PasswordFormContext = {
   showPasswordForm: boolean;
-  isSuccess: boolean;
+  passwordIsCorrect: boolean;
   onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> | void;
   password: string;
   setPassword: (p: string) => void;
@@ -26,6 +26,7 @@ type PasswordFormContext = {
   setCompanyName: (c: string) => void;
   message: string;
   setMessage: (m: string) => void;
+  accessFormSubmitted: boolean;
 };
 
 type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice, PasswordFormContext>;
@@ -33,7 +34,7 @@ type PasswordFormProps = SliceComponentProps<Content.PasswordFormSlice, Password
 export default function PasswordForm({ slice, context }: PasswordFormProps) {
   const {
     showPasswordForm = true,
-    isSuccess = false,
+    passwordIsCorrect = false,
     onSubmit,
     password,
     setPassword,
@@ -49,6 +50,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     setCompanyName,
     message,
     setMessage,
+    accessFormSubmitted = false,
   } = context ?? {} as Partial<PasswordFormContext>;
 
   const [isShaking, setIsShaking] = useState(false);
@@ -63,7 +65,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     };
   }, [isError]);
 
-  if (slice.variation === "default" && showPasswordForm && !isSuccess) {
+  if (slice.variation === "default" && showPasswordForm && !passwordIsCorrect && !accessFormSubmitted) {
     return (
       <>
         <div>
@@ -130,11 +132,11 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
       </>
     );
   }
-  if (slice.variation === "accessForm" && !showPasswordForm && !isSuccess) {
+  if (slice.variation === "accessForm" && !showPasswordForm && !passwordIsCorrect && !accessFormSubmitted) {
     return (
       <>
-        <div className="">
-          <form>
+        <div>
+          <form onSubmit={onSubmit}>
             <div className="mb-6">
               <label htmlFor="full-name">
                 <PrismicRichText
@@ -151,6 +153,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 className="border rounded w-full mt-1.5"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
             <div className="mb-6">
@@ -170,6 +173,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 inputMode="email"
+                required
               />
             </div>
             <div className="mb-6">
@@ -224,11 +228,12 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 className="border rounded w-full mt-1.5"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                required
               ></textarea>
             </div>
             <div>
               <button
-                type="button"
+                type="submit"
                 className="w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer"
               >
                 <PrismicRichText
@@ -240,6 +245,18 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
               </button>
             </div>
           </form>
+          {isError && (
+            <PrismicRichText
+              field={slice.primary.form_unsuccessfully_submitted_text}
+              components={{
+                paragraph: ({ children }) => (
+                  <p className="text-red-500 text-center mt-4" role="alert">
+                    {children}
+                  </p>
+                ),
+              }}
+            />
+          )}
         </div>
       </>
     );
