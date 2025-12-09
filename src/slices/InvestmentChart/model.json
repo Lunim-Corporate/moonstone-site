@@ -1,0 +1,77 @@
+{
+  "id": "investment_chart",
+  "type": "SharedSlice",
+  "name": "InvestmentChart",
+  "description": "Pie chart visualization with interactive table of contents",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default variation with pie chart and table of contents",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "placeholder": "Development Investment",
+            "allowTargetBlank": true,
+            "single": "heading2"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "£119,400",
+            "allowTargetBlank": true,
+            "single": "heading3"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "A complete production-ready development package with all the elements needed to pitch and win commissions from the major broadcasters and streaming platforms.",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "background_image": {
+          "type": "Image",
+          "config": {
+            "label": "Background Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "chart_items": {
+          "type": "Group",
+          "config": {
+            "label": "Chart Items",
+            "repeat": true,
+            "fields": {
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": "Production"
+                }
+              },
+              "percentage": {
+                "type": "Number",
+                "config": {
+                  "label": "Percentage",
+                  "placeholder": "25.6"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
