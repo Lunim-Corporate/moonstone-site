@@ -6,6 +6,8 @@ import { Resend } from "resend";
 import EmailTemplate from "@/src/_components/passwordAccessEmailTemplate";
 // Reactr
 import { jsx } from "react/jsx-runtime";
+// Supabase
+import { supabase } from "@/src/_lib/supabase";
 
 export async function POST(req: Request) {
     const resend = new Resend(process.env?.RESEND_API_KEY);
@@ -19,6 +21,24 @@ export async function POST(req: Request) {
 
         if (!from || !to || !resend) {
             return NextResponse.json({ error: "Missing email configuration" }, { status: 500 });
+        }
+
+        // create record in Supabase `password_access_requests` table
+        const record = {
+            name: name ?? null,
+            email: email ?? null,
+            phone_number: phoneNumber ?? null,
+            company_name: companyName ?? null,
+            message: message ?? null,
+        };
+
+        const { error: supabaseInsertError } = await supabase
+            .from("password_access_requests")
+            .insert([record]);
+
+        if (supabaseInsertError) {
+            console.error("Supabase insert error:", supabaseInsertError);
+            return NextResponse.json({ error: "Failed to save request" }, { status: 500 });
         }
         
         const { data, error } = await resend.emails.send({
