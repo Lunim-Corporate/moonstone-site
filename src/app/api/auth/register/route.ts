@@ -42,8 +42,8 @@ export async function POST(req: Request) {
     // Generate authentication token
     const authentication_token = randomBytes(16).toString("hex");
 
-    // Default hub_id to 1 (Tabb/Moonstone)
-    const hub_id = 1;
+    // Use Moonstone hub (ID: 3)
+    const hub_id = parseInt(process.env.MOONSTONE_HUB_ID || "3", 10);
 
     // Create user, email, profile in a transaction
     const result = await prisma.$transaction(async (tx) => {
@@ -135,10 +135,10 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: error.message || "Registration failed" },
+      { error: error instanceof Error ? error.message : "Registration failed" },
       { status: 500 }
     );
   }
