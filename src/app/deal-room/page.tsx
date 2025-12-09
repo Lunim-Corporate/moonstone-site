@@ -6,6 +6,8 @@ import { notFound, redirect } from "next/navigation"
 // Auth
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
+// Subscription
+import { getUserSubscription } from "@/src/_lib/subscription"
 
 export default async function Page() {
   // Check authentication
@@ -14,6 +16,14 @@ export default async function Page() {
   if (!session) {
     // Redirect to sign-in with callback URL
     redirect("/sign-in?callbackUrl=/deal-room");
+  }
+
+  // Check subscription access
+  const subscription = await getUserSubscription(session.user?.id ?? "");
+
+  if (!subscription.hasAccess) {
+    // Redirect to homepage if no access
+    redirect("/");
   }
 
   const client = createClient()
