@@ -17,6 +17,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
+          const moonstoneHubId = BigInt(
+            process.env.MOONSTONE_HUB_ID || "3"
+          );
+
           // Find user with confirmed email
           const emailRecord = await prisma.emails.findFirst({
             where: {
@@ -61,7 +65,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Invalid credentials");
           }
 
-          // Update sign-in tracking
+          // Update sign-in tracking and set last used hub to Moonstone
           await prisma.users.update({
             where: { id: user.id },
             data: {
@@ -69,10 +73,11 @@ export const authOptions: NextAuthOptions = {
               current_sign_in_at: new Date(),
               last_sign_in_at: user.current_sign_in_at,
               failed_attempts: 0,
+              last_used_hub_id: moonstoneHubId,
             },
           });
 
-          // Get user profile
+          // Get user profile for Moonstone hub
           const userProfile = await prisma.profiles.findFirst({
             where: {
               profileable_id: user.id,
@@ -80,7 +85,10 @@ export const authOptions: NextAuthOptions = {
             },
             include: {
               profile_slugs: {
-                where: { redirect: false },
+                where: {
+                  redirect: false,
+                  hub_id: moonstoneHubId,
+                },
                 orderBy: { created_at: "desc" },
                 take: 1,
               },
@@ -91,6 +99,19 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
+          // Verify user is a member of Moonstone hub
+          const membership = await prisma.members.findFirst({
+            where: {
+              target_type: "Profile",
+              target_id: userProfile?.id,
+              hub_id: moonstoneHubId,
+            },
+          });
+
+          if (!membership) {
+            throw new Error("User is not a member of Moonstone hub");
+          }
+
           return {
             id: user.id.toString(),
             email: emailRecord.email,
@@ -100,9 +121,11 @@ export const authOptions: NextAuthOptions = {
             admin: user.admin,
             slug: userProfile?.profile_slugs[0]?.slug || null,
           };
-        } catch (error: any) {
+        } catch (error) {
           console.error("Auth error:", error);
-          throw new Error(error.message || "Authentication failed");
+          throw new Error(
+            error instanceof Error ? error.message : "Authentication failed"
+          );
         }
       },
     }),
@@ -113,18 +136,18 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
-        token.friendlyName = (user as any).friendlyName;
-        token.admin = (user as any).admin;
-        token.slug = (user as any).slug;
+        token.friendlyName = user.friendlyName;
+        token.admin = user.admin;
+        token.slug = user.slug;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
-        (session.user as any).friendlyName = token.friendlyName;
-        (session.user as any).admin = token.admin;
-        (session.user as any).slug = token.slug;
+        session.user.id = token.id ?? "";
+        session.user.friendlyName = token.friendlyName;
+        session.user.admin = token.admin;
+        session.user.slug = token.slug;
       }
       return session;
     },
