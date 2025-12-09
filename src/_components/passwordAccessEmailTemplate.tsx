@@ -1,17 +1,20 @@
 // Style according to your email template needs
-export default function passwordAccessEmailTemplate({
-  name,
-  email,
-  phoneNumber,
-  companyName,
-  message,
-}: {
+
+interface PasswordAccessEmailTemplateProps {
   name: string;
   email: string;
   phoneNumber: string;
   companyName: string;
   message: string;
-}) {
+}
+
+export default function PasswordAccessEmailTemplate({
+  name,
+  email,
+  phoneNumber,
+  companyName,
+  message,
+}: PasswordAccessEmailTemplateProps) {
   return (
     <div>
       <p className="font-bold">Name: {name}</p>
