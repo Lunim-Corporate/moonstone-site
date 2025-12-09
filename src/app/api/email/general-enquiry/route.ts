@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 // Components
 import EmailTemplate from "@/src/_components/generalEnquiryEmailTemplate";
+// Supabase
+import { supabase } from "@/src/_lib/supabase";
 // Reactr
 import { jsx } from "react/jsx-runtime";
 
@@ -21,6 +23,24 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing email configuration" }, { status: 500 });
         }
         
+        // create record in Supabase `general_enquiries` table
+        const record = {
+            name: name ?? null,
+            email: email ?? null,
+            phone_number: phoneNumber ?? null,
+            company_name: companyName ?? null,
+            message: message ?? null,
+        };
+
+        const { error: supabaseInsertError } = await supabase
+            .from("general_enquiries")
+            .insert([record]);
+
+        if (supabaseInsertError) {
+            console.error("Supabase insert error:", supabaseInsertError);
+            return NextResponse.json({ error: "Failed to save enquiry" }, { status: 500 });
+        }
+
         const { data, error } = await resend.emails.send({
             from,
             to,
