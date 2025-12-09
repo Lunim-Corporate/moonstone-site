@@ -21,33 +21,37 @@
 					},
 					"background": "transparent"
 				},
-				"alt": "sudden",
+				"alt": "Moonlit sky over a domed palace",
 				"credits": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
 			},
-			"heading": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "heading1",
-						"content": {
-							"text": "Nodded"
-						}
-					}
-				]
+			"moonstone_image": {
+				"origin": {
+					"id": "moonstone",
+					"url": "https://images.unsplash.com/photo-1526402461234-4f3b93c1a8ee",
+					"width": 2000,
+					"height": 2000
+				},
+				"url": "https://images.unsplash.com/photo-1526402461234-4f3b93c1a8ee",
+				"width": 2000,
+				"height": 2000,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "Glowing golden moonstone jewel",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
 			},
-			"body": {
-				"__TYPE__": "StructuredTextContent",
-				"value": [
-					{
-						"type": "paragraph",
-						"content": {
-							"text": "Minim sunt veniam reprehenderit ad ex ipsum. Cillum laboris occaecat adipisicing elit dolor consequat laborum cupidatat irure eu commodo aliquip aliquip et. Magna amet sunt ipsum aliqua aute ut voluptate ea ad esse."
-						}
-					}
-				]
-			}
+			"top_title": "THE",
+			"main_title": "MOONSTONE",
+			"bottom_title": "LEGACY QUARTET"
 		},
 		"items": []
 	}

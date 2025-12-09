@@ -20,22 +20,33 @@
             "thumbnails": []
           }
         },
-        "heading": {
-          "type": "StructuredText",
+        "moonstone_image": {
+          "type": "Image",
           "config": {
-            "label": "Heading",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "heading1,strong,em"
+            "label": "Moonstone Image",
+            "constraint": {},
+            "thumbnails": []
           }
         },
-        "body": {
-          "type": "StructuredText",
+        "top_title": {
+          "type": "Text",
           "config": {
-            "label": "Body",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+            "label": "Top Title",
+            "placeholder": "THE"
+          }
+        },
+        "main_title": {
+          "type": "Text",
+          "config": {
+            "label": "Main Title",
+            "placeholder": "MOONSTONE"
+          }
+        },
+        "bottom_title": {
+          "type": "Text",
+          "config": {
+            "label": "Bottom Title",
+            "placeholder": "LEGACY QUARTET"
           }
         }
       },
