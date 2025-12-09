@@ -130,6 +130,114 @@
         }
       },
       "items": {}
+    },
+    {
+      "id": "textOverBackground",
+      "name": "TextOverBackground",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Hero-style centered text over a background image",
+      "imageUrl": "",
+      "primary": {
+        "background_image": {
+          "type": "Image",
+          "config": {
+            "label": "Background Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "top_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Top Text",
+            "placeholder": "lunim",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "TRANSMEDIA PLAYBOOK",
+            "allowTargetBlank": true,
+            "multi": "heading1,strong,em"
+          }
+        },
+        "subtitle": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Subtitle",
+            "placeholder": "Reinventing how stories are experienced and funded",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "tagline": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Tagline",
+            "placeholder": "Virtual-First, AI-First, Human-Centred",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "cardWithVerticalTitle",
+      "name": "CardWithVerticalTitle",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Interactive cards with vertical title animation",
+      "imageUrl": "",
+      "primary": {
+        "cards": {
+          "type": "Group",
+          "config": {
+            "label": "Cards",
+            "repeat": true,
+            "fields": {
+              "background_image": {
+                "type": "Image",
+                "config": {
+                  "label": "Background Image",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              },
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "placeholder": "Card Title",
+                  "allowTargetBlank": true,
+                  "single": "heading3"
+                }
+              },
+              "description": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Description",
+                  "placeholder": "Card description",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
+                }
+              },
+              "color": {
+                "type": "Text",
+                "config": {
+                  "label": "Accent Color",
+                  "placeholder": "#FFCE54"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
     }
   ]
 }
