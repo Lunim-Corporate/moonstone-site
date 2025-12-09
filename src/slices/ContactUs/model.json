@@ -60,7 +60,7 @@
                   "label": "Item Info",
                   "placeholder": "",
                   "allowTargetBlank": true,
-                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
+                  "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink"
                 }
               }
             }
@@ -163,6 +163,24 @@
             "placeholder": "",
             "allowTargetBlank": true,
             "multi": "strong,em,paragraph"
+          }
+        },
+        "email_success_message": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Email Success Message",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "email_error_message": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Email Error Message",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         }
       },

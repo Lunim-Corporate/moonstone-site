@@ -48,10 +48,12 @@
           }
         },
         "password_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Password Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "cta_label": {
@@ -63,13 +65,31 @@
             "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,em,strong"
           }
         },
-        "success_message": {
+        "success_cta_label": {
           "type": "StructuredText",
           "config": {
-            "label": "Success Message",
+            "label": "Success CTA Label",
             "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "strong,em,paragraph"
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "password_correct_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Password Correct Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "password_incorrect_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Password Incorrect Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "error_message": {
@@ -128,38 +148,48 @@
           }
         },
         "full_name_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Full Name Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "email_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Email Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "phone_number_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Phone Number Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
-        "company_name": {
-          "type": "Text",
+        "company_name_label": {
+          "type": "StructuredText",
           "config": {
-            "label": "Company Name",
-            "placeholder": ""
+            "label": "Company Name Label",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "message_label": {
-          "type": "Text",
+          "type": "StructuredText",
           "config": {
             "label": "Message Label",
-            "placeholder": ""
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         },
         "cta_label": {
@@ -169,6 +199,24 @@
             "placeholder": "",
             "allowTargetBlank": true,
             "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,em,strong"
+          }
+        },
+        "form_successfully_submitted_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Form Successfully Submitted Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "form_unsuccessfully_submitted_text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Form Unsuccessfully Submitted Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
           }
         }
       },

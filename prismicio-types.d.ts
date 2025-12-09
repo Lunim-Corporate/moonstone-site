@@ -728,6 +728,26 @@ export interface ContactUsSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   cta: prismic.RichTextField;
+
+  /**
+   * Email Success Message field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.email_success_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  email_success_message: prismic.RichTextField;
+
+  /**
+   * Email Error Message field in *ContactUs → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact_us.default.primary.email_error_message
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  email_error_message: prismic.RichTextField;
 }
 
 /**
@@ -1051,12 +1071,12 @@ export interface PasswordFormSliceDefaultPrimary {
   /**
    * Password Label field in *PasswordForm → Password Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.default.primary.password_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  password_label: prismic.KeyTextField;
+  password_label: prismic.RichTextField;
 
   /**
    * CTA Label field in *PasswordForm → Password Form → Primary*
@@ -1069,14 +1089,34 @@ export interface PasswordFormSliceDefaultPrimary {
   cta_label: prismic.RichTextField;
 
   /**
-   * Success Message field in *PasswordForm → Password Form → Primary*
+   * Success CTA Label field in *PasswordForm → Password Form → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: password_form.default.primary.success_message
+   * - **API ID Path**: password_form.default.primary.success_cta_label
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  success_message: prismic.RichTextField;
+  success_cta_label: prismic.RichTextField;
+
+  /**
+   * Password Correct Text field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_correct_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  password_correct_text: prismic.RichTextField;
+
+  /**
+   * Password Incorrect Text field in *PasswordForm → Password Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.default.primary.password_incorrect_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  password_incorrect_text: prismic.RichTextField;
 
   /**
    * Error Message field in *PasswordForm → Password Form → Primary*
@@ -1149,52 +1189,52 @@ export interface PasswordFormSliceAccessFormPrimary {
   /**
    * Full Name Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.full_name_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  full_name_label: prismic.KeyTextField;
+  full_name_label: prismic.RichTextField;
 
   /**
    * Email Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.email_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  email_label: prismic.KeyTextField;
+  email_label: prismic.RichTextField;
 
   /**
    * Phone Number Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.phone_number_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  phone_number_label: prismic.KeyTextField;
+  phone_number_label: prismic.RichTextField;
 
   /**
-   * Company Name field in *PasswordForm → Access Form → Primary*
+   * Company Name Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: password_form.accessForm.primary.company_name
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **API ID Path**: password_form.accessForm.primary.company_name_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  company_name: prismic.KeyTextField;
+  company_name_label: prismic.RichTextField;
 
   /**
    * Message Label field in *PasswordForm → Access Form → Primary*
    *
-   * - **Field Type**: Text
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: password_form.accessForm.primary.message_label
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
-  message_label: prismic.KeyTextField;
+  message_label: prismic.RichTextField;
 
   /**
    * CTA Label field in *PasswordForm → Access Form → Primary*
@@ -1205,6 +1245,26 @@ export interface PasswordFormSliceAccessFormPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   cta_label: prismic.RichTextField;
+
+  /**
+   * Form Successfully Submitted Text field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.form_successfully_submitted_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  form_successfully_submitted_text: prismic.RichTextField;
+
+  /**
+   * Form Unsuccessfully Submitted Text field in *PasswordForm → Access Form → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: password_form.accessForm.primary.form_unsuccessfully_submitted_text
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  form_unsuccessfully_submitted_text: prismic.RichTextField;
 }
 
 /**

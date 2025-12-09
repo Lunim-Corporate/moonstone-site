@@ -72,7 +72,7 @@
 										{
 											"type": "paragraph",
 											"content": {
-												"text": "Voluptate aliquip tempor eu adipisicing ipsum sit. Enim pariatur amet in non pariatur occaecat. Labore Lorem officia veniam pariatur amet eu enim commodo nisi."
+												"text": "Occaecat aliqua laborum ex consequat amet. Cupidatat est officia ad anim qui velit dolore consectetur ut dolore mollit et magna. Aute excepteur adipisicing nulla dolor id occaecat."
 											}
 										}
 									]
@@ -193,6 +193,28 @@
 						"type": "paragraph",
 						"content": {
 							"text": "Enim non nisi duis ea consequat ut consectetur proident consectetur fugiat eiusmod Lorem deserunt. Cupidatat cupidatat dolor nisi proident esse aliqua incididunt esse. Laboris qui sit laborum commodo commodo consectetur cillum enim."
+						}
+					}
+				]
+			},
+			"email_success_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Cillum cupidatat est nostrud est fugiat tempor voluptate veniam. Officia pariatur enim in culpa aliquip velit cillum ipsum aliquip reprehenderit excepteur laboris pariatur. Anim incididunt quis esse aliquip elit eiusmod."
+						}
+					}
+				]
+			},
+			"email_error_message": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Eu ipsum labore sint aute officia magna est minim ullamco. Incididunt mollit minim aliquip. Consectetur est aute reprehenderit amet nulla sit ipsum sit."
 						}
 					}
 				]
