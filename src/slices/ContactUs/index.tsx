@@ -20,12 +20,13 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError(false)
+    setError("")
+    setSuccess(false)
     try {
       const res = await fetch("/api/email/general-enquiry", {
         method: "POST",
@@ -40,7 +41,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
       })
 
       if (!res.ok) {
-        setError(true)
+        setError(res.statusText)
         return
       }
 
@@ -53,7 +54,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
       setMessage("")
     } catch (err) {
       console.error(err)
-      setError(true)
+      setError("An error occurred. Please try again.")
     }
   }
 
@@ -230,9 +231,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
               )}
               {error && (
                 <div className="text-red-500 mt-4 text-center">
-                  <PrismicRichText
+                  {/* <PrismicRichText
                     field={slice.primary.email_error_message}
-                  />
+                  /> */}
+                  {error}
                 </div>
               )}
               {/* End Row 3 */}

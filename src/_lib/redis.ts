@@ -19,16 +19,19 @@ export const rateLimit = {
   generalEnquiry: new Ratelimit({
     redis: redis,
     limiter: Ratelimit.fixedWindow(3, '60 s'),
+    analytics: true,
     // timeout: 3600000, // 1 hour until requests will be allowed again if rate limit exceeded
   }),
   passwordAccess: new Ratelimit({
     redis: redis,
     limiter: Ratelimit.fixedWindow(3, '3600 s'),
+    analytics: true,
     // timeout: 3600000,
   }),
   checkPassword: new Ratelimit({
     redis: redis,
     limiter: Ratelimit.fixedWindow(8, '60 s'),
+    analytics: true,
     // timeout: 3600000,
   }),
 }

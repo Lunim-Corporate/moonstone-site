@@ -91,7 +91,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         return;
       }
       try {
-        const res = await fetch("/api/check-pasword", {
+        const res = await fetch("/api/check-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ password }),
