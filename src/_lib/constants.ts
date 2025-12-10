@@ -1,0 +1,1 @@
+export const COOKIE = "ms_client_id";

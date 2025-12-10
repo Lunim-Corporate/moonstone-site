@@ -14,7 +14,7 @@ type PasswordFormContext = {
   onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> | void;
   password: string;
   setPassword: (p: string) => void;
-  isError: boolean;
+  isError: string;
   isIncorrectPassword: boolean;
   name: string;
   setName: (n: string) => void;
@@ -38,7 +38,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
     onSubmit,
     password,
     setPassword,
-    isError = false,
+    isError = "",
     isIncorrectPassword = false,
     name,
     setName,
@@ -94,16 +94,17 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
           </form>
           {/* Error NOT relating to incorrect password */}
           {isError && !isIncorrectPassword && (
-            <PrismicRichText
-              field={slice.primary.error_message}
-              components={{
-                paragraph: ({ children }) => (
-                  <p className="text-red-500 text-center mt-4" role="alert">
-                    {children}
-                  </p>
-                ),
-              }}
-            />
+            // <PrismicRichText
+            //   field={slice.primary.error_message}
+            //   components={{
+            //     paragraph: ({ children }) => (
+            //       <p className="text-red-500 text-center mt-4" role="alert">
+            //         {isError}
+            //       </p>
+            //     ),
+            //   }}
+            // />
+            <p className="text-red-500 text-center mt-4" role="alert">{isError}</p>
           )}
           {/* Error relating to incorrect password */}
           {isError && isIncorrectPassword && (
