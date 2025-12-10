@@ -1,5 +1,5 @@
 // Next
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 // Crypto
 import { randomUUID } from "crypto";
 // Redis
@@ -31,8 +31,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unable to determine client identifier" }, { status: 400 });
     }
 
-    const rl = await rateLimit.checkPassword.limit(rateLimitKey);
-    if (!rl.success) {
+    const { success, pending } = await rateLimit.checkPassword.limit(rateLimitKey);
+    // Set up analytics logging for rate limit
+    if (pending) {
+      after(() => pending.catch((e: Error) => console.error("ratelimit analytics error:", e)));
+    }
+
+    if (!success) {
       return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
     }
 
