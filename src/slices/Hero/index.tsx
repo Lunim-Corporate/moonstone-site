@@ -1,63 +1,151 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import React from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Content, ImageField } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis";
 import { motion } from "framer-motion";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
-/**
- * Props for `Hero`.
- */
-export type HeroProps = SliceComponentProps<Content.HeroSlice>;
+// Dynamically import the 3D gem to avoid SSR issues
+const Gem3D = dynamic(() => import("@/components/Gem3D"), { 
+  ssr: false,
+  loading: () => <SimpleGemLoading />
+});
 
-const AnimatedText = ({
+// Simple gem loading component
+const SimpleGemLoading = () => (
+  <div className="w-full h-full flex items-center justify-center z-10">
+    <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center">
+      <div className="absolute inset-0 rounded-full bg-[#FFCF3C]/25 blur-2xl animate-pulse z-0"></div>
+      <div 
+        className="relative w-full h-full rounded-full bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-600 z-10 shadow-lg"
+        style={{
+          clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+          transform: 'rotate(45deg)',
+          boxShadow: '0 0 30px rgba(255, 207, 60, 0.7)'
+        }}
+      >
+        {/* Shimmer effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+);
+
+// Simple gem fallback component
+const SimpleGem = dynamic(() => import("@/components/SimpleGem"), { 
+  ssr: false 
+});
+
+// Error boundary component for handling 3D rendering errors
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    console.error("Gem3D Error:", error);
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI with simple gem
+      return <SimpleGem />;
+    }
+
+    return this.props.children;
+  }
+}
+
+// Random character animation component
+const RandomAnimatedText = ({
   text,
   className,
 }: {
   text: string;
   className?: string;
 }) => {
-  const letters = Array.from(text);
+  const [displayedChars, setDisplayedChars] = useState<Array<{ char: string; visible: boolean }>>([]);
+  const containerRef = useRef<HTMLSpanElement>(null);
 
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.035 },
-    },
-  };
+  useEffect(() => {
+    // Initialize characters with visibility set to false
+    const initialChars = Array.from(text).map(char => ({ char, visible: false }));
+    
+    // Set initial state after a microtask to avoid synchronous setState warning
+    Promise.resolve().then(() => {
+      setDisplayedChars(initialChars);
+    });
 
-  const child = {
-    hidden: { opacity: 0, y: "0.3em" },
-    visible: {
-      opacity: 1,
-      y: "0em",
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  };
+    // Animate characters randomly
+    const timeouts: NodeJS.Timeout[] = [];
+    const indices = [...Array(initialChars.length).keys()];
+    
+    // Shuffle indices for random appearance
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+
+    indices.forEach((index, shuffledIndex) => {
+      const timeout = setTimeout(() => {
+        setDisplayedChars(prev => {
+          const newChars = [...prev];
+          newChars[index] = { ...newChars[index], visible: true };
+          return newChars;
+        });
+      }, shuffledIndex * 80 + Math.random() * 100); // Random delay for more natural effect
+      
+      timeouts.push(timeout);
+    });
+
+    // Cleanup timeouts
+    return () => {
+      timeouts.forEach(timeout => clearTimeout(timeout));
+    };
+  }, [text]);
 
   return (
     <motion.span
+      ref={containerRef}
       className={className}
-      variants={container}
-      initial="hidden"
-      animate="visible"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      {letters.map((char, index) => (
+      {displayedChars.map((item, index) => (
         <motion.span
           key={index}
-          variants={child}
-          style={{ display: "inline-block" }}
+          className="inline-block"
+          initial={{ opacity: 0, y: "20px" }}
+          animate={{ 
+            opacity: item.visible ? 1 : 0, 
+            y: item.visible ? "0px" : "20px" 
+          }}
+          transition={{ 
+            duration: 0.4, 
+            ease: "easeOut",
+            delay: item.visible ? 0.1 : 0
+          }}
         >
-          {char === " " ? "\u00A0" : char}
+          {item.char === " " ? "\u00A0" : item.char}
         </motion.span>
       ))}
     </motion.span>
   );
 };
+
+/**
+ * Props for `Hero`.
+ */
+export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
 /**
  * Component for "Hero" Slices.
@@ -236,21 +324,21 @@ export default function Hero({ slice }: HeroProps) {
               style={{ fontFamily: "var(--font-lora)" }}
             >
               {topTitle && (
-                <AnimatedText
+                <RandomAnimatedText
                   text={topTitle}
-                  className="block text-[clamp(1.4rem,2.4vw,2rem)] tracking-[0.32em] text-[#F7EBC5] uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
+                  className="block text-[clamp(1.8rem,3vw,2.5rem)] tracking-[0.32em] text-[#F7EBC5] uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
                 />
               )}
               {mainTitle && (
-                <AnimatedText
+                <RandomAnimatedText
                   text={mainTitle}
-                  className="mt-1 block text-[clamp(3.2rem,6vw,4.8rem)] tracking-[0.2em] text-[#F7EBC5] uppercase drop-shadow-[0_0_26px_rgba(0,0,0,1)] font-semibold"
+                  className="mt-1 block text-[clamp(4rem,8vw,6rem)] tracking-[0.2em] text-[#F7EBC5] uppercase drop-shadow-[0_0_26px_rgba(0,0,0,1)] font-semibold"
                 />
               )}
               {bottomTitle && (
-                <AnimatedText
+                <RandomAnimatedText
                   text={bottomTitle}
-                  className="mt-1 block text-[clamp(1.6rem,2.8vw,2.2rem)] tracking-[0.28em] text-[#F7EBC5] uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
+                  className="mt-1 block text-[clamp(2rem,3.5vw,2.8rem)] tracking-[0.28em] text-[#F7EBC5] uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
                 />
               )}
             </div>
@@ -258,17 +346,28 @@ export default function Hero({ slice }: HeroProps) {
 
           <div
             ref={gemRef}
-            className="mt-16 md:mt-20"
-            style={{ transform: "translateZ(80px)" }}
+            className="mt-16 md:mt-20 w-full h-64 md:h-80 flex items-center justify-center relative z-20"
           >
-            <div className="relative mx-auto h-20 w-20 md:h-28 md:w-28">
-              <div className="absolute inset-0 -z-10 rounded-full bg-[#FFCF3C]/25 blur-3xl" />
-              {primary.moonstone_image && (
+            <div className="relative w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+              <div className="absolute inset-0 -z-10 rounded-full bg-[#FFCF3C]/25 blur-3xl animate-pulse" />
+              {primary.moonstone_image ? (
                 <PrismicNextImage
                   field={primary.moonstone_image}
                   fill
-                  className="object-contain"
+                  className="object-contain z-0"
                 />
+              ) : (
+                <div className="w-full h-full relative flex items-center justify-center z-10" style={{ minHeight: '200px' }}>
+                  <Suspense fallback={<SimpleGemLoading />}>
+                    <ErrorBoundary>
+                      <Gem3D />
+                    </ErrorBoundary>
+                  </Suspense>
+                  {/* Fallback in case both 3D gem and suspense fail */}
+                  <noscript>
+                    <SimpleGem />
+                  </noscript>
+                </div>
               )}
             </div>
           </div>
