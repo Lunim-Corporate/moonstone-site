@@ -26,32 +26,28 @@
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
 			},
-			"moonstone_image": {
-				"origin": {
-					"id": "moonstone",
-					"url": "https://images.unsplash.com/photo-1526402461234-4f3b93c1a8ee",
-					"width": 2000,
-					"height": 2000
-				},
-				"url": "https://images.unsplash.com/photo-1526402461234-4f3b93c1a8ee",
-				"width": 2000,
-				"height": 2000,
-				"edit": {
-					"zoom": 1,
-					"crop": {
-						"x": 0,
-						"y": 0
-					},
-					"background": "transparent"
-				},
-				"alt": "Glowing golden moonstone jewel",
-				"credits": null,
-				"__TYPE__": "ImageContent",
-				"thumbnails": {}
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Continued"
+						}
+					}
+				]
 			},
-			"top_title": "THE",
-			"main_title": "MOONSTONE",
-			"bottom_title": "LEGACY QUARTET"
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Dolor do commodo consequat laboris aliquip cillum quis dolor officia laboris Lorem ad magna."
+						}
+					}
+				]
+			}
 		},
 		"items": []
 	}

@@ -20,30 +20,15 @@
             "thumbnails": []
           }
         },
-        "moonstone_image": {
-          "type": "Image",
-          "config": {
-            "label": "Moonstone Image",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
-        "top_title": {
-          "type": "Text",
-          "config": {
-            "label": "Top Title",
-            "placeholder": "THE"
-          }
-        },
-        "main_title": {
-          "type": "Text",
+        "heading": {
+          "type": "StructuredText",
           "config": {
             "label": "Main Title",
             "placeholder": "MOONSTONE"
           }
         },
-        "bottom_title": {
-          "type": "Text",
+        "body": {
+          "type": "StructuredText",
           "config": {
             "label": "Bottom Title",
             "placeholder": "LEGACY QUARTET"
