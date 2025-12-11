@@ -165,6 +165,74 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
+type HomepageNextDocumentDataSlicesSlice =
+  | ContactUsSlice
+  | ImageAndTextSlice
+  | HeroSlice;
+
+/**
+ * Content for Homepage Next documents
+ */
+interface HomepageNextDocumentData {
+  /**
+   * Slice Zone field in *Homepage Next*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage_next.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<HomepageNextDocumentDataSlicesSlice> /**
+   * Meta Title field in *Homepage Next*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: homepage_next.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Homepage Next*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: homepage_next.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Homepage Next*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage_next.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Homepage Next document from Prismic
+ *
+ * - **API ID**: `homepage_next`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomepageNextDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<HomepageNextDocumentData>,
+    "homepage_next",
+    Lang
+  >;
+
 /**
  * Item in *Navigation → Nav Links*
  */
@@ -539,6 +607,7 @@ export type SigninDocument<Lang extends string = string> =
 export type AllDocumentTypes =
   | FooterDocument
   | HomepageDocument
+  | HomepageNextDocument
   | NavigationDocument
   | PageDocument
   | SigninDocument;
@@ -829,9 +898,88 @@ export type HeroSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *Hero → transmediaHero → Primary*
+ */
+export interface HeroSliceTransmediaHeroPrimary {
+  /**
+   * Background Image field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * title field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * tagline field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.tagline
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  tagline: prismic.RichTextField;
+
+  /**
+   * logo field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.logo
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  logo: prismic.ImageField<never>;
+
+  /**
+   * subtitle field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * enable parallax field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: hero.transmediaHero.primary.enable_parallax
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  enable_parallax: prismic.BooleanField;
+}
+
+/**
+ * transmediaHero variation for Hero Slice
+ *
+ * - **API ID**: `transmediaHero`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroSliceTransmediaHero = prismic.SharedSliceVariation<
+  "transmediaHero",
+  Simplify<HeroSliceTransmediaHeroPrimary>,
+  never
+>;
+
+/**
  * Slice variation for *Hero*
  */
-type HeroSliceVariation = HeroSliceDefault;
+type HeroSliceVariation = HeroSliceDefault | HeroSliceTransmediaHero;
 
 /**
  * Hero Shared Slice
@@ -1434,6 +1582,9 @@ declare module "@prismicio/client" {
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      HomepageNextDocument,
+      HomepageNextDocumentData,
+      HomepageNextDocumentDataSlicesSlice,
       NavigationDocument,
       NavigationDocumentData,
       NavigationDocumentDataNavLinksItem,
@@ -1452,8 +1603,10 @@ declare module "@prismicio/client" {
       ContactUsSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
+      HeroSliceTransmediaHeroPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      HeroSliceTransmediaHero,
       ImageAndTextSlice,
       ImageAndTextSliceDefaultPrimary,
       ImageAndTextSliceImageAboveTextBelowPrimaryItemItem,
