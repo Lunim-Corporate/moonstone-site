@@ -173,6 +173,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
       <section
         ref={sectionRef}
         className="relative overflow-hidden -mt-px"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)' }}
       >
         {/* Background Parallax Layer */}
         {slice.primary.background_image?.url && (
@@ -195,12 +196,12 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         {/* Only add opacity level for background images */}
         <div
           className={
-            slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : ""
+            slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.5)]" : ""
           }
           style={{ position: "relative", zIndex: 1 }}
         >
           <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
-            <div>
+            <div className="pt-20">
               <div className="w-[60ch]">
                 <div data-pt-text>
                   <PrismicRichText
