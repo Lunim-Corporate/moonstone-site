@@ -23,19 +23,15 @@
         "heading": {
           "type": "StructuredText",
           "config": {
-            "label": "Heading",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "heading1,strong,em,heading2,heading3,heading4,heading5,heading6"
+            "label": "Main Title",
+            "placeholder": "MOONSTONE"
           }
         },
         "body": {
           "type": "StructuredText",
           "config": {
-            "label": "Body",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,heading2"
+            "label": "Bottom Title",
+            "placeholder": "LEGACY QUARTET"
           }
         }
       },

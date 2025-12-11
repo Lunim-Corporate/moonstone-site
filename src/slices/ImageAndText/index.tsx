@@ -265,10 +265,10 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 />
                 {isFilled.link(slice.primary.cta) && (
                   <div>
-                      <PrismicNextLink
-                        field={slice.primary.cta}
-                        className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
-                      />
+                    <PrismicNextLink
+                      field={slice.primary.cta}
+                      className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                    />
                   </div>
                 )}
               </div>
@@ -295,9 +295,19 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         }}
       >
         {isFilled.image(slice.primary.seconday_background_image) && (
-          <div className="bg-cover bg-bottom h-100" style={{ backgroundImage: `url(${slice.primary.seconday_background_image?.url})` }}></div>
+          <div
+            className="bg-cover bg-bottom h-100"
+            style={{
+              backgroundImage: `url(${slice.primary.seconday_background_image?.url})`,
+            }}
+          ></div>
         )}
-        <div className={"py-20 " + (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")}>
+        <div
+          className={
+            "py-20 " +
+            (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
+          }
+        >
           <div className="max-w-(--max-wrapper-width) mx-auto">
             <PrismicRichText
               field={slice.primary.heading}
@@ -325,7 +335,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                         </div>
                       </div>
                     ) : (
-                        <div className="my-counter-section border-b-2 my-4"></div>
+                      <div className="my-counter-section border-b-2 my-4"></div>
                     )}
                     <div>
                       <PrismicRichText field={item.body} />
