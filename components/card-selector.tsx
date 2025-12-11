@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import gsap from 'gsap';
 
 interface CardData {
   id: number;
@@ -18,76 +17,42 @@ interface CardSelectorProps {
 
 const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
   const [activeCard, setActiveCard] = useState<number>(0);
-  const titleRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const charRefs = useRef<{ [key: number]: (HTMLElement | null)[] }>({});
 
   const handleCardClick = (cardId: number) => {
     setActiveCard(cardId);
   };
 
-  // Set up character refs for each card
-  const setCharRef = (cardId: number, index: number, el: HTMLElement | null) => {
-    if (!charRefs.current[cardId]) {
-      charRefs.current[cardId] = [];
-    }
-    charRefs.current[cardId][index] = el;
-  };
-
-  // Animate title characters when card becomes active
-  useEffect(() => {
-    // Reset all non-active cards to vertical
-    cards.forEach(card => {
-      if (card.id !== activeCard && charRefs.current[card.id]) {
-        const chars = charRefs.current[card.id];
-        gsap.set(chars, {
-          x: 0,
-          y: 0,
-          rotation: 180,
-          transformOrigin: "center"
-        });
-      }
-    });
-
-    // Animate active card characters to horizontal
-    if (charRefs.current[activeCard]) {
-      const chars = charRefs.current[activeCard];
-      
-      // Animate each character to horizontal position
-      gsap.to(chars, {
-        duration: 0.6,
-        x: (index) => index * 25, // Spread characters horizontally
-        y: 0,
-        rotation: 0,
-        stagger: 0.05,
-        ease: "back.out(1.3)"
-      });
-    }
-  }, [activeCard, cards]);
-
   // Render title either vertically or horizontally based on active state
   const renderTitle = (title: string, cardId: number) => {
-    const chars = Array.from(title);
-
     return (
       <div 
-        ref={(el) => { titleRefs.current[cardId] = el; }}
         className="transition-all duration-500 flex"
         style={{
-          flexDirection: 'row',
+          flexDirection: cardId === activeCard ? 'row' : 'column',
+          alignItems: cardId === activeCard ? 'flex-start' : 'center',
+          justifyContent: 'flex-start',
+          gap: cardId === activeCard ? '8px' : '0',
+          textAlign: 'left',
         }}
       >
-        {chars.map((char, index) => (
+        {title.split('').map((char, index) => (
           <span
             key={index}
-            ref={(el) => setCharRef(cardId, index, el)}
-            className="char inline-block transition-all duration-300"
+            className="char inline-block font-bold"
             style={{
-              transform: cardId === activeCard ? 'none' : 'rotate(180deg)',
+              transform: cardId === activeCard ? 'none' : 'rotate(0deg)',
               transformOrigin: "center",
-              width: cardId === activeCard ? 'auto' : '20px',
-              height: cardId === activeCard ? 'auto' : '20px',
-              lineHeight: cardId === activeCard ? 'normal' : '20px',
-              textAlign: 'center'
+              width: 'auto',
+              height: 'auto',
+              lineHeight: 'normal',
+              fontSize: cardId === activeCard ? '2rem' : '1.2rem',
+              opacity: cardId === activeCard ? 1 : 0.9,
+              margin: cardId === activeCard ? '0' : '1px 0',
+              color: 'white',
+              textShadow: '0 0 10px rgba(0,0,0,0.8)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              whiteSpace: 'pre',
+              fontWeight: '700',
             }}
           >
             {char === " " ? "\u00A0" : char}
@@ -106,10 +71,8 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
           justify-content: center;
           align-items: center;
           overflow: hidden;
-          min-height: 100vh;
           font-family: 'Roboto', sans-serif;
           transition: 0.25s;
-          background: #f5f5f5;
           padding: 20px 0;
         }
         
@@ -129,12 +92,20 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
           overflow: hidden;
           min-width: 60px;
           margin: 10px;
-          background-size: auto 120%;
+          background-size: cover; /* Full width and height */
           background-position: center;
+          background-repeat: no-repeat;
           cursor: pointer;
-          transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           border-radius: 30px;
           flex-grow: 1;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+          transform: scale(1);
+        }
+        
+        .option-item:hover:not(.active) {
+          transform: scale(1.03);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
         
         .option-item.active {
@@ -143,7 +114,10 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
           max-width: 600px;
           margin: 0px;
           border-radius: 40px;
-          background-size: auto 100%;
+          background-size: cover; /* Full width and height */
+          background-repeat: no-repeat;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+          z-index: 10;
         }
         
         .option-item.active .option-shadow {
@@ -156,13 +130,15 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
         }
         
         .option-item.active .option-label {
-          bottom: 20px;
-          left: 20px;
+          bottom: 30px;
+          left: 30px;
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .option-item:not(.active) .option-label {
-          bottom: 10px;
-          left: 10px;
+          bottom: 15px;
+          left: 15px;
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .option-item.active .option-info > div {
@@ -181,38 +157,44 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
           left: 0px;
           right: 0px;
           height: 120px;
-          transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .option-label {
           display: flex;
           position: absolute;
-          right: 0px;
-          height: 40px;
-          transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          padding: 20px;
+          box-sizing: border-box;
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .option-info {
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          margin-left: 10px;
+          justify-content: flex-end;
           color: white;
-          white-space: pre;
+          width: 100%;
         }
         
         .option-info > div {
           position: relative;
-          transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity 0.5s ease-out;
+          transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease-out;
         }
         
         .option-main {
           font-weight: bold;
           font-size: 1.2rem;
+          margin-bottom: 10px;
         }
         
         .option-sub {
-          transition-delay: 0.1s;
+          transition-delay: 0.2s;
+          font-size: 1rem;
+          max-width: 80%;
+          line-height: 1.4;
         }
         
         .inactive-options {
@@ -224,7 +206,6 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
           .options-container {
             padding: 20px;
             height: auto;
-            min-height: 100vh;
             flex-direction: column;
           }
           
@@ -247,6 +228,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
             margin: 0 0 30px 0;
             border-radius: 25px;
             background-size: cover;
+            background-repeat: no-repeat;
             flex-grow: 0;
             transform: none;
           }
@@ -256,7 +238,7 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
             bottom: 25px;
             left: 25px;
             right: auto;
-            height: 40px;
+            height: auto;
           }
           
           .option-item.active .option-info > div {
@@ -381,9 +363,19 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
               className={`option-item ${activeCard === card.id ? 'active' : ''}`}
               style={{
                 backgroundImage: `url(${card.background})`,
-                '--defaultBackground': card.color
+                '--defaultBackground': card.color,
+                transform: activeCard === card.id ? 'scale(1)' : 'scale(1)',
               } as React.CSSProperties}
               onClick={() => handleCardClick(card.id)}
+              onMouseDown={(e) => {
+                e.currentTarget.style.transform = 'scale(0.95)';
+              }}
+              onMouseUp={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
             >
               <div className="option-shadow"></div>
               <div className="option-label">
@@ -395,10 +387,14 @@ const CardSelector: React.FC<CardSelectorProps> = ({ cards }) => {
                     {activeCard === card.id && (
                       <motion.div
                         className="option-sub"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
+                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 30, scale: 0.9 }}
+                        transition={{ 
+                          duration: 0.4, 
+                          delay: 0.2,
+                          ease: "anticipate"
+                        }}
                       >
                         {card.description}
                       </motion.div>
