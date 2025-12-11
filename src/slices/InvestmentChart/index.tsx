@@ -10,11 +10,12 @@ import gsap from "gsap";
 // Define the type for chart items
 interface ChartItemData {
   label: string;
-  percentage: number;
+  investment: number;
 }
 
 interface ChartItem {
   label: string;
+  investment: number;
   percentage: number;
   color: string;
 }
@@ -54,6 +55,14 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
   const chartRef = useRef<SVGSVGElement>(null);
   const segmentsRef = useRef<SVGPathElement[]>([]);
 
+  // State for showing the floating card
+  const [showFloatingCard, setShowFloatingCard] = useState<boolean>(false);
+  const [floatingCardPosition, setFloatingCardPosition] = useState<{x: number, y: number}>({x: 0, y: 0});
+  const [floatingCardData, setFloatingCardData] = useState<{investment: number, label: string} | null>(null);
+  
+  // Ref for the floating card
+  const floatingCardRef = useRef<HTMLDivElement>(null);
+
   // Predefined vibrant colors
   const vibrantColors = [
     '#FF6B6B', '#4ECDC4', '#FFD166', '#6A0572', '#1A936F',
@@ -61,14 +70,23 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
   ];
 
   // Extract chart items from slice data and assign colors
-  const chartItems: ChartItem[] = slice.primary.chart_items.map((item, index) => ({
+  const chartItems: ChartItemData[] = slice.primary.chart_items.map((item, index) => ({
     label: item.label || "",
-    percentage: item.percentage || 0,
+    investment: item.investment || 0,
+  }));
+
+  // Calculate total investment
+  const totalInvestment = chartItems.reduce((sum, item) => sum + item.investment, 0);
+
+  // Calculate percentages based on investment
+  const chartItemsWithPercentages: ChartItem[] = chartItems.map((item, index) => ({
+    ...item,
+    percentage: totalInvestment > 0 ? (item.investment / totalInvestment) * 100 : 0,
     color: vibrantColors[index % vibrantColors.length],
   }));
 
   // Calculate cumulative percentages for pie chart segments
-  const cumulativePercentages = chartItems.reduce((acc, item, index) => {
+  const cumulativePercentages = chartItemsWithPercentages.reduce((acc, item, index) => {
     acc.push((acc[index - 1] || 0) + item.percentage);
     return acc;
   }, [] as number[]);
@@ -80,7 +98,7 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
 
   const cumulativeRadians = percentagesToRadians(cumulativePercentages);
 
-  // Calculate SVG path for each pie segment
+  // Calculate SVG path for each pie segment with fixed precision to prevent hydration issues
   const calculateSegmentPath = (startAngle: number, endAngle: number, isActive: boolean = false) => {
     const radius = 120;
     const innerRadius = 60;
@@ -91,22 +109,22 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
     const adjustedRadius = isActive ? radius + 10 : radius;
     const adjustedInnerRadius = isActive ? innerRadius + 5 : innerRadius;
     
-    // Calculate start and end points for outer arc
-    const x1 = centerX + adjustedRadius * Math.sin(startAngle);
-    const y1 = centerY - adjustedRadius * Math.cos(startAngle);
-    const x2 = centerX + adjustedRadius * Math.sin(endAngle);
-    const y2 = centerY - adjustedRadius * Math.cos(endAngle);
+    // Calculate start and end points for outer arc with fixed precision
+    const x1 = parseFloat((centerX + adjustedRadius * Math.sin(startAngle)).toFixed(2));
+    const y1 = parseFloat((centerY - adjustedRadius * Math.cos(startAngle)).toFixed(2));
+    const x2 = parseFloat((centerX + adjustedRadius * Math.sin(endAngle)).toFixed(2));
+    const y2 = parseFloat((centerY - adjustedRadius * Math.cos(endAngle)).toFixed(2));
     
-    // Calculate start and end points for inner arc
-    const ix1 = centerX + adjustedInnerRadius * Math.sin(startAngle);
-    const iy1 = centerY - adjustedInnerRadius * Math.cos(startAngle);
-    const ix2 = centerX + adjustedInnerRadius * Math.sin(endAngle);
-    const iy2 = centerY - adjustedInnerRadius * Math.cos(endAngle);
+    // Calculate start and end points for inner arc with fixed precision
+    const ix1 = parseFloat((centerX + adjustedInnerRadius * Math.sin(startAngle)).toFixed(2));
+    const iy1 = parseFloat((centerY - adjustedInnerRadius * Math.cos(startAngle)).toFixed(2));
+    const ix2 = parseFloat((centerX + adjustedInnerRadius * Math.sin(endAngle)).toFixed(2));
+    const iy2 = parseFloat((centerY - adjustedInnerRadius * Math.cos(endAngle)).toFixed(2));
     
     // Determine if this is a large arc (greater than 180 degrees)
     const largeArcFlag = endAngle - startAngle > Math.PI ? 1 : 0;
     
-    // Create the path data
+    // Create the path data with fixed precision to ensure consistent rendering
     return `
       M ${ix1} ${iy1}
       L ${x1} ${y1}
@@ -114,12 +132,29 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
       L ${ix2} ${iy2}
       A ${adjustedInnerRadius} ${adjustedInnerRadius} 0 ${largeArcFlag} 0 ${ix1} ${iy1}
       Z
-    `;
+    `.trim().replace(/\s+/g, ' ');
   };
 
-  // Handle hover effects with GSAP
-  const handleHover = (index: number) => {
+  // Handle hover effects with GSAP and floating card
+  const handleHover = (index: number, event?: React.MouseEvent) => {
     setActiveIndex(index);
+    
+    // Show floating card with investment data
+    const item = chartItemsWithPercentages[index];
+    setFloatingCardData({
+      investment: item.investment,
+      label: item.label
+    });
+    
+    // Position the floating card near the mouse
+    if (event) {
+      setFloatingCardPosition({
+        x: event.clientX,
+        y: event.clientY
+      });
+    }
+    
+    setShowFloatingCard(true);
     
     // Animate the hovered segment with GSAP
     if (segmentsRef.current[index]) {
@@ -145,6 +180,7 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
   // Reset hover effects
   const handleLeave = () => {
     setActiveIndex(null);
+    setShowFloatingCard(false);
     
     // Reset all segments
     segmentsRef.current.forEach((segment) => {
@@ -157,6 +193,17 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
         });
       }
     });
+  };
+
+  // Update the center text to show total investment
+  const formatTotalInvestment = (amount: number) => {
+    if (amount >= 1000000) {
+      return `£${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `£${(amount / 1000).toFixed(1)}K`;
+    } else {
+      return `£${amount}`;
+    }
   };
 
   // Initial animation when component mounts
@@ -181,6 +228,12 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
     }
   }, []);
 
+  // Pre-calculate all paths to ensure consistency
+  const precalculatedPaths = chartItemsWithPercentages.map((item, index) => {
+    // We're calculating these in the render method now to avoid hydration issues
+    return "";
+  });
+
   return (
     <section className="relative py-20 overflow-hidden">
       {/* Background image */}
@@ -197,14 +250,14 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left content */}
-          <div className="text-white">
+          {/* Left content - Moved higher and increased font size */}
+          <div className="text-white pt-8">
             <div className="mb-8">
               <PrismicRichText 
                 field={slice.primary.heading}
                 components={{
                   heading2: ({ children }) => (
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">{children}</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6">{children}</h2>
                   )
                 }}
               />
@@ -213,7 +266,7 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
                 field={slice.primary.title}
                 components={{
                   heading3: ({ children }) => (
-                    <h3 className="text-2xl md:text-3xl font-semibold mb-4 text-[#03ECF2]">{children}</h3>
+                    <h3 className="text-3xl md:text-4xl font-semibold mb-4 text-[#03ECF2]">{children}</h3>
                   )
                 }}
               />
@@ -222,25 +275,53 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
                 field={slice.primary.description}
                 components={{
                   paragraph: ({ children }) => (
-                    <p className="text-lg text-gray-200 leading-relaxed">{children}</p>
+                    <p className="text-xl text-gray-200 leading-relaxed">{children}</p>
                   )
                 }}
               />
             </div>
           </div>
 
-          {/* Right content - Pie chart with table of contents */}
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Pie chart */}
+          {/* Right content - Reorganized chart and list */}
+          <div className="flex flex-row items-center gap-8">
+            {/* Table of contents - Moved to the left of the chart */}
+            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 min-w-[250px]">
+              <ul className="space-y-3">
+                {chartItemsWithPercentages.map((item, index) => (
+                  <li 
+                    key={index}
+                    className={`flex items-center justify-between p-3 rounded-lg transition-all duration-300 cursor-pointer ${
+                      activeIndex === index 
+                        ? 'bg-white/20 scale-[1.02]' 
+                        : activeIndex !== null
+                          ? 'opacity-50 hover:opacity-100 hover:bg-white/10' 
+                          : 'hover:bg-white/10'
+                    }`}
+                    onMouseEnter={(e) => handleHover(index, e)}
+                    onMouseLeave={handleLeave}
+                  >
+                    <div className="flex items-center">
+                      <div 
+                        className="w-4 h-4 rounded-full mr-3" 
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                      <span className="text-white font-medium">{item.label}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Pie chart - Back to 400x400 */}
             <div className="relative">
               <svg 
-                width="300" 
-                height="300" 
+                width="400" 
+                height="400" 
                 viewBox="0 0 300 300"
                 className="drop-shadow-2xl"
                 ref={chartRef}
               >
-                {chartItems.map((item, index) => {
+                {chartItemsWithPercentages.map((item, index) => {
                   const startAngle = index === 0 ? 0 : cumulativeRadians[index - 1];
                   const endAngle = cumulativeRadians[index];
                   
@@ -256,8 +337,15 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
                       initial={{ pathLength: 0 }}
                       animate={{ pathLength: 1 }}
                       transition={{ duration: 1, delay: index * 0.1 }}
-                      onMouseEnter={() => handleHover(index)}
+                      onMouseEnter={(e) => handleHover(index, e)}
                       onMouseLeave={handleLeave}
+                      // Add elevation effect on hover
+                      style={{
+                        filter: activeIndex === index ? 'drop-shadow(0 0 8px rgba(255,255,255,0.5))' : 'none',
+                        transform: activeIndex === index ? 'translate(-2px, -2px) scale(1.02)' : 'none',
+                        transformOrigin: 'center',
+                        transition: 'transform 0.3s ease, filter 0.3s ease'
+                      }}
                     />
                   );
                 })}
@@ -271,41 +359,34 @@ const InvestmentChart: FC<InvestmentChartProps> = ({ slice }) => {
                   dominantBaseline="middle" 
                   className="text-lg font-bold fill-white"
                 >
-                  £119K
+                  {formatTotalInvestment(totalInvestment)}
                 </text>
               </svg>
-            </div>
-
-            {/* Table of contents */}
-            <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 min-w-[250px]">
-              <h3 className="text-xl font-bold text-white mb-4">Investment Breakdown</h3>
-              <ul className="space-y-3">
-                {chartItems.map((item, index) => (
-                  <li 
-                    key={index}
-                    className={`flex items-center justify-between p-2 rounded-lg transition-all duration-300 cursor-pointer ${
-                      activeIndex === index 
-                        ? 'bg-white/10 scale-[1.02]' 
-                        : 'hover:bg-white/5'
-                    }`}
-                    onMouseEnter={() => handleHover(index)}
-                    onMouseLeave={handleLeave}
-                  >
-                    <div className="flex items-center">
-                      <div 
-                        className="w-4 h-4 rounded-full mr-3" 
-                        style={{ backgroundColor: item.color }}
-                      ></div>
-                      <span className="text-white font-medium">{item.label}</span>
-                    </div>
-                    <span className="text-gray-300 font-semibold">{item.percentage}%</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Floating card for investment details - Positioned away from the chart */}
+      {showFloatingCard && floatingCardData && (
+        <div
+          ref={floatingCardRef}
+          className="fixed bg-black/80 backdrop-blur-sm rounded-lg p-4 text-white z-50 pointer-events-none border border-white/20 shadow-2xl"
+          style={{
+            left: `${floatingCardPosition.x + 20}px`,
+            top: `${floatingCardPosition.y - 20}px`,
+            transform: 'translate(-50%, -100%)',
+            minWidth: '200px'
+          }}
+        >
+          <div className="font-bold text-xl mb-1">
+            £{floatingCardData.investment.toLocaleString()}
+          </div>
+          <div className="text-sm opacity-80">
+            {floatingCardData.label}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

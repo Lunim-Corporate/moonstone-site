@@ -64,10 +64,10 @@
               }
             ],
             [
-              "percentage",
+              "investment",
               {
                 "__TYPE__": "FieldContent",
-                "value": 25.6,
+                "value": 25600,
                 "type": "Number"
               }
             ]
@@ -85,10 +85,10 @@
               }
             ],
             [
-              "percentage",
+              "investment",
               {
                 "__TYPE__": "FieldContent",
-                "value": 20.2,
+                "value": 20200,
                 "type": "Number"
               }
             ]
@@ -106,10 +106,10 @@
               }
             ],
             [
-              "percentage",
+              "investment",
               {
                 "__TYPE__": "FieldContent",
-                "value": 18.7,
+                "value": 18700,
                 "type": "Number"
               }
             ]
@@ -127,10 +127,10 @@
               }
             ],
             [
-              "percentage",
+              "investment",
               {
                 "__TYPE__": "FieldContent",
-                "value": 14.2,
+                "value": 14200,
                 "type": "Number"
               }
             ]
@@ -148,10 +148,10 @@
               }
             ],
             [
-              "percentage",
+              "investment",
               {
                 "__TYPE__": "FieldContent",
-                "value": 21.3,
+                "value": 21300,
                 "type": "Number"
               }
             ]

@@ -60,11 +60,11 @@
                   "placeholder": "Production"
                 }
               },
-              "percentage": {
+              "investment": {
                 "type": "Number",
                 "config": {
-                  "label": "Percentage",
-                  "placeholder": "25.6"
+                  "label": "Investment",
+                  "placeholder": "25600"
                 }
               }
             }
