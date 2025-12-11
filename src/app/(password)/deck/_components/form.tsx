@@ -17,7 +17,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   const passwordFormToggle = useRef<HTMLDivElement | null>(null);
   const accessFormToggle = useRef<HTMLDivElement | null>(null);
   const [passwordIsCorrect, setPasswordIsCorrect] = useState<boolean>(false); // Password form
-  const [isError, setIsError] = useState<boolean>(false); // General error state
+  const [isError, setIsError] = useState<string>(""); // General error state
   const [password, setPassword] = useState<string>("");
   const [isIncorrectPassword, setIsIncorrectPassword] = useState<boolean>(false); // Password form
   const [protectedLink, setProtectedLink] = useState<string>("");
@@ -83,7 +83,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
     event.preventDefault();
 
     // Reset state
-    setIsError(false);
+    setIsError("");
     setIsIncorrectPassword(false);
 
     if (showPasswordForm) {
@@ -91,14 +91,14 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         return;
       }
       try {
-        const res = await fetch("/api/check-pasword", {
+        const res = await fetch("/api/check-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ password }),
         });
 
         if (!res.ok) {
-          setIsError(true);
+          setIsError(res.statusText);
           return;
         }
 
@@ -108,18 +108,18 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
           // password correct
           if (!data?.link) {
             // protected link missing
-            setIsError(true);
+            setIsError(res.statusText);
             return;
           }
           setPasswordIsCorrect(true);
           setProtectedLink(data.link);
         } else {
           // password incorrect
-          setIsError(true);
+          setIsError(res.statusText);
           setIsIncorrectPassword(true);
         }
       } catch {
-        setIsError(true);
+        setIsError("An unexpected error occurred. Please try again later.");
       }
     } else {
       // Access form submission
@@ -137,7 +137,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         });
 
         if (!res.ok) {
-          setIsError(true);
+          setIsError(res.statusText);
           return;
         }
 
@@ -150,7 +150,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
         setMessage("");
       } catch (err) {
         console.error(err);
-        setIsError(true);
+        setIsError("An unexpected error occurred. Please try again later.");
       }
     }
   };
@@ -170,7 +170,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               if (!showPasswordForm) {
                 // Reset states when switching forms
                 setShowPasswordForm(true);
-                setIsError(false);
+                setIsError("");
               }
             }}
           >
@@ -210,7 +210,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               if (showPasswordForm) {
                 // Reset states when switching forms
                 setShowPasswordForm(false);
-                setIsError(false);
+                setIsError("");
                 setIsIncorrectPassword(false);
               } 
             }}

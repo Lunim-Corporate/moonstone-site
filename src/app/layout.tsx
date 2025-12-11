@@ -42,11 +42,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${raleway.variable} ${lora.variable}`}>
-      <body>
+      <body className="antialiased">
         <Providers>
-          <div className="min-h-full flex flex-col" id="layout-container">
+          <div className="flex min-h-screen flex-col" id="layout-container">
             <Navigation />
-            {children}
+            <main className="flex-1">
+              {children}
+            </main>
             <Footer />
           </div>
         </Providers>

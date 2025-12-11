@@ -21,7 +21,7 @@
 					},
 					"background": "transparent"
 				},
-				"alt": "sudden",
+				"alt": "Moonlit sky over a domed palace",
 				"credits": null,
 				"__TYPE__": "ImageContent",
 				"thumbnails": {}
@@ -32,7 +32,7 @@
 					{
 						"type": "heading1",
 						"content": {
-							"text": "Nodded"
+							"text": "Continued"
 						}
 					}
 				]
@@ -43,12 +43,107 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Minim sunt veniam reprehenderit ad ex ipsum. Cillum laboris occaecat adipisicing elit dolor consequat laborum cupidatat irure eu commodo aliquip aliquip et. Magna amet sunt ipsum aliqua aute ut voluptate ea ad esse."
+							"text": "Dolor do commodo consequat laboris aliquip cillum quis dolor officia laboris Lorem ad magna."
 						}
 					}
 				]
 			}
 		},
 		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "transmediaHero",
+		"primary": {
+			"background_image": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1547082299-de196ea013d6",
+					"width": 4272,
+					"height": 2848
+				},
+				"url": "https://images.unsplash.com/photo-1547082299-de196ea013d6",
+				"width": 4272,
+				"height": 2848,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "brief",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"logo": {
+				"origin": {
+					"id": "main",
+					"url": "https://images.unsplash.com/photo-1607582278043-57198ac8da43",
+					"width": 4024,
+					"height": 4024
+				},
+				"url": "https://images.unsplash.com/photo-1607582278043-57198ac8da43",
+				"width": 4024,
+				"height": 4024,
+				"edit": {
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					},
+					"background": "transparent"
+				},
+				"alt": "example",
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {}
+			},
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Large"
+						}
+					}
+				]
+			},
+			"subtitle": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Primitive"
+						}
+					}
+				]
+			},
+			"tagline": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Non commodo amet adipisicing quis."
+						}
+					}
+				]
+			},
+			"enable_parallax": {
+				"__TYPE__": "BooleanContent",
+				"value": false
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]
