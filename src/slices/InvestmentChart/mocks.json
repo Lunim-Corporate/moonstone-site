@@ -1,0 +1,164 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default",
+    "primary": {
+      "heading": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading2",
+            "content": {
+              "text": "Development Investment"
+            }
+          }
+        ]
+      },
+      "title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "£119,400"
+            }
+          }
+        ]
+      },
+      "description": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "A complete production-ready development package with all the elements needed to pitch and win commissions from the major broadcasters and streaming platforms."
+            }
+          }
+        ]
+      },
+      "background_image": {
+        "__TYPE__": "ImageContent",
+        "origin": {
+          "id": "main",
+          "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+          "alt": "Abstract background"
+        },
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+        "alt": "Abstract background",
+        "copyright": null,
+        "dimensions": {
+          "width": 2000,
+          "height": 1000
+        }
+      },
+      "chart_items": [
+        {
+          "__TYPE__": "GroupItemContent",
+          "value": [
+            [
+              "label",
+              {
+                "__TYPE__": "FieldContent",
+                "value": "Production",
+                "type": "Text"
+              }
+            ],
+            [
+              "investment",
+              {
+                "__TYPE__": "FieldContent",
+                "value": 25600,
+                "type": "Number"
+              }
+            ]
+          ]
+        },
+        {
+          "__TYPE__": "GroupItemContent",
+          "value": [
+            [
+              "label",
+              {
+                "__TYPE__": "FieldContent",
+                "value": "Post Production",
+                "type": "Text"
+              }
+            ],
+            [
+              "investment",
+              {
+                "__TYPE__": "FieldContent",
+                "value": 20200,
+                "type": "Number"
+              }
+            ]
+          ]
+        },
+        {
+          "__TYPE__": "GroupItemContent",
+          "value": [
+            [
+              "label",
+              {
+                "__TYPE__": "FieldContent",
+                "value": "Development",
+                "type": "Text"
+              }
+            ],
+            [
+              "investment",
+              {
+                "__TYPE__": "FieldContent",
+                "value": 18700,
+                "type": "Number"
+              }
+            ]
+          ]
+        },
+        {
+          "__TYPE__": "GroupItemContent",
+          "value": [
+            [
+              "label",
+              {
+                "__TYPE__": "FieldContent",
+                "value": "Marketing",
+                "type": "Text"
+              }
+            ],
+            [
+              "investment",
+              {
+                "__TYPE__": "FieldContent",
+                "value": 14200,
+                "type": "Number"
+              }
+            ]
+          ]
+        },
+        {
+          "__TYPE__": "GroupItemContent",
+          "value": [
+            [
+              "label",
+              {
+                "__TYPE__": "FieldContent",
+                "value": "Distribution",
+                "type": "Text"
+              }
+            ],
+            [
+              "investment",
+              {
+                "__TYPE__": "FieldContent",
+                "value": 21300,
+                "type": "Number"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "items": []
+  }
+]

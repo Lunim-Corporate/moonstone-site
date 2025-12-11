@@ -6,6 +6,7 @@ export const components = {
   contact_us: dynamic(() => import("./ContactUs")),
   hero: dynamic(() => import("./Hero")),
   image_and_text: dynamic(() => import("./ImageAndText")),
+  investment_chart: dynamic(() => import("./InvestmentChart")),
   password_form: dynamic(() => import("./PasswordForm")),
   team: dynamic(() => import("./Team")),
 };
