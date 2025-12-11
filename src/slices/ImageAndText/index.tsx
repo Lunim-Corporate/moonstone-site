@@ -25,6 +25,8 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   const bgRef = useRef<HTMLDivElement>(null);
   const bgParallaxRef = useRef<HTMLDivElement>(null);
   const imageGridRef = useRef<HTMLDivElement>(null);
+  const defaultBgRef = useRef<HTMLDivElement>(null);
+  const defaultBgParallaxRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
   // GSAP animations for parallaxTextImage variation
@@ -167,6 +169,39 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     return () => ctx.revert();
   }, [slice.variation, isMobile]);
 
+  // GSAP animations for default variation parallax
+  useEffect(() => {
+    if (slice.variation !== "default") return;
+
+    const ctx = gsap.context(() => {
+      if (defaultBgRef.current && defaultBgParallaxRef.current) {
+        const getParallaxRange = () => {
+          if (typeof window === "undefined") return 15;
+          return window.innerWidth < 640 ? 10 : 15;
+        };
+
+        gsap.fromTo(
+          defaultBgParallaxRef.current,
+          { yPercent: () => -getParallaxRange() },
+          {
+            yPercent: () => getParallaxRange(),
+            ease: "none",
+            force3D: true,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.8,
+              invalidateOnRefresh: true,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [slice.variation, isMobile]);
+
   // ParallaxTextImage variation (The Hook, Why Now, Audience & Market)
   if (slice.variation === "parallaxTextImage") {
     return (
@@ -252,18 +287,35 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   // The Hook, Why now, Transmedia, Potential Investors
   if (slice.variation === "default") {
     return (
-      <div
-        style={{
-          backgroundImage: `url(${slice.primary.background_image?.url})`,
-        }}
-        className="bg-cover bg-center"
+      <section
+        ref={sectionRef}
+        className="relative overflow-hidden"
       >
+        {/* Background Parallax Layer */}
+        {slice.primary.background_image?.url && (
+          <div
+            ref={defaultBgRef}
+            className="absolute inset-0 z-0 will-change-transform overflow-hidden"
+          >
+            <div
+              ref={defaultBgParallaxRef}
+              className="absolute inset-0 -top-[15%] -bottom-[15%] -left-[5%] -right-[5%] sm:-top-[20%] sm:-bottom-[20%] sm:-left-[7%] sm:-right-[7%]"
+            >
+              <PrismicNextImage
+                field={slice.primary.background_image}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Only add opacity level for background images */}
         <div
           className={
             "py-20 " +
             (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
           }
+          style={{ position: "relative", zIndex: 1 }}
         >
           <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
             <div>
@@ -302,7 +354,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
   // Comparables, Synopsis
