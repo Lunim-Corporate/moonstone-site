@@ -208,7 +208,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
       <section
         ref={sectionRef}
         className="relative overflow-hidden -mt-px"
-        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)' }}
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 6%, black 12%, black 88%, rgba(0,0,0,0.3) 94%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 6%, black 12%, black 88%, rgba(0,0,0,0.3) 94%, transparent)' }}
       >
         {/* Background Parallax Layer */}
         {slice.primary.background_image?.url && (
