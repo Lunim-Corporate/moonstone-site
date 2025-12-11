@@ -24,6 +24,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const bgParallaxRef = useRef<HTMLDivElement>(null);
+  const imageGridRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
   // GSAP animations for parallaxTextImage variation
@@ -115,6 +116,35 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
 
     return () => ctx.revert();
   }, [slice.variation, slice.primary, isMobile]);
+
+  useEffect(() => {
+    if (slice.variation !== "imageAboveTextBelow") return;
+
+    const ctx = gsap.context(() => {
+      if (!imageGridRef.current) return;
+      const cards = imageGridRef.current.querySelectorAll(".iat-card");
+      if (!cards.length) return;
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: imageGridRef.current,
+            start: isMobile ? "top 99%" : "top 92%",
+            end: isMobile ? "top 65%" : "top 40%",
+            scrub: 0.03,
+          },
+        })
+        .from(cards, {
+          opacity: 0,
+          y: 30,
+          filter: "blur(4px)",
+          stagger: 0.12,
+          ease: "none",
+        });
+    }, imageGridRef);
+
+    return () => ctx.revert();
+  }, [slice.variation, isMobile]);
 
   // ParallaxTextImage variation (The Hook, Why Now, Audience & Market)
   if (slice.variation === "parallaxTextImage") {
@@ -257,7 +287,8 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   // Comparables, Synopsis
   if (slice.variation === "imageAboveTextBelow") {
     return (
-      <div
+      <section
+        ref={sectionRef}
         className="bg-cover bg-center relative"
         style={{
           backgroundImage: `url(${slice.primary.background_image?.url})`,
@@ -276,10 +307,13 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 ),
               }}
             />
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10 my-counter">
+            <div
+              ref={imageGridRef}
+              className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10 my-counter"
+            >
               {slice.primary.item.map((item, idx) => {
                 return (
-                  <div key={idx} className="flex flex-col">
+                  <div key={idx} className="iat-card flex flex-col">
                     {isFilled.image(item.main_image) ? (
                     // Add shadow if not shadow already present
                     <div className="rounded-lg overflow-hidden mb-6 shadow-[0px_0px_10px_4px_white]">
@@ -307,7 +341,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             )}
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }
