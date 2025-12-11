@@ -84,6 +84,15 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         const textEls = sectionRef.current?.querySelectorAll("[data-pt-text]");
         if (textEls?.length) {
           const isStrong = animationPreset === "stagger-strong";
+
+          // Separate text elements from image
+          const textOnlyEls = Array.from(textEls).filter(el =>
+            !el.querySelector('img') && el.tagName !== 'IMG'
+          );
+          const imageEl = Array.from(textEls).find(el =>
+            el.querySelector('img') || el.tagName === 'IMG'
+          );
+
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionRef.current!,
@@ -93,22 +102,34 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             },
           });
 
-          if (animationPreset === "slide-left") {
-            tl.from(textEls, {
+          // Animate text with movement
+          if (textOnlyEls.length) {
+            if (animationPreset === "slide-left") {
+              tl.from(textOnlyEls, {
+                opacity: 0,
+                x: -40,
+                filter: "blur(6px)",
+                stagger: isStrong ? 0.2 : 0.12,
+                ease: "none",
+              }, 0);
+            } else {
+              tl.from(textOnlyEls, {
+                opacity: 0,
+                y: 48,
+                filter: "blur(6px)",
+                stagger: isStrong ? 0.2 : 0.12,
+                ease: "none",
+              }, 0);
+            }
+          }
+
+          // Animate image with only opacity (no vertical movement)
+          if (imageEl) {
+            tl.from(imageEl, {
               opacity: 0,
-              x: -40,
               filter: "blur(6px)",
-              stagger: isStrong ? 0.2 : 0.12,
               ease: "none",
-            });
-          } else {
-            tl.from(textEls, {
-              opacity: 0,
-              y: 48,
-              filter: "blur(6px)",
-              stagger: isStrong ? 0.2 : 0.12,
-              ease: "none",
-            });
+            }, 0);
           }
         }
       }
@@ -174,8 +195,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         {/* Only add opacity level for background images */}
         <div
           className={
-            "py-20 " +
-            (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
+            slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : ""
           }
           style={{ position: "relative", zIndex: 1 }}
         >
