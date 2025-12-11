@@ -55,8 +55,8 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
 
         if (enableParallax && bgParallaxRef.current) {
           const getParallaxRange = () => {
-            if (typeof window === "undefined") return 50;
-            return window.innerWidth < 640 ? 25 : 50;
+            if (typeof window === "undefined") return 30;
+            return window.innerWidth < 640 ? 15 : 30;
           };
 
           gsap.fromTo(
@@ -70,7 +70,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 trigger: sectionRef.current,
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 0.5,
+                scrub: 0.8,
                 invalidateOnRefresh: true,
               },
             }
