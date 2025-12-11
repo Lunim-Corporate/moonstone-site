@@ -56,9 +56,94 @@
             "allowText": true,
             "repeat": false
           }
+        },
+        "tilt_angle": {
+          "type": "Select",
+          "config": {
+            "label": "Tilt Angle",
+            "placeholder": "",
+            "options": [
+              "None",
+              "Left",
+              "Right"
+            ],
+            "default_value": "None"
+          }
         }
       },
-      "items": {}
+      "items": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "heading3"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "is_bullet": {
+          "type": "Boolean",
+          "config": {
+            "label": "Display as Bullet Point",
+            "default_value": false,
+            "placeholder": ""
+          }
+        },
+        "bullet_point_1": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Bullet Point 1",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "bullet_point_2": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Bullet Point 2",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "bullet_point_3": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Bullet Point 3",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "bullet_point_4": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Bullet Point 4",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        },
+        "bullet_point_5": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Bullet Point 5",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em"
+          }
+        }
+      }
     },
     {
       "id": "imageAboveTextBelow",
@@ -76,14 +161,7 @@
             "thumbnails": []
           }
         },
-        "seconday_background_image": {
-          "type": "Image",
-          "config": {
-            "label": "Seconday Background Image",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
+
         "heading": {
           "type": "StructuredText",
           "config": {
@@ -99,31 +177,32 @@
             "label": "Item",
             "repeat": true,
             "fields": {
-              "main_image": {
-                "type": "Image",
-                "config": {
-                  "label": "Main Image",
-                  "constraint": {},
-                  "thumbnails": []
-                }
-              },
-              "body": {
+              "title": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "Body",
+                  "label": "Title",
                   "placeholder": "",
                   "allowTargetBlank": true,
-                  "multi": "heading1,heading2,paragraph,heading3,heading5,heading4,heading6,strong,em"
+                  "single": "heading3"
+                }
+              },
+              "description": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Description",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
                 }
               }
             }
           }
         },
-        "body": {
+        "theme": {
           "type": "StructuredText",
           "config": {
-            "label": "Body",
-            "placeholder": "",
+            "label": "Theme",
+            "placeholder": "Themes: Empowerment, mysticism, legacy, adventure",
             "allowTargetBlank": true,
             "multi": "heading2,heading3,paragraph,heading4,heading5,heading6,strong,em"
           }
@@ -147,15 +226,7 @@
             "thumbnails": []
           }
         },
-        "top_text": {
-          "type": "StructuredText",
-          "config": {
-            "label": "Top Text",
-            "placeholder": "lunim",
-            "allowTargetBlank": true,
-            "multi": "paragraph,strong,em"
-          }
-        },
+
         "title": {
           "type": "StructuredText",
           "config": {
@@ -187,23 +258,40 @@
       "items": {}
     },
     {
-      "id": "cardWithVerticalTitle",
-      "name": "CardWithVerticalTitle",
+      "id": "collapsingCard",
+      "name": "CollapsingCard",
       "docURL": "...",
       "version": "initial",
       "description": "Interactive cards with vertical title animation",
       "imageUrl": "",
       "primary": {
+        "background_image": {
+          "type": "Image",
+          "config": {
+            "label": "Section Background Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Section Heading",
+            "placeholder": "Our Services",
+            "allowTargetBlank": true,
+            "single": "heading2"
+          }
+        },
         "cards": {
           "type": "Group",
           "config": {
             "label": "Cards",
             "repeat": true,
             "fields": {
-              "background_image": {
+              "card_image": {
                 "type": "Image",
                 "config": {
-                  "label": "Background Image",
+                  "label": "Card Image",
                   "constraint": {},
                   "thumbnails": []
                 }
