@@ -1,0 +1,1796 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accreditations {
+  id          Int      @id @default(autoincrement())
+  award       String?  @db.VarChar
+  icon_url    String?  @db.VarChar
+  badge_url   String?  @db.VarChar
+  description String?
+  profile_id  Int?
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+
+  @@index([profile_id], map: "index_accreditations_on_profile_id")
+}
+
+model brands {
+  id               Int                @id @default(autoincrement())
+  created_at       DateTime           @db.Timestamp(6)
+  updated_at       DateTime           @db.Timestamp(6)
+  data             Json               @default("{}")
+  contract_signers contract_signers[]
+  projects         projects[]
+
+  @@index([data], map: "index_brands_on_data", type: Gin)
+}
+
+model engagement_categories {
+  id                    BigInt                @id @default(autoincrement())
+  engagement_id         Int?
+  created_at            DateTime              @db.Timestamp(6)
+  updated_at            DateTime              @db.Timestamp(6)
+  showreel              Boolean?              @default(false)
+  portfolio_category_id BigInt?
+  portfolio_categories  portfolio_categories? @relation(fields: [portfolio_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_10f8dc1f39")
+  engagements           engagements?          @relation(fields: [engagement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_af4956ae65")
+
+  @@index([engagement_id], map: "index_engagement_categories_on_engagement_id")
+  @@index([portfolio_category_id], map: "index_engagement_categories_on_portfolio_category_id")
+}
+
+model engagement_role_tags {
+  id                   Int          @id @default(autoincrement())
+  engagement_id        Int?
+  role_tag_id          Int?
+  part_played          String?      @db.VarChar
+  created_at           DateTime     @db.Timestamp(6)
+  updated_at           DateTime     @db.Timestamp(6)
+  episodes_completed   Int?         @default(0)
+  episodes_in_progress Int?         @default(0)
+  deleted_at           DateTime?    @db.Timestamp(6)
+  role_tags            role_tags?   @relation(fields: [role_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_4e695b3cb6")
+  engagements          engagements? @relation(fields: [engagement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_ae380b84ea")
+
+  @@index([deleted_at], map: "index_engagement_role_tags_on_deleted_at")
+  @@index([engagement_id], map: "index_engagement_role_tags_on_engagement_id")
+  @@index([role_tag_id], map: "index_engagement_role_tags_on_role_tag_id")
+}
+
+model engagements {
+  id                               Int                      @id @default(autoincrement())
+  profile_id                       Int?
+  created_at                       DateTime                 @db.Timestamp(6)
+  updated_at                       DateTime                 @db.Timestamp(6)
+  project_id                       Int?
+  title                            String?                  @db.VarChar(255)
+  description                      String?
+  duration                         Int?
+  duration_units                   String?                  @db.VarChar(255)
+  start_date                       DateTime?                @db.Date
+  provisional                      Boolean?                 @default(true)
+  updated_project_name             String?                  @db.VarChar
+  updated_project_completion_year  Int?
+  updated_project_status           String?                  @db.VarChar
+  updated_project_sizzler          String?                  @db.VarChar(160)
+  updated_project_description      String?
+  updated_project_details          String?
+  updated_project_media_url        String?                  @db.VarChar
+  updated_project_media_embed_code String?
+  showreel                         Boolean?                 @default(false)
+  pin_to_top                       Boolean?                 @default(false)
+  updated_project_visibility       String?                  @db.VarChar(10)
+  project_access_key               String?                  @db.VarChar(10)
+  rejected                         Boolean?                 @default(false)
+  created_by_profile_id            Int?
+  updated_project_tipe             String?                  @db.VarChar
+  updated_project_tipe_other       String?                  @db.VarChar
+  updated_project_completion_month Int?                     @default(0)
+  updated_project_completion_day   Int?                     @default(0)
+  profile_order                    Int?                     @default(0)
+  updated_project_series           Boolean?
+  deleted_at                       DateTime?                @db.Timestamp(6)
+  updated_project_mature           Boolean?
+  contracts                        contracts[]
+  engagement_categories            engagement_categories[]
+  engagement_invitations           engagement_invitations[]
+  engagement_role_tags             engagement_role_tags[]
+  profiles                         profiles?                @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  projects                         projects?                @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([profile_id, project_id, deleted_at], map: "index_engagements_on_profile_id_and_project_id_and_deleted_at")
+  @@index([deleted_at], map: "index_engagements_on_deleted_at")
+  @@index([project_access_key], map: "index_engagements_on_project_access_key")
+}
+
+model hubs {
+  id              BigInt            @id @default(autoincrement())
+  profile_id      Int?
+  white_label     Boolean?          @default(false)
+  host            String?           @unique(map: "index_hubs_on_host") @db.VarChar
+  slug            String?           @db.VarChar
+  created_at      DateTime          @db.Timestamp(6)
+  updated_at      DateTime          @db.Timestamp(6)
+  name            String?           @db.VarChar
+  strapline       String?           @db.VarChar
+  title_desktop   String?           @db.VarChar
+  title_mobile    String?           @db.VarChar
+  subtitle        String?           @db.VarChar
+  home_video      String?           @db.VarChar
+  home_image      String?           @db.VarChar
+  local_port      String?           @db.VarChar(6)
+  local_host      String?           @db.VarChar
+  default_from    String?           @db.VarChar
+  activities      activities[]
+  profiles        profiles?         @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5fcf778312")
+  message_threads message_threads[]
+  price_plans     price_plans[]
+  profile_slugs   profile_slugs[]
+  subscriptions   subscriptions[]
+  users           users[]
+
+  @@index([profile_id], map: "index_hubs_on_profile_id")
+}
+
+model interests {
+  id               Int       @id @default(autoincrement())
+  profile_id       Int?
+  need_id          Int?
+  engagement_id    Int?
+  pitch            String?
+  state            String?   @default("undecided") @db.VarChar(20)
+  created_at       DateTime  @db.Timestamp(6)
+  updated_at       DateTime  @db.Timestamp(6)
+  deleted_at       DateTime? @db.Timestamp(6)
+  need_type        String?   @db.VarChar(10)
+  brand_profile_id Int?
+  project_id       Int?
+  applied          String?   @default("applied") @db.VarChar(32)
+
+  @@index([deleted_at], map: "index_interests_on_deleted_at")
+  @@index([engagement_id], map: "index_interests_on_engagement_id")
+  @@index([need_id, need_type], map: "index_interests_on_need_id_and_need_type")
+  @@index([profile_id], map: "index_interests_on_profile_id")
+}
+
+model members {
+  id          BigInt   @id @default(autoincrement())
+  target_type String?  @db.VarChar
+  target_id   Int?
+  hub_id      BigInt?
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+  primary     Boolean? @default(false)
+
+  @@index([hub_id], map: "index_members_on_hub_id")
+  @@index([target_id, target_type], map: "index_members_on_target_id_and_target_type")
+}
+
+model portfolio_categories {
+  id                                   BigInt                  @id @default(autoincrement())
+  label                                String?                 @db.VarChar
+  position                             Int?                    @default(0)
+  profile_id                           Int?
+  created_at                           DateTime                @db.Timestamp(6)
+  updated_at                           DateTime                @db.Timestamp(6)
+  default                              Boolean?                @default(false)
+  public_portfolio                     String?                 @default("[]")
+  any_restricted_portfolio_engagements Boolean?                @default(false)
+  public_showreel                      Int?
+  showreel_restricted                  Boolean?                @default(false)
+  engagement_categories                engagement_categories[]
+  profiles                             profiles?               @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_019b6a020a")
+
+  @@index([profile_id], map: "index_portfolio_categories_on_profile_id")
+}
+
+model profile_images {
+  id            Int       @id @default(autoincrement())
+  profile_id    Int?
+  image         String?   @db.VarChar(255)
+  created_at    DateTime  @db.Timestamp(6)
+  updated_at    DateTime  @db.Timestamp(6)
+  selected      Boolean?  @default(false)
+  cloudinary_id String?   @db.VarChar
+  position      Int?
+  credit        String?   @db.VarChar
+  profiles      profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([position], map: "index_profile_images_on_position")
+  @@index([profile_id], map: "index_profile_images_on_profile_id")
+}
+
+model profile_role_tags {
+  id               Int        @id @default(autoincrement())
+  profile_id       Int?
+  role_tag_id      Int?
+  description      String?
+  professional     Boolean?   @default(true)
+  created_at       DateTime   @db.Timestamp(6)
+  updated_at       DateTime   @db.Timestamp(6)
+  accreditation_id Int?
+  deleted_at       DateTime?  @db.Timestamp(6)
+  profiles         profiles?  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_0487c569ea")
+  role_tags        role_tags? @relation(fields: [role_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9423409e4d")
+
+  @@index([accreditation_id], map: "index_profile_role_tags_on_accreditation_id")
+  @@index([deleted_at], map: "index_profile_role_tags_on_deleted_at")
+  @@index([profile_id], map: "index_profile_role_tags_on_profile_id")
+  @@index([role_tag_id], map: "index_profile_role_tags_on_role_tag_id")
+}
+
+model profile_slugs {
+  id         BigInt    @id @default(autoincrement())
+  slug       String?   @db.VarChar
+  redirect   Boolean?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  hub_id     BigInt?
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_267de7a989")
+  hubs       hubs?     @relation(fields: [hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_3b78388e6c")
+
+  @@unique([slug, hub_id], map: "index_profile_slugs_on_slug_and_hub_id")
+  @@index([profile_id], map: "index_profile_slugs_on_profile_id")
+}
+
+model profiles {
+  id                                                                                              Int                                 @id @default(autoincrement())
+  profileable_id                                                                                  Int?
+  profileable_type                                                                                String?                             @db.VarChar(255)
+  name                                                                                            String?                             @db.VarChar(255)
+  headline                                                                                        String?                             @db.VarChar(255)
+  description                                                                                     String?
+  tel_land                                                                                        String?                             @db.VarChar(255)
+  tel_mobile                                                                                      String?                             @db.VarChar(255)
+  skype_handle                                                                                    String?                             @db.VarChar(255)
+  created_at                                                                                      DateTime                            @db.Timestamp(6)
+  updated_at                                                                                      DateTime                            @db.Timestamp(6)
+  deprecated_slug                                                                                 String?                             @db.VarChar(255)
+  provisional                                                                                     Boolean?                            @default(false)
+  country                                                                                         String?                             @db.VarChar(255)
+  city                                                                                            String?                             @db.VarChar(255)
+  projects_count                                                                                  Int?                                @default(0)
+  engagements_count                                                                               Int?                                @default(0)
+  live_projects_count                                                                             Int?                                @default(0)
+  visible_engagements_count                                                                       Int?                                @default(0)
+  deleted_at                                                                                      DateTime?                           @db.Timestamp(6)
+  gender                                                                                          String?                             @db.VarChar
+  playing_age_from                                                                                Int?
+  playing_age_to                                                                                  Int?
+  height_metres                                                                                   Float?
+  body_type                                                                                       String?                             @db.VarChar
+  ethnicity                                                                                       String?                             @db.VarChar
+  last_engagement_digest_sent_at                                                                  DateTime?                           @db.Timestamp(6)
+  concierge_state                                                                                 String?                             @db.VarChar
+  concierge_id                                                                                    Int?
+  concierge_invitation_last_sent_at                                                               DateTime?                           @db.Timestamp(6)
+  accrediting_partner                                                                             Boolean?                            @default(false)
+  api_access_granted                                                                              Boolean?                            @default(false)
+  api_partner                                                                                     Boolean?                            @default(false)
+  client_id                                                                                       String?                             @db.VarChar
+  client_secret                                                                                   String?                             @db.VarChar
+  data_policy_summary                                                                             String?
+  data_policy_url                                                                                 String?                             @db.VarChar
+  pretend                                                                                         Boolean?                            @default(false)
+  first_updated_at                                                                                DateTime?                           @db.Timestamp(6)
+  leave_reason                                                                                    String?
+  visibility                                                                                      String?                             @default("hidden") @db.VarChar(10)
+  publicly_messageable                                                                            Boolean?                            @default(false)
+  public                                                                                          Boolean?                            @default(true)
+  spam_count                                                                                      Int?                                @default(0)
+  spammer                                                                                         Boolean?                            @default(false)
+  mature                                                                                          Boolean?                            @default(false)
+  user_selected_contact_list_id                                                                   BigInt?
+  highlight_links                                                                                 Boolean?                            @default(false)
+  default_to_links                                                                                Boolean?                            @default(false)
+  show_associates                                                                                 Boolean?                            @default(true)
+  show_ads                                                                                        Boolean?                            @default(true)
+  cache                                                                                           String?
+  show_attendances                                                                                Boolean?                            @default(true)
+  viewed_at                                                                                       DateTime?                           @db.Timestamp(6)
+  agent                                                                                           Boolean?                            @default(false)
+  concierge_profile_id                                                                            Int?
+  default_open                                                                                    Boolean?                            @default(false)
+  show_occupiers                                                                                  Boolean?                            @default(true)
+  team_starts_open                                                                                Boolean?                            @default(false)
+  section_team                                                                                    Boolean?
+  section_talent                                                                                  Boolean?
+  section_associates                                                                              Boolean?
+  section_portfolio                                                                               Boolean?
+  section_opportunities                                                                           Boolean?
+  section_attendances                                                                             Boolean?
+  section_occupiers                                                                               Boolean?
+  section_contests                                                                                Boolean?
+  section_schools                                                                                 Boolean?
+  public_can_be_shown                                                                             Boolean?                            @default(false)
+  stored_verified_role_tags                                                                       String?                             @default("[]")
+  stored_unverified_role_tags                                                                     String?                             @default("[]")
+  stored_completed_role_tags                                                                      String?                             @default("[]")
+  public_portfolio                                                                                String?                             @default("[]")
+  any_restricted_portfolio_engagements                                                            Boolean?                            @default(false)
+  public_showreel                                                                                 Int?
+  showreel_restricted                                                                             Boolean?                            @default(false)
+  stored_associates                                                                               String?                             @default("[]")
+  section_portfolio_including_hidden                                                              Boolean?
+  esignatures_key                                                                                 String?                             @db.VarChar(36)
+  esignatures_template_id                                                                         String?                             @db.VarChar(36)
+  attendance_lists                                                                                attendance_lists[]
+  attendances                                                                                     attendances[]
+  brief_administrators                                                                            brief_administrators[]
+  brief_notifications                                                                             brief_notifications[]
+  brief_restricted_to_accreditors                                                                 brief_restricted_to_accreditors[]
+  brief_restricted_to_pools                                                                       brief_restricted_to_pools[]
+  briefs                                                                                          briefs[]
+  contact_lists                                                                                   contact_lists[]
+  contact_shares                                                                                  contact_shares[]
+  contacts_contacts_profile_idToprofiles                                                          contacts[]                          @relation("contacts_profile_idToprofiles")
+  contacts_contacts_related_profile_idToprofiles                                                  contacts[]                          @relation("contacts_related_profile_idToprofiles")
+  contract_signers                                                                                contract_signers[]
+  engagements                                                                                     engagements[]
+  form_messages_form_messages_brand_profile_idToprofiles                                          form_messages[]                     @relation("form_messages_brand_profile_idToprofiles")
+  form_messages_form_messages_profile_idToprofiles                                                form_messages[]                     @relation("form_messages_profile_idToprofiles")
+  forms                                                                                           forms[]
+  hubs                                                                                            hubs[]
+  message_lists                                                                                   message_lists[]
+  message_thread_subscriptions                                                                    message_thread_subscriptions[]
+  messages                                                                                        messages[]
+  occupier_lists                                                                                  occupier_lists[]
+  occupiers                                                                                       occupiers[]
+  portfolio_categories                                                                            portfolio_categories[]
+  profile_images                                                                                  profile_images[]
+  profile_role_tags                                                                               profile_role_tags[]
+  profile_slugs                                                                                   profile_slugs[]
+  user_selected_contact_lists_profiles_user_selected_contact_list_idTouser_selected_contact_lists user_selected_contact_lists?        @relation("profiles_user_selected_contact_list_idTouser_selected_contact_lists", fields: [user_selected_contact_list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_c80075dbbe")
+  project_administrators                                                                          project_administrators[]
+  project_restricted_to_accreditors                                                               project_restricted_to_accreditors[]
+  project_restricted_to_pools                                                                     project_restricted_to_pools[]
+  recruitment_lists                                                                               recruitment_lists[]
+  role_notifications                                                                              role_notifications[]
+  team_lists                                                                                      team_lists[]
+  user_selected_contact_lists_user_selected_contact_lists_profile_idToprofiles                    user_selected_contact_lists[]       @relation("user_selected_contact_lists_profile_idToprofiles")
+
+  @@index([deleted_at], map: "index_profiles_on_deleted_at")
+  @@index([esignatures_key], map: "index_profiles_on_esignatures_key")
+  @@index([esignatures_template_id], map: "index_profiles_on_esignatures_template_id")
+  @@index([profileable_id, profileable_type], map: "index_profiles_on_profileable_id_and_profileable_type")
+  @@index([user_selected_contact_list_id], map: "index_profiles_on_user_selected_contact_list_id")
+  @@index([visibility], map: "index_profiles_on_visibility")
+}
+
+model project_images {
+  id            Int       @id @default(autoincrement())
+  project_id    Int?
+  image         String?   @db.VarChar
+  created_at    DateTime  @db.Timestamp(6)
+  updated_at    DateTime  @db.Timestamp(6)
+  engagement_id Int?
+  selected      Boolean?  @default(false)
+  position      Int?
+  cloudinary_id String?   @db.VarChar
+  credit        String?   @db.VarChar
+  projects      projects? @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([position], map: "index_project_images_on_position")
+  @@index([project_id], map: "index_project_images_on_project_id")
+}
+
+model projects {
+  id                                Int                                 @id @default(autoincrement())
+  name                              String?                             @db.VarChar(255)
+  sizzler                           String?                             @db.VarChar(160)
+  description                       String?
+  created_at                        DateTime                            @db.Timestamp(6)
+  updated_at                        DateTime                            @db.Timestamp(6)
+  slug                              String?                             @unique(map: "index_projects_on_slug") @db.VarChar(255)
+  owner_id                          Int?
+  media_url                         String?                             @db.VarChar(255)
+  creator_id                        Int?
+  details                           String?
+  completion_year                   Int?
+  status                            String?                             @db.VarChar(9)
+  media_embed_code                  String?
+  brand_id                          Int?
+  access_key                        String?                             @db.VarChar(20)
+  visibility                        String?                             @default("published") @db.VarChar(10)
+  tipe                              String?                             @db.VarChar
+  tipe_other                        String?                             @db.VarChar
+  redirect_to_project_id            Int?
+  redirect_to_role_id               Int?
+  completion_month                  Int?                                @default(0)
+  completion_day                    Int?                                @default(0)
+  default_cover                     Int?                                @default(1)
+  deleted_at                        DateTime?                           @db.Timestamp(6)
+  profiles_ordered                  Boolean?                            @default(false)
+  series                            Boolean?                            @default(false)
+  mature                            Boolean?                            @default(false)
+  esignatures_key                   String?                             @db.VarChar(36)
+  esignatures_template_id           String?                             @db.VarChar(36)
+  engagements                       engagements[]
+  project_administrators            project_administrators[]
+  project_images                    project_images[]
+  project_restricted_to_accreditors project_restricted_to_accreditors[]
+  project_restricted_to_pools       project_restricted_to_pools[]
+  roles                             roles[]
+  brands                            brands?                             @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_cf1be0347a")
+  team_lists                        team_lists[]
+
+  @@index([access_key], map: "index_projects_on_access_key")
+  @@index([brand_id], map: "index_projects_on_brand_id")
+  @@index([deleted_at], map: "index_projects_on_deleted_at")
+  @@index([esignatures_key], map: "index_projects_on_esignatures_key")
+  @@index([esignatures_template_id], map: "index_projects_on_esignatures_template_id")
+  @@index([status], map: "index_projects_on_status")
+  @@index([visibility], map: "index_projects_on_visibility")
+}
+
+model role_tags {
+  id                                                                            Int                                  @id @default(autoincrement())
+  name                                                                          String?                              @db.VarChar
+  created_at                                                                    DateTime                             @db.Timestamp(6)
+  updated_at                                                                    DateTime                             @db.Timestamp(6)
+  personal                                                                      Boolean?                             @default(true)
+  autocomplete                                                                  Boolean?                             @default(true)
+  order                                                                         Int?                                 @default(100000000)
+  suits_video_briefs                                                            Boolean?                             @default(false)
+  deleted_at                                                                    DateTime?                            @db.Timestamp(6)
+  contact_list_role_tag_associations                                            contact_list_role_tag_associations[]
+  engagement_role_tags                                                          engagement_role_tags[]
+  profile_role_tags                                                             profile_role_tags[]
+  role_tag_associations_role_tag_associations_associated_role_tag_idTorole_tags role_tag_associations[]              @relation("role_tag_associations_associated_role_tag_idTorole_tags")
+  role_tag_associations_role_tag_associations_role_tag_idTorole_tags            role_tag_associations[]              @relation("role_tag_associations_role_tag_idTorole_tags")
+
+  @@index([deleted_at], map: "index_role_tags_on_deleted_at")
+  @@index([personal], map: "index_role_tags_on_personal")
+  @@index([suits_video_briefs], map: "index_role_tags_on_suits_video_briefs")
+}
+
+model roles {
+  id                      Int                  @id(map: "requirements_pkey") @default(autoincrement())
+  project_id              Int?
+  title                   String?              @db.VarChar(255)
+  description             String?
+  local                   Boolean?             @default(true)
+  duration                Int?
+  duration_units          String?              @db.VarChar(255)
+  start_date              DateTime?            @db.Date
+  duration_notes          String?
+  created_at              DateTime             @db.Timestamp(6)
+  updated_at              DateTime             @db.Timestamp(6)
+  slug                    String?              @db.VarChar(255)
+  remuneration_type       String?              @db.VarChar(60)
+  remuneration_currency   String?              @db.VarChar(20)
+  remuneration_amount     String?              @db.VarChar(15)
+  remuneration_rate       String?              @db.VarChar(16)
+  remuneration_details    String?
+  remuneration_negotiable Boolean?             @default(false)
+  filled                  Boolean?             @default(false)
+  details                 String?
+  start_date_known        Boolean?             @default(false)
+  deleted_at              DateTime?            @db.Timestamp(6)
+  city                    String?              @db.VarChar
+  country                 String?              @db.VarChar
+  creator_id              Int?
+  closing_date            DateTime?            @db.Date
+  gender                  String?              @db.VarChar
+  playing_age_from        Int?
+  playing_age_to          Int?
+  announcement_date       DateTime?            @db.Date
+  announcement_notes      String?
+  external_url            String?              @db.VarChar
+  brand_override          String?              @db.VarChar
+  brand_url               String?              @db.VarChar
+  brand_image             String?              @db.VarChar(255)
+  brand_cloudinary_id     String?              @db.VarChar
+  closed_manually         Boolean?             @default(false)
+  channel                 String?              @default("internal_member") @db.VarChar(20)
+  external_email          String?              @db.VarChar
+  part_played             String?              @db.VarChar
+  role_notifications      role_notifications[]
+  projects                projects?            @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([creator_id], map: "index_roles_on_creator_id")
+  @@index([deleted_at], map: "index_roles_on_deleted_at")
+}
+
+model user_selected_contact_lists {
+  id                                                                           BigInt         @id @default(autoincrement())
+  contact_list_id                                                              Int?
+  user_id                                                                      Int?
+  profile_id                                                                   Int?
+  created_at                                                                   DateTime       @db.Timestamp(6)
+  updated_at                                                                   DateTime       @db.Timestamp(6)
+  profiles_profiles_user_selected_contact_list_idTouser_selected_contact_lists profiles[]     @relation("profiles_user_selected_contact_list_idTouser_selected_contact_lists")
+  contact_lists                                                                contact_lists? @relation(fields: [contact_list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_2691895b0d")
+  profiles_user_selected_contact_lists_profile_idToprofiles                    profiles?      @relation("user_selected_contact_lists_profile_idToprofiles", fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a7bee3a9db")
+  users_user_selected_contact_lists_user_idTousers                             users?         @relation("user_selected_contact_lists_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b21594a052")
+  users_users_user_selected_contact_list_idTouser_selected_contact_lists       users[]        @relation("users_user_selected_contact_list_idTouser_selected_contact_lists")
+
+  @@index([contact_list_id], map: "index_user_selected_contact_lists_on_contact_list_id")
+  @@index([profile_id], map: "index_user_selected_contact_lists_on_profile_id")
+  @@index([user_id], map: "index_user_selected_contact_lists_on_user_id")
+}
+
+model users {
+  id                                                                                           Int                           @id @default(autoincrement())
+  encrypted_password                                                                           String                        @default("") @db.VarChar(255)
+  reset_password_token                                                                         String?                       @unique(map: "index_users_on_reset_password_token") @db.VarChar(255)
+  reset_password_sent_at                                                                       DateTime?                     @db.Timestamp(6)
+  remember_created_at                                                                          DateTime?                     @db.Timestamp(6)
+  sign_in_count                                                                                Int?                          @default(0)
+  current_sign_in_at                                                                           DateTime?                     @db.Timestamp(6)
+  last_sign_in_at                                                                              DateTime?                     @db.Timestamp(6)
+  current_sign_in_ip                                                                           String?                       @db.VarChar(255)
+  last_sign_in_ip                                                                              String?                       @db.VarChar(255)
+  created_at                                                                                   DateTime                      @db.Timestamp(6)
+  updated_at                                                                                   DateTime                      @db.Timestamp(6)
+  admin                                                                                        Int                           @default(0)
+  activated                                                                                    Boolean?                      @default(false)
+  name                                                                                         String?                       @default("") @db.VarChar
+  friendly_name                                                                                String?                       @default("") @db.VarChar
+  mobile_number                                                                                String?                       @db.VarChar
+  preferences                                                                                  Json                          @default("{}")
+  failed_attempts                                                                              Int?                          @default(0)
+  unlock_token                                                                                 String?                       @unique(map: "index_users_on_unlock_token") @db.VarChar
+  locked_at                                                                                    DateTime?                     @db.Timestamp(6)
+  authentication_token                                                                         String?                       @unique(map: "index_users_on_authentication_token") @db.VarChar
+  stripe_customer_id                                                                           String?                       @db.VarChar
+  opportunity_remuneration_preference                                                          String?                       @default("all") @db.VarChar
+  opportunity_frequency_preference                                                             String?                       @default("daily") @db.VarChar
+  message_notification_preference                                                              String?                       @default("yes") @db.VarChar
+  unread_messages_frequency_preference                                                         String?                       @default("twice-weekly") @db.VarChar
+  post_briefs                                                                                  Boolean?                      @default(true)
+  brief_frequency_preference                                                                   String?                       @default("twice-weekly") @db.VarChar
+  ghost                                                                                        Boolean?                      @default(false)
+  legalities_acknowledged_at                                                                   DateTime?                     @db.Timestamp(6)
+  pimp_permission                                                                              Int?
+  emails_acknowledged                                                                          Boolean?                      @default(false)
+  ts_and_cs_acknowledged                                                                       Boolean?                      @default(false)
+  user_selected_contact_list_id                                                                BigInt?
+  billed                                                                                       Boolean?                      @default(false)
+  comms_only                                                                                   Boolean?                      @default(false)
+  stripe_customer_dev_id                                                                       String?                       @db.VarChar
+  device_notifications                                                                         Boolean?                      @default(false)
+  last_used_hub_id                                                                             BigInt?
+  contact_shares                                                                               contact_shares[]
+  emails                                                                                       emails[]
+  push_tokens                                                                                  push_tokens[]
+  subscriptions                                                                                subscriptions[]
+  user_selected_contact_lists_user_selected_contact_lists_user_idTousers                       user_selected_contact_lists[] @relation("user_selected_contact_lists_user_idTousers")
+  user_selected_contact_lists_users_user_selected_contact_list_idTouser_selected_contact_lists user_selected_contact_lists?  @relation("users_user_selected_contact_list_idTouser_selected_contact_lists", fields: [user_selected_contact_list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b1f0184899")
+  hubs                                                                                         hubs?                         @relation(fields: [last_used_hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_eec5b0adbb")
+
+  @@index([last_used_hub_id], map: "index_users_on_last_used_hub_id")
+  @@index([user_selected_contact_list_id], map: "index_users_on_user_selected_contact_list_id")
+}
+
+model activities {
+  id          Int      @id @default(autoincrement())
+  target_type String?  @db.VarChar(255)
+  target_id   Int?
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+  user_id     Int?
+  name        String?  @db.VarChar
+  points      Int?     @default(0)
+  public      Boolean? @default(false)
+  unsolicited Boolean? @default(false)
+  hub_id      BigInt?
+  hubs        hubs?    @relation(fields: [hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d6f4946fab")
+
+  @@index([hub_id], map: "index_activities_on_hub_id")
+  @@index([points], map: "index_activities_on_points")
+  @@index([target_id, target_type], map: "index_activities_on_target_id_and_target_type")
+  @@index([user_id], map: "index_activities_on_user_id")
+}
+
+model ar_internal_metadata {
+  key        String   @id @db.VarChar
+  value      String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+}
+
+model attendance_lists {
+  id             BigInt    @id @default(autoincrement())
+  search         String?   @db.VarChar
+  ghost          Boolean?  @default(false)
+  page           Int?      @default(1)
+  exception_ids  String?
+  event_id       Int?
+  profile_id     Int?
+  created_at     DateTime  @db.Timestamp(6)
+  updated_at     DateTime  @db.Timestamp(6)
+  name           String?   @default("Default") @db.VarChar
+  selected       Boolean?  @default(false)
+  listing        String?   @default("attendances") @db.VarChar
+  messages_page  Int?      @default(1)
+  attended       String?   @default("any") @db.VarChar(12)
+  hidden         Boolean?
+  profile_hidden Boolean?
+  purchaser      Boolean?
+  user_ghost     Boolean?
+  profiles       profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9f832975aa")
+  events         events?   @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_baab1e9435")
+
+  @@index([attended], map: "index_attendance_lists_on_attended")
+  @@index([event_id], map: "index_attendance_lists_on_event_id")
+  @@index([profile_id], map: "index_attendance_lists_on_profile_id")
+}
+
+model attendances {
+  id                      Int       @id @default(autoincrement())
+  event_id                Int?
+  profile_id              Int?
+  created_at              DateTime  @db.Timestamp(6)
+  updated_at              DateTime  @db.Timestamp(6)
+  notes                   String?
+  would_like_to_meet_tags String?
+  ticket_id               BigInt?
+  purchaser_id            Int?
+  role_tags               String?
+  hidden                  Boolean?  @default(false)
+  order_code              String?   @db.VarChar
+  ticket_code             String?   @db.VarChar
+  name                    String?   @db.VarChar
+  email                   String?   @db.VarChar
+  manual_position         Int?      @default(999999)
+  deleted_at              DateTime? @db.Timestamp(6)
+  attended                Boolean?
+  invoice_ids             String?   @db.VarChar
+  bespoke                 String?
+  attending               Boolean?  @default(true)
+  auto_position           Int?      @default(999999)
+  colleague               Boolean?  @default(false)
+  currency                String?   @db.VarChar(3)
+  charge                  Int?      @default(0)
+  discounted              Boolean?  @default(false)
+  original_charge         Int?
+  balance                 Int?
+  deposit_taken_at        DateTime? @db.Timestamp(6)
+  balance_taken_at        DateTime? @db.Timestamp(6)
+  profiles                profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_099b1d53e0")
+  tickets                 tickets?  @relation(fields: [ticket_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_225258fe1a")
+  events                  events?   @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_777eb7170a")
+
+  @@index([deleted_at], map: "index_attendances_on_deleted_at")
+  @@index([event_id], map: "index_attendances_on_event_id")
+  @@index([profile_id], map: "index_attendances_on_profile_id")
+  @@index([ticket_id], map: "index_attendances_on_ticket_id")
+}
+
+model brief_administrators {
+  id         Int       @id @default(autoincrement())
+  brief_id   Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_608b2e8edc")
+  briefs     briefs?   @relation(fields: [brief_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9a86e2cbe2")
+
+  @@index([brief_id], map: "index_brief_administrators_on_brief_id")
+  @@index([profile_id], map: "index_brief_administrators_on_profile_id")
+}
+
+model brief_notifications {
+  id         Int       @id @default(autoincrement())
+  brief_id   Int?
+  profile_id Int?
+  sent_at    DateTime? @db.Timestamp(6)
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_1d7b1c6131")
+  briefs     briefs?   @relation(fields: [brief_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_aab993d7e2")
+
+  @@index([brief_id], map: "index_brief_notifications_on_brief_id")
+  @@index([profile_id], map: "index_brief_notifications_on_profile_id")
+}
+
+model brief_restricted_to_accreditors {
+  id         Int       @id @default(autoincrement())
+  brief_id   Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_13693b3b43")
+  briefs     briefs?   @relation(fields: [brief_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a34bc18890")
+
+  @@index([brief_id], map: "index_brief_restricted_to_accreditors_on_brief_id")
+  @@index([profile_id], map: "index_brief_restricted_to_accreditors_on_profile_id")
+}
+
+model brief_restricted_to_pools {
+  id         Int       @id @default(autoincrement())
+  brief_id   Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  briefs     briefs?   @relation(fields: [brief_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_01b66f7859")
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5bbe940bb4")
+
+  @@index([brief_id], map: "index_brief_restricted_to_pools_on_brief_id")
+  @@index([profile_id], map: "index_brief_restricted_to_pools_on_profile_id")
+}
+
+model briefs {
+  id                              Int                               @id @default(autoincrement())
+  description                     String?
+  profile_id                      Int?
+  created_at                      DateTime                          @db.Timestamp(6)
+  updated_at                      DateTime                          @db.Timestamp(6)
+  title                           String?                           @db.VarChar
+  slug                            String?                           @unique(map: "index_briefs_on_slug") @db.VarChar
+  visibility                      String?                           @default("published") @db.VarChar(10)
+  video_content                   String?                           @db.VarChar(20)
+  video_content_other             String?                           @db.VarChar
+  needs_idea                      Boolean?                          @default(false)
+  needs_story                     Boolean?                          @default(false)
+  needs_storyboard                Boolean?                          @default(false)
+  needs_production                Boolean?                          @default(false)
+  needs_post                      Boolean?                          @default(false)
+  needs_music                     Boolean?                          @default(false)
+  needs_other                     Boolean?                          @default(false)
+  needs_unknown                   Boolean?                          @default(false)
+  other_needs                     String?                           @db.VarChar
+  length_from                     Int?
+  length_to                       Int?
+  length_unit                     String?                           @db.VarChar(10)
+  format_home                     Boolean?                          @default(false)
+  format_large                    Boolean?                          @default(false)
+  format_online                   Boolean?                          @default(false)
+  format_mobile                   Boolean?                          @default(false)
+  format_social                   Boolean?                          @default(false)
+  format_other                    Boolean?                          @default(false)
+  format_unknown                  Boolean?                          @default(false)
+  other_formats                   String?                           @db.VarChar
+  delivery_date                   DateTime?                         @db.Date
+  local                           Boolean?                          @default(false)
+  city                            String?                           @db.VarChar
+  country                         String?                           @db.VarChar
+  budget_from                     Int?
+  budget_to                       Int?
+  budget_currency                 String?                           @db.VarChar(20)
+  delivery_date_known             Boolean?                          @default(false)
+  deleted_at                      DateTime?                         @db.Timestamp(6)
+  creator_id                      Int?
+  closing_date                    DateTime?                         @db.Date
+  filled                          Boolean?                          @default(false)
+  access_key                      String?                           @db.VarChar(20)
+  brief_administrators            brief_administrators[]
+  brief_notifications             brief_notifications[]
+  brief_restricted_to_accreditors brief_restricted_to_accreditors[]
+  brief_restricted_to_pools       brief_restricted_to_pools[]
+  profiles                        profiles?                         @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_0845bb66f5")
+
+  @@index([access_key], map: "index_briefs_on_access_key")
+  @@index([deleted_at], map: "index_briefs_on_deleted_at")
+  @@index([profile_id], map: "index_briefs_on_profile_id")
+  @@index([visibility], map: "index_briefs_on_visibility")
+}
+
+model clauses {
+  id                       BigInt                     @id @default(autoincrement())
+  code                     String?                    @db.VarChar(64)
+  title                    String?
+  clause                   String?
+  level                    Int?                       @default(2)
+  order                    Int?
+  parent_clause_id         BigInt?
+  created_at               DateTime                   @db.Timestamp(6)
+  updated_at               DateTime                   @db.Timestamp(6)
+  exclusion_var_1          String?                    @db.VarChar
+  exclusion_var_1_val      String?                    @db.VarChar
+  exclusion_var_2          String?                    @db.VarChar
+  exclusion_var_2_val      String?                    @db.VarChar
+  exclusion_var_3          String?                    @db.VarChar
+  exclusion_var_3_val      String?                    @db.VarChar
+  clauses                  clauses?                   @relation("clausesToclauses", fields: [parent_clause_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_636d81791f")
+  other_clauses            clauses[]                  @relation("clausesToclauses")
+  clauses_not_in_templates clauses_not_in_templates[]
+
+  @@index([code], map: "index_clauses_on_code")
+  @@index([parent_clause_id], map: "index_clauses_on_parent_clause_id")
+}
+
+model clauses_not_in_templates {
+  id                   BigInt              @id @default(autoincrement())
+  clause_id            BigInt?
+  contract_template_id BigInt?
+  created_at           DateTime            @db.Timestamp(6)
+  updated_at           DateTime            @db.Timestamp(6)
+  clauses              clauses?            @relation(fields: [clause_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_58d25b686b")
+  contract_templates   contract_templates? @relation(fields: [contract_template_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d7b61b0f97")
+
+  @@index([clause_id], map: "index_clauses_not_in_templates_on_clause_id")
+  @@index([contract_template_id], map: "index_clauses_not_in_templates_on_contract_template_id")
+}
+
+model contact_list_contact_tag_associations {
+  id              Int           @id @default(autoincrement())
+  contact_list_id Int?
+  contact_tag_id  Int?
+  created_at      DateTime      @db.Timestamp(6)
+  updated_at      DateTime      @db.Timestamp(6)
+  contact_tags    contact_tags? @relation(fields: [contact_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_164f2f50f1")
+
+  @@index([contact_list_id], map: "index_contact_list_contact_tag_associations_on_contact_list_id")
+  @@index([contact_tag_id], map: "index_contact_list_contact_tag_associations_on_contact_tag_id")
+}
+
+model contact_list_role_tag_associations {
+  id              Int        @id @default(autoincrement())
+  contact_list_id Int?
+  role_tag_id     Int?
+  created_at      DateTime   @db.Timestamp(6)
+  updated_at      DateTime   @db.Timestamp(6)
+  role_tags       role_tags? @relation(fields: [role_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_924c7fa9f0")
+
+  @@index([contact_list_id], map: "index_contact_list_role_tag_associations_on_contact_list_id")
+  @@index([role_tag_id], map: "index_contact_list_role_tag_associations_on_role_tag_id")
+}
+
+model contact_lists {
+  id                          Int                           @id @default(autoincrement())
+  search                      String?                       @db.VarChar
+  profile_id                  Int?
+  created_at                  DateTime                      @db.Timestamp(6)
+  updated_at                  DateTime                      @db.Timestamp(6)
+  match_all                   Boolean?                      @default(true)
+  ghost                       Boolean?                      @default(false)
+  page                        Int?                          @default(1)
+  exception_ids               String?
+  affinity                    String?                       @default("favourited") @db.VarChar(12)
+  name                        String?                       @default("Default") @db.VarChar
+  user_id                     BigInt?
+  profiles                    profiles?                     @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bec906a093")
+  user_selected_contact_lists user_selected_contact_lists[]
+
+  @@index([profile_id], map: "index_contact_lists_on_profile_id")
+  @@index([user_id], map: "index_contact_lists_on_user_id")
+}
+
+model contact_shares {
+  id         BigInt    @id @default(autoincrement())
+  user_id    Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  grant      Boolean   @default(true)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_606bec6baf")
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_bfc7a5545d")
+
+  @@index([profile_id], map: "index_contact_shares_on_profile_id")
+  @@index([user_id], map: "index_contact_shares_on_user_id")
+}
+
+model contact_tag_associations {
+  id                   Int           @id @default(autoincrement())
+  contact_id           Int?
+  contact_tag_id       Int?
+  created_at           DateTime      @db.Timestamp(6)
+  updated_at           DateTime      @db.Timestamp(6)
+  accreditation_waived Boolean?      @default(false)
+  accreditation_id     Int?
+  contact_tags         contact_tags? @relation(fields: [contact_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_180d1b5b13")
+  contacts             contacts?     @relation(fields: [contact_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e79a717fcf")
+
+  @@index([accreditation_id], map: "index_contact_tag_associations_on_accreditation_id")
+  @@index([contact_id], map: "index_contact_tag_associations_on_contact_id")
+  @@index([contact_tag_id], map: "index_contact_tag_associations_on_contact_tag_id")
+}
+
+model contact_tags {
+  id                                    Int                                     @id @default(autoincrement())
+  name                                  String?                                 @db.VarChar
+  created_at                            DateTime                                @db.Timestamp(6)
+  updated_at                            DateTime                                @db.Timestamp(6)
+  contact_list_contact_tag_associations contact_list_contact_tag_associations[]
+  contact_tag_associations              contact_tag_associations[]
+}
+
+model contacts {
+  id                                             Int                        @id @default(autoincrement())
+  name                                           String?                    @default("") @db.VarChar
+  tel_land                                       String?                    @db.VarChar
+  tel_mobile                                     String?                    @db.VarChar
+  city                                           String?                    @db.VarChar
+  country                                        String?                    @db.VarChar
+  email                                          String?                    @db.VarChar
+  notes                                          String?
+  profile_id                                     Int?
+  created_at                                     DateTime                   @db.Timestamp(6)
+  updated_at                                     DateTime                   @db.Timestamp(6)
+  related_profile_id                             Int?
+  friendly_name                                  String?                    @default("") @db.VarChar
+  data_access_granted                            Boolean?
+  data_access_requested                          Boolean?
+  affinity                                       String?                    @default("favourited") @db.VarChar(12)
+  contact_tag_associations                       contact_tag_associations[]
+  profiles_contacts_profile_idToprofiles         profiles?                  @relation("contacts_profile_idToprofiles", fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_7aa91c1878")
+  profiles_contacts_related_profile_idToprofiles profiles?                  @relation("contacts_related_profile_idToprofiles", fields: [related_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_8b82d7197a")
+
+  @@index([affinity], map: "index_contacts_on_affinity")
+  @@index([profile_id], map: "index_contacts_on_profile_id")
+  @@index([related_profile_id], map: "index_contacts_on_related_profile_id")
+}
+
+model contract_signers {
+  id             BigInt     @id @default(autoincrement())
+  contract_id    BigInt?
+  profile_id     Int?
+  brand_id       Int?
+  owner          Boolean?
+  status         Int        @default(0)
+  created_at     DateTime   @db.Timestamp(6)
+  updated_at     DateTime   @db.Timestamp(6)
+  esignatures_id String?    @db.VarChar(36)
+  gender         String?    @db.VarChar
+  as_brand       Boolean?   @default(false)
+  personal_name  String?    @db.VarChar
+  brand_name     String?    @db.VarChar
+  email_sent     String?    @db.VarChar
+  company_no     String?    @db.VarChar
+  contracts      contracts? @relation(fields: [contract_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_271507b2f3")
+  profiles       profiles?  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_7170f78980")
+  brands         brands?    @relation(fields: [brand_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e5cce9878a")
+
+  @@index([brand_id], map: "index_contract_signers_on_brand_id")
+  @@index([contract_id], map: "index_contract_signers_on_contract_id")
+  @@index([esignatures_id], map: "index_contract_signers_on_esignatures_id")
+  @@index([profile_id], map: "index_contract_signers_on_profile_id")
+}
+
+model contract_templates {
+  id                       BigInt                     @id @default(autoincrement())
+  label                    String?                    @db.VarChar
+  created_at               DateTime                   @db.Timestamp(6)
+  updated_at               DateTime                   @db.Timestamp(6)
+  contract_type            String?                    @db.VarChar
+  order                    Int?
+  clauses_not_in_templates clauses_not_in_templates[]
+  contracts                contracts[]
+}
+
+model contract_variable_values {
+  id                   BigInt              @id @default(autoincrement())
+  contract_id          BigInt?
+  contract_variable_id BigInt?
+  value                String?             @db.VarChar
+  created_at           DateTime            @db.Timestamp(6)
+  updated_at           DateTime            @db.Timestamp(6)
+  contract_variables   contract_variables? @relation(fields: [contract_variable_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_c898fb8c96")
+  contracts            contracts?          @relation(fields: [contract_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f083fd001d")
+
+  @@index([contract_id], map: "index_contract_variable_values_on_contract_id")
+  @@index([contract_variable_id], map: "index_contract_variable_values_on_contract_variable_id")
+}
+
+model contract_variables {
+  id                       BigInt                     @id @default(autoincrement())
+  code                     String?                    @db.VarChar
+  description              String?                    @db.VarChar
+  order                    Int?
+  created_at               DateTime                   @db.Timestamp(6)
+  updated_at               DateTime                   @db.Timestamp(6)
+  contract_variable_values contract_variable_values[]
+}
+
+model contracts {
+  id                       BigInt                     @id @default(autoincrement())
+  contract_template_id     BigInt?
+  engagement_id            Int?
+  status                   Int                        @default(0)
+  text                     String?
+  created_at               DateTime                   @db.Timestamp(6)
+  updated_at               DateTime                   @db.Timestamp(6)
+  esignatures_id           String?                    @db.VarChar(36)
+  hub_id                   Int?
+  pdf_url                  String?                    @db.VarChar
+  contract_signers         contract_signers[]
+  contract_variable_values contract_variable_values[]
+  contract_templates       contract_templates?        @relation(fields: [contract_template_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_39b0016a82")
+  engagements              engagements?               @relation(fields: [engagement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a01bfbce3f")
+
+  @@index([contract_template_id], map: "index_contracts_on_contract_template_id")
+  @@index([engagement_id], map: "index_contracts_on_engagement_id")
+  @@index([esignatures_id], map: "index_contracts_on_esignatures_id")
+}
+
+model documents {
+  id                Int       @id @default(autoincrement())
+  owner_type        String?   @db.VarChar(255)
+  filename          String?   @db.VarChar(255)
+  name              String?   @db.VarChar(255)
+  created_at        DateTime  @db.Timestamp(6)
+  updated_at        DateTime  @db.Timestamp(6)
+  owner_id          Int?
+  deleted_at        DateTime? @db.Timestamp(6)
+  cloudinary_id     String?   @db.VarChar
+  extension         String?   @db.VarChar
+  original_filename String?   @db.VarChar
+  resource_type     String?   @db.VarChar
+
+  @@index([deleted_at], map: "index_documents_on_deleted_at")
+}
+
+model emails {
+  id                   Int       @id @default(autoincrement())
+  email                String    @default("") @db.VarChar
+  user_id              Int?
+  primary              Boolean?  @default(false)
+  confirmation_token   String?   @unique(map: "index_emails_on_confirmation_token") @db.VarChar
+  confirmed_at         DateTime? @db.Timestamp(6)
+  confirmation_sent_at DateTime? @db.Timestamp(6)
+  unconfirmed_email    String?   @db.VarChar
+  users                users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_214d0d0665")
+
+  @@index([user_id], map: "index_emails_on_user_id")
+}
+
+model engagement_invitations {
+  id                 Int          @id @default(autoincrement())
+  inviter_id         Int?
+  invitee_id         Int?
+  engagement_id      Int?
+  message            String?
+  created_at         DateTime     @db.Timestamp(6)
+  updated_at         DateTime     @db.Timestamp(6)
+  confirm_key        String?      @unique(map: "index_engagement_invitations_on_confirm_key") @db.VarChar(20)
+  state              String?      @db.VarChar(8)
+  accepted_at        DateTime?    @db.Timestamp(6)
+  rejected_at        DateTime?    @db.Timestamp(6)
+  notification_count Int?
+  engagements        engagements? @relation(fields: [engagement_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_6f39a80e5a")
+
+  @@index([engagement_id], map: "index_engagement_invitations_on_engagement_id")
+  @@index([state], map: "index_engagement_invitations_on_state")
+}
+
+model event_images {
+  id            Int      @id @default(autoincrement())
+  event_id      Int?
+  image         String?  @db.VarChar
+  selected      Boolean?
+  cloudinary_id String?  @db.VarChar
+  position      Int?
+  created_at    DateTime @db.Timestamp(6)
+  updated_at    DateTime @db.Timestamp(6)
+  credit        String?  @db.VarChar
+  events        events?  @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9dd6f2f888")
+
+  @@index([event_id], map: "index_event_images_on_event_id")
+}
+
+model event_messages {
+  id               BigInt    @id @default(autoincrement())
+  profile_id       Int?
+  event_id         Int?
+  message          String?
+  exception_ids    String?   @db.VarChar
+  everyone         Boolean?  @default(false)
+  brand_profile_id Int?
+  deleted_at       DateTime? @db.Timestamp(6)
+  created_at       DateTime  @db.Timestamp(6)
+  updated_at       DateTime  @db.Timestamp(6)
+
+  @@index([deleted_at], map: "index_event_messages_on_deleted_at")
+  @@index([event_id], map: "index_event_messages_on_event_id")
+  @@index([profile_id], map: "index_event_messages_on_profile_id")
+}
+
+model event_series {
+  id         BigInt   @id @default(autoincrement())
+  name       String?  @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  events     events[]
+}
+
+model events {
+  id               Int                @id @default(autoincrement())
+  name             String?            @db.VarChar
+  start_date       DateTime?          @db.Date
+  description      String?
+  event_url        String?            @db.VarChar
+  country          String?            @db.VarChar
+  city             String?            @db.VarChar
+  slug             String?            @unique(map: "index_events_on_slug") @db.VarChar
+  created_at       DateTime           @db.Timestamp(6)
+  updated_at       DateTime           @db.Timestamp(6)
+  venue            String?            @db.VarChar
+  location         String?
+  charge_amount    String?            @db.VarChar(30)
+  charge_currency  String?            @db.VarChar(20)
+  charge_notes     String?
+  duration         Int?
+  duration_units   String?            @db.VarChar(10)
+  duration_notes   String?
+  deleted_at       DateTime?          @db.Timestamp(6)
+  postcode         String?            @db.VarChar(10)
+  inhouse          Boolean?           @default(false)
+  visibility       String?            @default("published") @db.VarChar(10)
+  media_url        String?            @db.VarChar(255)
+  media_embed_code String?
+  start_time       DateTime?          @db.Time(6)
+  end_time         DateTime?          @db.Time(6)
+  bespoke_label    String?            @db.VarChar
+  creator_id       Int?
+  brand_id         Int?
+  capacity         Int                @default(0)
+  partner_id       Int?
+  event_series_id  BigInt?
+  access_key       String?            @db.VarChar(20)
+  attendance_lists attendance_lists[]
+  attendances      attendances[]
+  event_images     event_images[]
+  event_series     event_series?      @relation(fields: [event_series_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_99ee023bc1")
+  tickets          tickets[]
+
+  @@index([access_key], map: "index_events_on_access_key")
+  @@index([deleted_at], map: "index_events_on_deleted_at")
+  @@index([event_series_id], map: "index_events_on_event_series_id")
+  @@index([visibility], map: "index_events_on_visibility")
+}
+
+model field_options {
+  id             BigInt       @id @default(autoincrement())
+  label          String?      @db.VarChar
+  image_url      String?      @db.VarChar
+  form_field_id  BigInt?
+  created_at     DateTime     @db.Timestamp(6)
+  updated_at     DateTime     @db.Timestamp(6)
+  selected       Boolean?     @default(false)
+  order          Int?
+  sub_label      String?      @db.VarChar
+  details        String?
+  switch         String?      @db.VarChar
+  show_when_true Boolean?     @default(true)
+  form_fields    form_fields? @relation(fields: [form_field_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_100fbcdf87")
+
+  @@index([form_field_id], map: "index_field_options_on_form_field_id")
+}
+
+model flipper_features {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique(map: "index_flipper_features_on_key") @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+}
+
+model flipper_gates {
+  id          Int      @id @default(autoincrement())
+  feature_key String   @db.VarChar
+  key         String   @db.VarChar
+  value       String?  @db.VarChar
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+
+  @@unique([feature_key, key, value], map: "index_flipper_gates_on_feature_key_and_key_and_value")
+}
+
+model form_fields {
+  id            BigInt          @id @default(autoincrement())
+  field_type    String?         @db.VarChar
+  label         String?         @db.VarChar
+  form_id       BigInt?
+  created_at    DateTime        @db.Timestamp(6)
+  updated_at    DateTime        @db.Timestamp(6)
+  switch        String?         @db.VarChar
+  switch_value  String?         @db.VarChar
+  show          Boolean?        @default(true)
+  order         Int?
+  in_column     Int             @default(0)
+  helper        String?         @db.VarChar
+  placeholder   String?         @db.VarChar
+  field_options field_options[]
+  forms         forms?          @relation(fields: [form_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_28fb260032")
+
+  @@index([form_id], map: "index_form_fields_on_form_id")
+}
+
+model form_messages {
+  id                                                BigInt    @id @default(autoincrement())
+  profile_id                                        Int?
+  form_id                                           BigInt?
+  created_at                                        DateTime  @db.Timestamp(6)
+  updated_at                                        DateTime  @db.Timestamp(6)
+  name                                              String?   @db.VarChar
+  email                                             String?   @db.VarChar
+  mobile_no                                         String?   @db.VarChar
+  entry                                             String?
+  brand_profile_id                                  Int?
+  deleted_at                                        DateTime? @db.Timestamp(6)
+  gdpr_permission                                   Boolean?
+  forms                                             forms?    @relation(fields: [form_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_8ea5ea63d0")
+  profiles_form_messages_brand_profile_idToprofiles profiles? @relation("form_messages_brand_profile_idToprofiles", fields: [brand_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a76b67674a")
+  profiles_form_messages_profile_idToprofiles       profiles? @relation("form_messages_profile_idToprofiles", fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b4266ced45")
+
+  @@index([brand_profile_id], map: "index_form_messages_on_brand_profile_id")
+  @@index([deleted_at], map: "index_form_messages_on_deleted_at")
+  @@index([form_id], map: "index_form_messages_on_form_id")
+  @@index([profile_id], map: "index_form_messages_on_profile_id")
+}
+
+model forms {
+  id              BigInt          @id @default(autoincrement())
+  name            String?         @db.VarChar
+  description     String?
+  title           String?         @db.VarChar
+  created_at      DateTime        @db.Timestamp(6)
+  updated_at      DateTime        @db.Timestamp(6)
+  profile_id      Int?
+  save_label      String?         @db.VarChar(120)
+  success_message String?
+  cta_label       String?         @db.VarChar
+  visibility      String?         @default("published") @db.VarChar(9)
+  form_fields     form_fields[]
+  form_messages   form_messages[]
+  profiles        profiles?       @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_23b69b84ec")
+
+  @@index([profile_id], map: "index_forms_on_profile_id")
+  @@index([visibility], map: "index_forms_on_visibility")
+}
+
+model interest_invitations {
+  id         Int       @id @default(autoincrement())
+  inviter_id Int?
+  invitee_id Int?
+  role_id    Int?
+  message    String?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  access_key String?   @db.VarChar(255)
+  deleted_at DateTime? @db.Timestamp(6)
+
+  @@index([deleted_at], map: "index_interest_invitations_on_deleted_at")
+  @@index([invitee_id], map: "index_interest_invitations_on_invitee_id")
+  @@index([inviter_id], map: "index_interest_invitations_on_inviter_id")
+  @@index([role_id], map: "index_interest_invitations_on_role_id")
+}
+
+model location_images {
+  id            BigInt     @id @default(autoincrement())
+  location_id   BigInt?
+  image         String?    @db.VarChar
+  selected      Boolean?
+  cloudinary_id String?    @db.VarChar
+  position      Int?
+  created_at    DateTime   @db.Timestamp(6)
+  updated_at    DateTime   @db.Timestamp(6)
+  locations     locations? @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_eae3250d90")
+
+  @@index([location_id], map: "index_location_images_on_location_id")
+}
+
+model location_messages {
+  id               BigInt    @id @default(autoincrement())
+  profile_id       BigInt?
+  location_id      BigInt?
+  message          String?
+  exception_ids    String?   @db.VarChar
+  everyone         Boolean?  @default(false)
+  brand_profile_id BigInt?
+  deleted_at       DateTime? @db.Timestamp(6)
+  created_at       DateTime  @db.Timestamp(6)
+  updated_at       DateTime  @db.Timestamp(6)
+
+  @@index([deleted_at], map: "index_location_messages_on_deleted_at")
+  @@index([location_id], map: "index_location_messages_on_location_id")
+  @@index([profile_id], map: "index_location_messages_on_profile_id")
+}
+
+model locations {
+  id              BigInt            @id @default(autoincrement())
+  name            String?           @db.VarChar
+  description     String?
+  location_id     BigInt?
+  registerable    Boolean?          @default(false)
+  bookable        Boolean?          @default(false)
+  created_at      DateTime          @db.Timestamp(6)
+  updated_at      DateTime          @db.Timestamp(6)
+  country         String?           @db.VarChar
+  city            String?           @db.VarChar
+  slug            String?           @unique(map: "index_locations_on_slug") @db.VarChar
+  deleted_at      DateTime?         @db.Timestamp(6)
+  visibility      String?           @default("published") @db.VarChar(10)
+  creator_id      Int?
+  partner_id      BigInt?
+  closed_from     DateTime?         @db.Time(6)
+  closed_until    DateTime?         @db.Time(6)
+  location_images location_images[]
+  locations       locations?        @relation("locationsTolocations", fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e595f9af54")
+  other_locations locations[]       @relation("locationsTolocations")
+  occupier_lists  occupier_lists[]
+  occupiers       occupiers[]
+
+  @@index([deleted_at], map: "index_locations_on_deleted_at")
+  @@index([location_id], map: "index_locations_on_location_id")
+  @@index([visibility], map: "index_locations_on_visibility")
+}
+
+model message_lists {
+  id          Int       @id @default(autoincrement())
+  search      String?
+  status      String?   @default("any") @db.VarChar(30)
+  profile_id  Int?
+  created_at  DateTime  @db.Timestamp(6)
+  updated_at  DateTime  @db.Timestamp(6)
+  ghost       Boolean?  @default(false)
+  search_used String?
+  name        String?   @default("Default") @db.VarChar
+  selected    Boolean?  @default(false)
+  profiles    profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_3783f80916")
+
+  @@index([profile_id], map: "index_message_lists_on_profile_id")
+}
+
+model message_thread_subscriptions {
+  id                Int              @id @default(autoincrement())
+  message_thread_id Int?
+  profile_id        Int?
+  created_at        DateTime         @db.Timestamp(6)
+  updated_at        DateTime         @db.Timestamp(6)
+  deleted_at        DateTime?        @db.Timestamp(6)
+  unread_messages   Boolean?         @default(false)
+  brand_profile_id  Int?
+  archived          Boolean?         @default(false)
+  avoided           Boolean?         @default(false)
+  marked_as_spam    Boolean?         @default(false)
+  message_threads   message_threads? @relation(fields: [message_thread_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d3d6deedcc")
+  profiles          profiles?        @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_d76bff0409")
+
+  @@index([archived], map: "index_message_thread_subscriptions_on_archived")
+  @@index([deleted_at], map: "index_message_thread_subscriptions_on_deleted_at")
+  @@index([unread_messages], map: "index_message_thread_subscriptions_on_unread_messages")
+}
+
+model message_threads {
+  id                           Int                            @id @default(autoincrement())
+  created_at                   DateTime                       @db.Timestamp(6)
+  updated_at                   DateTime                       @db.Timestamp(6)
+  deleted_at                   DateTime?                      @db.Timestamp(6)
+  message_thread_type          String?                        @default("standard") @db.VarChar
+  topic_type                   String?                        @db.VarChar
+  topic_id                     Int?
+  creator_id                   Int?
+  broadcast                    Boolean                        @default(false)
+  hub_id                       BigInt?
+  message_thread_subscriptions message_thread_subscriptions[]
+  hubs                         hubs?                          @relation(fields: [hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_246e8a6419")
+  messages                     messages[]
+
+  @@index([deleted_at], map: "index_message_threads_on_deleted_at")
+  @@index([hub_id], map: "index_message_threads_on_hub_id")
+  @@index([topic_id, topic_type], map: "index_message_threads_on_topic_id_and_topic_type")
+}
+
+model messages {
+  id                Int              @id @default(autoincrement())
+  body              String?
+  message_thread_id Int?
+  profile_id        Int?
+  parent_id         Int?
+  created_at        DateTime         @db.Timestamp(6)
+  updated_at        DateTime         @db.Timestamp(6)
+  deleted_at        DateTime?        @db.Timestamp(6)
+  brand_profile_id  Int?
+  public            Boolean?         @default(false)
+  name              String?          @db.VarChar
+  email             String?          @db.VarChar
+  mobile_no         String?          @db.VarChar
+  naughty           Int?             @default(0)
+  was_edited        Boolean?         @default(false)
+  private_note      Boolean?         @default(false)
+  message_threads   message_threads? @relation(fields: [message_thread_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_48a2f10058")
+  profiles          profiles?        @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_96942092a5")
+
+  @@index([deleted_at], map: "index_messages_on_deleted_at")
+}
+
+model occupier_lists {
+  id             BigInt     @id @default(autoincrement())
+  search         String?    @db.VarChar
+  ghost          Boolean?   @default(false)
+  page           Int?       @default(1)
+  exception_ids  String?
+  name           String?    @default("Default") @db.VarChar
+  selected       Boolean?   @default(false)
+  listing        String?    @default("occupiers") @db.VarChar
+  messages_page  Int?       @default(1)
+  occupied       String?    @default("any") @db.VarChar(12)
+  hidden         Boolean?
+  profile_hidden Boolean?
+  location_id    BigInt?
+  profile_id     Int?
+  created_at     DateTime   @db.Timestamp(6)
+  updated_at     DateTime   @db.Timestamp(6)
+  resident       String?    @default("any") @db.VarChar(12)
+  locations      locations? @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_2e35793e24")
+  profiles       profiles?  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_3057098b99")
+
+  @@index([location_id], map: "index_occupier_lists_on_location_id")
+  @@index([occupied], map: "index_occupier_lists_on_occupied")
+  @@index([profile_id], map: "index_occupier_lists_on_profile_id")
+}
+
+model occupiers {
+  id                      BigInt      @id @default(autoincrement())
+  location_id             BigInt?
+  occupied                Boolean?    @default(false)
+  created_at              DateTime    @db.Timestamp(6)
+  updated_at              DateTime    @db.Timestamp(6)
+  owner                   Boolean?    @default(false)
+  auto_position           Int?        @default(999999)
+  manual_position         Int?        @default(999999)
+  role_tags               String?
+  would_like_to_meet_tags String?
+  notes                   String?
+  hidden                  Boolean?    @default(false)
+  deleted_at              DateTime?   @db.Timestamp(6)
+  profile_id              Int?
+  host_id                 BigInt?
+  authority               Int?        @default(0)
+  autocheckin             Boolean?    @default(false)
+  locations               locations?  @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_41054a2b04")
+  occupiers               occupiers?  @relation("occupiersTooccupiers", fields: [host_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5544737748")
+  other_occupiers         occupiers[] @relation("occupiersTooccupiers")
+  profiles                profiles?   @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e92dc26c90")
+
+  @@index([host_id], map: "index_occupiers_on_host_id")
+  @@index([location_id], map: "index_occupiers_on_location_id")
+  @@index([profile_id], map: "index_occupiers_on_profile_id")
+}
+
+model pages {
+  id          Int      @id @default(autoincrement())
+  name        String?  @db.VarChar(255)
+  slug        String?  @db.VarChar(255)
+  content     String?
+  created_at  DateTime @db.Timestamp(6)
+  updated_at  DateTime @db.Timestamp(6)
+  description String?
+  published   Boolean? @default(false)
+  border      Boolean? @default(true)
+  bg_color    String?  @default("ffffff") @db.VarChar(6)
+
+  @@index([slug], map: "index_pages_on_slug")
+}
+
+model price_plans {
+  id                             Int             @id @default(autoincrement())
+  code                           String?         @db.VarChar
+  created_at                     DateTime        @db.Timestamp(6)
+  updated_at                     DateTime        @db.Timestamp(6)
+  stripe_plan_monthly_gbp_id     String?         @db.VarChar
+  name                           String?         @db.VarChar(30)
+  charge_pence                   Int?
+  stripe_plan_monthly_gbp_dev_id String?         @db.VarChar
+  stripe_plan_yearly_gbp_id      String?         @db.VarChar
+  stripe_plan_yearly_gbp_dev_id  String?         @db.VarChar
+  charge_pence_yearly            Int?
+  charge_us_cents                Int?
+  charge_us_cents_yearly         Int?
+  charge_eu_cents                Int?
+  charge_eu_cents_yearly         Int?
+  stripe_plan_monthly_usd_id     String?         @db.VarChar
+  stripe_plan_yearly_usd_id      String?         @db.VarChar
+  stripe_plan_monthly_usd_dev_id String?         @db.VarChar
+  stripe_plan_yearly_usd_dev_id  String?         @db.VarChar
+  stripe_plan_monthly_eur_id     String?         @db.VarChar
+  stripe_plan_yearly_eur_id      String?         @db.VarChar
+  stripe_plan_monthly_eur_dev_id String?         @db.VarChar
+  stripe_plan_yearly_eur_dev_id  String?         @db.VarChar
+  hub_id                         BigInt?
+  hubs                           hubs?           @relation(fields: [hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_053f166205")
+  subscriptions                  subscriptions[]
+
+  @@index([code], map: "index_price_plans_on_code")
+  @@index([hub_id], map: "index_price_plans_on_hub_id")
+}
+
+model project_administrators {
+  id         Int       @id @default(autoincrement())
+  project_id Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  projects   projects? @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_988f1d443f")
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f2c70aeb30")
+
+  @@index([profile_id], map: "index_project_administrators_on_profile_id")
+  @@index([project_id], map: "index_project_administrators_on_project_id")
+}
+
+model project_restricted_to_accreditors {
+  id         Int       @id @default(autoincrement())
+  project_id Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  projects   projects? @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_5d57346df9")
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_66ded0c95d")
+
+  @@index([profile_id], map: "index_project_restricted_to_accreditors_on_profile_id")
+  @@index([project_id], map: "index_project_restricted_to_accreditors_on_project_id")
+}
+
+model project_restricted_to_pools {
+  id         Int       @id @default(autoincrement())
+  project_id Int?
+  profile_id Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_1665358463")
+  projects   projects? @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_3d9ccacb7e")
+
+  @@index([profile_id], map: "index_project_restricted_to_pools_on_profile_id")
+  @@index([project_id], map: "index_project_restricted_to_pools_on_project_id")
+}
+
+model push_tokens {
+  id         BigInt   @id @default(autoincrement())
+  token      String?  @db.VarChar
+  device_id  String?  @db.VarChar(40)
+  token_type String?  @db.VarChar(6)
+  user_id    Int?
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  users      users?   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f4c3e802e8")
+
+  @@index([user_id], map: "index_push_tokens_on_user_id")
+}
+
+model recruitment_lists {
+  id              Int       @id @default(autoincrement())
+  page            Int?      @default(1)
+  exception_ids   String?
+  status          String?   @default("any") @db.VarChar
+  messages_status String?   @default("any") @db.VarChar
+  need_id         Int?
+  profile_id      Int?
+  created_at      DateTime  @db.Timestamp(6)
+  updated_at      DateTime  @db.Timestamp(6)
+  ghost           Boolean?  @default(false)
+  need_type       String?   @db.VarChar(10)
+  name            String?   @default("Default") @db.VarChar
+  selected        Boolean?  @default(false)
+  profiles        profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_21a58b6929")
+
+  @@index([need_id, need_type], map: "index_recruitment_lists_on_need_id_and_need_type")
+  @@index([profile_id], map: "index_recruitment_lists_on_profile_id")
+}
+
+model role_notifications {
+  id         Int       @id @default(autoincrement())
+  role_id    Int?
+  profile_id Int?
+  sent_at    DateTime? @db.Timestamp(6)
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  profiles   profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_9af1c0d455")
+  roles      roles?    @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_a07d8e0986")
+
+  @@index([profile_id], map: "index_role_notifications_on_profile_id")
+  @@index([role_id], map: "index_role_notifications_on_role_id")
+}
+
+model role_tag_associations {
+  id                                                                Int        @id @default(autoincrement())
+  role_tag_id                                                       Int?
+  associated_role_tag_id                                            Int?
+  created_at                                                        DateTime   @db.Timestamp(6)
+  updated_at                                                        DateTime   @db.Timestamp(6)
+  role_tags_role_tag_associations_associated_role_tag_idTorole_tags role_tags? @relation("role_tag_associations_associated_role_tag_idTorole_tags", fields: [associated_role_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_3c7a4825ec")
+  role_tags_role_tag_associations_role_tag_idTorole_tags            role_tags? @relation("role_tag_associations_role_tag_idTorole_tags", fields: [role_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_f613ff455f")
+
+  @@unique([role_tag_id, associated_role_tag_id], map: "index_role_tag_associations_on_role_tag_and_associated_role_tag")
+  @@index([associated_role_tag_id], map: "index_role_tag_associations_on_associated_role_tag_id")
+  @@index([role_tag_id], map: "index_role_tag_associations_on_role_tag_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model role_tags_roles {
+  role_tag_id Int
+  role_id     Int
+
+  @@ignore
+}
+
+model schema_migrations {
+  version String @unique(map: "unique_schema_migrations") @db.VarChar(255)
+}
+
+model services {
+  id         Int      @id @default(autoincrement())
+  user_id    Int?
+  provider   String?  @db.VarChar(255)
+  uid        String?  @db.VarChar(255)
+  uname      String?  @db.VarChar(255)
+  uemail     String?  @db.VarChar(255)
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+
+  @@index([user_id], map: "index_services_on_user_id")
+}
+
+model subscriptions {
+  id                     Int          @id @default(autoincrement())
+  user_id                Int?
+  price_plan_id          Int?
+  created_at             DateTime     @db.Timestamp(6)
+  updated_at             DateTime     @db.Timestamp(6)
+  stripe_subscription_id String?      @db.VarChar(30)
+  end_at                 DateTime?    @db.Timestamp(6)
+  downgrade_to_plan_id   Int?
+  yearly                 Boolean?     @default(false)
+  purchaser_id           Int?
+  profile_id             Int?
+  accepted_at            DateTime?    @db.Timestamp(6)
+  confirm_key            String?      @db.VarChar(20)
+  message                String?
+  notification_count     Int?
+  rejected_at            DateTime?    @db.Timestamp(6)
+  state                  String?      @default("unset") @db.VarChar(9)
+  inviter_id             Int?
+  current                Boolean?     @default(true)
+  as_agent               Boolean?     @default(false)
+  currency               String?      @db.VarChar(3)
+  hub_id                 BigInt?
+  users                  users?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_933bdff476")
+  hubs                   hubs?        @relation(fields: [hub_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_e8286f461d")
+  price_plans            price_plans? @relation(fields: [price_plan_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_ebb0c56cf8")
+
+  @@index([end_at], map: "index_subscriptions_on_end_at")
+  @@index([hub_id], map: "index_subscriptions_on_hub_id")
+  @@index([price_plan_id], map: "index_subscriptions_on_price_plan_id")
+  @@index([profile_id], map: "index_subscriptions_on_profile_id")
+  @@index([purchaser_id], map: "index_subscriptions_on_purchaser_id")
+  @@index([state], map: "index_subscriptions_on_state")
+  @@index([user_id], map: "index_subscriptions_on_user_id")
+}
+
+model taggings {
+  id            Int       @id @default(autoincrement())
+  tag_id        Int?
+  taggable_id   Int?
+  taggable_type String?   @db.VarChar(255)
+  tagger_id     Int?
+  tagger_type   String?   @db.VarChar(255)
+  context       String?   @db.VarChar(128)
+  created_at    DateTime? @db.Timestamp(6)
+
+  @@unique([tag_id, taggable_id, taggable_type, context, tagger_id, tagger_type], map: "taggings_idx")
+  @@index([context], map: "index_taggings_on_context")
+  @@index([tag_id], map: "index_taggings_on_tag_id")
+  @@index([taggable_id], map: "index_taggings_on_taggable_id")
+  @@index([taggable_id, taggable_type, context], map: "index_taggings_on_taggable_id_and_taggable_type_and_context")
+  @@index([taggable_type], map: "index_taggings_on_taggable_type")
+  @@index([tagger_id], map: "index_taggings_on_tagger_id")
+  @@index([tagger_id, tagger_type], map: "index_taggings_on_tagger_id_and_tagger_type")
+  @@index([taggable_id, taggable_type, tagger_id, context], map: "taggings_idy")
+}
+
+model tags {
+  id             Int     @id @default(autoincrement())
+  name           String? @unique(map: "index_tags_on_name") @db.VarChar(255)
+  taggings_count Int?    @default(0)
+}
+
+model team_lists {
+  id                  Int       @id @default(autoincrement())
+  ghost               Boolean?  @default(false)
+  listing             String?   @default("team") @db.VarChar(20)
+  messages_page       Int?      @default(1)
+  project_id          Int?
+  profile_id          Int?
+  created_at          DateTime  @db.Timestamp(6)
+  updated_at          DateTime  @db.Timestamp(6)
+  team_exception_ids  String?
+  name                String?   @default("Default") @db.VarChar
+  selected            Boolean?  @default(false)
+  message_search      String?
+  message_search_used String?
+  message_status      String?   @default("any") @db.VarChar(30)
+  projects            projects? @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_93565ee7e0")
+  profiles            profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_b757ec15da")
+
+  @@index([profile_id], map: "index_team_lists_on_profile_id")
+  @@index([project_id], map: "index_team_lists_on_project_id")
+}
+
+model team_messages {
+  id               Int       @id @default(autoincrement())
+  profile_id       Int?
+  project_id       Int?
+  message          String?
+  created_at       DateTime  @db.Timestamp(6)
+  updated_at       DateTime  @db.Timestamp(6)
+  exception_ids    String?   @db.VarChar
+  deleted_at       DateTime? @db.Timestamp(6)
+  everyone         Boolean?  @default(false)
+  brand_profile_id Int?
+
+  @@index([deleted_at], map: "index_team_messages_on_deleted_at")
+  @@index([profile_id], map: "index_team_messages_on_profile_id")
+  @@index([project_id], map: "index_team_messages_on_project_id")
+}
+
+model tickets {
+  id                          BigInt        @id @default(autoincrement())
+  charge_pence                Int?
+  from_date                   DateTime?     @db.Date
+  to_date                     DateTime?     @db.Date
+  event_id                    Int?
+  created_at                  DateTime      @db.Timestamp(6)
+  updated_at                  DateTime      @db.Timestamp(6)
+  name                        String?       @db.VarChar
+  quantity                    Int?
+  deleted_at                  DateTime?     @db.Timestamp(6)
+  details                     String?       @db.VarChar
+  bronze_plus_exclusive       Boolean?      @default(false)
+  discount_code               String?       @db.VarChar(16)
+  charge_us_cents             Int?
+  charge_eu_cents             Int?
+  discounted_charge_pence     Int?
+  discounted_charge_us_cents  Int?
+  discounted_charge_eu_cents  Int?
+  offer_deposit               Boolean?      @default(false)
+  deposit_pence               Int?
+  deposit_us_cents            Int?
+  deposit_eu_cents            Int?
+  discounted_deposit_pence    Int?
+  discounted_deposit_us_cents Int?
+  discounted_deposit_eu_cents Int?
+  bronze_plus_discount        Boolean?      @default(false)
+  bronze_plus_charge_pence    Int?
+  bronze_plus_charge_us_cents Int?
+  bronze_plus_charge_eu_cents Int?
+  attendances                 attendances[]
+  events                      events?       @relation(fields: [event_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rails_4def87ea62")
+
+  @@index([deleted_at], map: "index_tickets_on_deleted_at")
+  @@index([event_id], map: "index_tickets_on_event_id")
+}
+
+model user_to_brand_relationships {
+  id               Int      @id @default(autoincrement())
+  user_id          Int?
+  brand_id         Int?
+  role             String?  @db.VarChar(255)
+  created_at       DateTime @db.Timestamp(6)
+  updated_at       DateTime @db.Timestamp(6)
+  position         String?  @db.VarChar
+  created_by_type  String?  @default("admin") @db.VarChar(6)
+  rejected_by_user Boolean? @default(false)
+  removed_by_admin Boolean? @default(false)
+  order            Int?     @default(0)
+  message          String?
+  inviter_id       Int?
+  description      String?
+
+  @@index([inviter_id], map: "index_user_to_brand_relationships_on_inviter_id")
+  @@index([removed_by_admin], map: "index_user_to_brand_relationships_on_removed_by_admin")
+}
+
+model websites {
+  id         Int       @id @default(autoincrement())
+  url        String?   @db.VarChar(255)
+  owner_type String?   @db.VarChar(255)
+  owner_id   Int?
+  created_at DateTime  @db.Timestamp(6)
+  updated_at DateTime  @db.Timestamp(6)
+  name       String?   @db.VarChar(255)
+  deleted_at DateTime? @db.Timestamp(6)
+  url_domain String?   @db.VarChar
+  url_tld    String?   @db.VarChar
+  url_path   String?   @db.VarChar
+
+  @@index([deleted_at], map: "index_websites_on_deleted_at")
+  @@index([owner_id, owner_type], map: "index_websites_on_owner_id_and_owner_type")
+}
