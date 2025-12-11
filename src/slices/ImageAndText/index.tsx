@@ -96,13 +96,14 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                   <div key={idx} className="flex flex-col">
                     {isFilled.image(item.main_image) ? (
                     // Add shadow if not shadow already present 
-                    // <div className="rounded-lg overflow-hidden mb-6 shadow-[0px_0px_10px_4px_white]">
-                    <div className="rounded-lg overflow-hidden mb-6">
-                      <PrismicNextImage
-                        field={item.main_image}
-                        className="w-full rounded"
-                      />
-                    </div>
+                    <div className="rounded-lg overflow-hidden mb-6 shadow-[0px_0px_10px_4px_white]">
+                      <div className="rounded-lg overflow-hidden mb-6">
+                        <PrismicNextImage
+                          field={item.main_image}
+                          className="w-full rounded"
+                        />
+                        </div>
+                      </div>
                     ) : (
                         <div className="my-counter-section border-b-2 my-4"></div>
                     )}
