@@ -1154,11 +1154,116 @@ export type ImageAndTextSliceImageAboveTextBelow = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *ImageAndText → parallaxTextImage → Primary*
+ */
+export interface ImageAndTextSliceParallaxTextImagePrimary {
+  /**
+   * Background Image field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Heading field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Body field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Main Image field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.main_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  main_image: prismic.ImageField<never>;
+
+  /**
+   * CTA field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.cta
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * enable parallax field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.enable_parallax
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  enable_parallax: prismic.BooleanField;
+
+  /**
+   * enable zoom effect field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.enable_zoom_effect
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  enable_zoom_effect: prismic.BooleanField;
+
+  /**
+   * animation preset field in *ImageAndText → parallaxTextImage → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: fade-up
+   * - **API ID Path**: image_and_text.parallaxTextImage.primary.animation_preset
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  animation_preset: prismic.SelectField<
+    "fade-up" | "slide-left" | "stagger-strong" | "stagger-normal" | "none",
+    "filled"
+  >;
+}
+
+/**
+ * parallaxTextImage variation for ImageAndText Slice
+ *
+ * - **API ID**: `parallaxTextImage`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSliceParallaxTextImage = prismic.SharedSliceVariation<
+  "parallaxTextImage",
+  Simplify<ImageAndTextSliceParallaxTextImagePrimary>,
+  never
+>;
+
+/**
  * Slice variation for *ImageAndText*
  */
 type ImageAndTextSliceVariation =
   | ImageAndTextSliceDefault
-  | ImageAndTextSliceImageAboveTextBelow;
+  | ImageAndTextSliceImageAboveTextBelow
+  | ImageAndTextSliceParallaxTextImage;
 
 /**
  * ImageAndText Shared Slice
@@ -1611,9 +1716,11 @@ declare module "@prismicio/client" {
       ImageAndTextSliceDefaultPrimary,
       ImageAndTextSliceImageAboveTextBelowPrimaryItemItem,
       ImageAndTextSliceImageAboveTextBelowPrimary,
+      ImageAndTextSliceParallaxTextImagePrimary,
       ImageAndTextSliceVariation,
       ImageAndTextSliceDefault,
       ImageAndTextSliceImageAboveTextBelow,
+      ImageAndTextSliceParallaxTextImage,
       PasswordFormSlice,
       PasswordFormSliceDefaultPrimary,
       PasswordFormSliceAccessFormPrimary,
