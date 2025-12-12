@@ -29,6 +29,79 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   const defaultBgParallaxRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
+  const animateTextContent = () => {
+    const animationPreset =
+      "animation_preset" in slice.primary
+        ? (slice.primary.animation_preset as string)
+        : "fade-up";
+
+    if (!animationPreset || animationPreset === "none") return;
+
+    const container = sectionRef.current;
+    if (!container) return;
+
+    const textEls = container.querySelectorAll("[data-pt-text]");
+    if (!textEls.length) return;
+
+    const isStrong = animationPreset === "stagger-strong";
+
+    const textOnlyEls = Array.from(textEls).filter(
+      (el) => !el.querySelector("img") && el.tagName !== "IMG"
+    );
+    const imageEl = Array.from(textEls).find(
+      (el) => el.querySelector("img") || el.tagName === "IMG"
+    );
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: isMobile ? "top bottom" : "top 90%",
+        end: isMobile ? "top center" : "center center",
+        scrub: isMobile ? 0.45 : 0.6,
+      },
+    });
+
+    if (textOnlyEls.length) {
+      if (animationPreset === "slide-left") {
+        tl.from(
+          textOnlyEls,
+          {
+            opacity: 0,
+            x: -40,
+            filter: "blur(6px)",
+            stagger: isStrong ? 0.2 : 0.12,
+            ease: "none",
+          },
+          0
+        );
+      } else {
+        tl.from(
+          textOnlyEls,
+          {
+            opacity: 0,
+            y: 48,
+            filter: "blur(6px)",
+            stagger: isStrong ? 0.2 : 0.12,
+            ease: "none",
+          },
+          0
+        );
+      }
+    }
+
+    if (imageEl) {
+      tl.from(
+        imageEl,
+        {
+          opacity: 0,
+          filter: "blur(6px)",
+          ease: "none",
+        },
+        0
+      );
+    }
+  };
+
   // GSAP animations for parallaxTextImage variation
   useEffect(() => {
     if (slice.variation !== "parallaxTextImage") return;
@@ -80,61 +153,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         }
       }
 
-      // Text animation preset
-      const animationPreset = "animation_preset" in slice.primary ? (slice.primary.animation_preset as string) : "fade-up";
-      if (animationPreset && animationPreset !== "none") {
-        const textEls = sectionRef.current?.querySelectorAll("[data-pt-text]");
-        if (textEls?.length) {
-          const isStrong = animationPreset === "stagger-strong";
-
-          // Separate text elements from image
-          const textOnlyEls = Array.from(textEls).filter(el =>
-            !el.querySelector('img') && el.tagName !== 'IMG'
-          );
-          const imageEl = Array.from(textEls).find(el =>
-            el.querySelector('img') || el.tagName === 'IMG'
-          );
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current!,
-              start: isMobile ? "top bottom" : "top 90%",
-              end: isMobile ? "top center" : "center center",
-              scrub: isMobile ? 0.45 : 0.6,
-            },
-          });
-
-          // Animate text with movement
-          if (textOnlyEls.length) {
-            if (animationPreset === "slide-left") {
-              tl.from(textOnlyEls, {
-                opacity: 0,
-                x: -40,
-                filter: "blur(6px)",
-                stagger: isStrong ? 0.2 : 0.12,
-                ease: "none",
-              }, 0);
-            } else {
-              tl.from(textOnlyEls, {
-                opacity: 0,
-                y: 48,
-                filter: "blur(6px)",
-                stagger: isStrong ? 0.2 : 0.12,
-                ease: "none",
-              }, 0);
-            }
-          }
-
-          // Animate image with only opacity (no vertical movement)
-          if (imageEl) {
-            tl.from(imageEl, {
-              opacity: 0,
-              filter: "blur(6px)",
-              ease: "none",
-            }, 0);
-          }
-        }
-      }
+      animateTextContent();
     }, sectionRef);
 
     return () => ctx.revert();
@@ -197,10 +216,12 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           }
         );
       }
+
+      animateTextContent();
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [slice.variation, isMobile]);
+  }, [slice.variation, slice.primary, isMobile]);
 
   // ParallaxTextImage variation (The Hook, Why Now, Audience & Market)
   if (slice.variation === "parallaxTextImage") {
@@ -321,24 +342,28 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
             <div>
               <div className="w-[60ch]">
-                <PrismicRichText
-                  field={slice.primary.heading}
-                  components={{
-                    heading2: ({ children }) => (
-                      <h2 className="mb-6">{children}</h2>
-                    ),
-                  }}
-                />
-                <PrismicRichText
-                  field={slice.primary.body}
-                  components={{
-                    paragraph: ({ children }) => (
-                      <p className="mb-6">{children}</p>
-                    ),
-                  }}
-                />
+                <div data-pt-text>
+                  <PrismicRichText
+                    field={slice.primary.heading}
+                    components={{
+                      heading2: ({ children }) => (
+                        <h2 className="mb-6">{children}</h2>
+                      ),
+                    }}
+                  />
+                </div>
+                <div data-pt-text>
+                  <PrismicRichText
+                    field={slice.primary.body}
+                    components={{
+                      paragraph: ({ children }) => (
+                        <p className="mb-6">{children}</p>
+                      ),
+                    }}
+                  />
+                </div>
                 {isFilled.link(slice.primary.cta) && (
-                  <div>
+                  <div data-pt-text>
                     <PrismicNextLink
                       field={slice.primary.cta}
                       className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
@@ -347,7 +372,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 )}
               </div>
             </div>
-            <div>
+            <div data-pt-text>
               <PrismicNextImage
                 field={slice.primary.main_image}
                 className="rounded"
