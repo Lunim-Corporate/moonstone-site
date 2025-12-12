@@ -181,12 +181,12 @@ export default function Hero({ slice }: HeroProps) {
             </div>
 
             {/* Tagline */}
-            <div ref={taglineRef}>
+            <div ref={taglineRef} className="mt-16">
               <PrismicRichText
                 field={slice.primary.tagline}
                 components={{
                   paragraph: ({ children }) => (
-                    <p className="text-lg sm:text-xl text-(--main-text-color)/90 max-w-2xl mx-auto">
+                    <p className="text-xl sm:text-2xl lg:text-3xl text-(--main-text-color)/90 max-w-2xl mx-auto">
                       {children}
                     </p>
                   ),
