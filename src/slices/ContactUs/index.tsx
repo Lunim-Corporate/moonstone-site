@@ -59,7 +59,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
   }
 
   return (
-    <div className="py-20 bg-(--black-primary-color)">
+    <div className="py-20" style={{ backgroundColor: "#0a0a0a" }}>
       <div className="text-center mb-16">
         <PrismicRichText field={slice.primary.heading} />
         <PrismicRichText field={slice.primary.body} />
@@ -68,7 +68,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {/* Contact Us and Opening Hours */}
           <div className="flex flex-col gap-8">
-            <div className="bg-(--black-primary-color) rounded p-8 max-w-[50ch]">
+            <div
+              className="rounded p-8 max-w-[50ch]"
+              style={{ backgroundColor: "#1a1a1a" }}
+            >
               <div className="mb-8">
                 <PrismicRichText
                   field={slice.primary.contact_us_heading}
@@ -109,7 +112,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 );
               })}
             </div>
-            <div className="bg-(--black-primary-color) rounded p-8 max-w-[50ch]">
+            <div
+              className="rounded p-8 max-w-[50ch]"
+              style={{ backgroundColor: "#1a1a1a" }}
+            >
               <PrismicRichText
                 field={slice.primary.office_hours_heading}
                 components={{
@@ -136,7 +142,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
             </div>
           </div>
           {/* Contact Us Form */}
-          <div className="bg-(--black-primary-color) rounded py-6">
+          <div
+            className="rounded p-8 max-w-[50ch]"
+            style={{ backgroundColor: "#1a1a1a" }}
+          >
             <PrismicRichText
               field={slice.primary.form_heading}
               components={{
