@@ -207,8 +207,8 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     return (
       <section
         ref={sectionRef}
-        className="relative overflow-hidden -mt-px"
-        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 6%, black 12%, black 88%, rgba(0,0,0,0.3) 94%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 6%, black 12%, black 88%, rgba(0,0,0,0.3) 94%, transparent)' }}
+        className="relative overflow-hidden -mt-px bg-[#03070f]"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)' }}
       >
         {/* Background Parallax Layer */}
         {slice.primary.background_image?.url && (
@@ -289,7 +289,8 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     return (
       <section
         ref={sectionRef}
-        className="relative overflow-hidden"
+        className="relative overflow-hidden -mt-px bg-[#03070f]"
+        style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)' }}
       >
         {/* Background Parallax Layer */}
         {slice.primary.background_image?.url && (
@@ -362,9 +363,11 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     return (
       <section
         ref={sectionRef}
-        className="bg-cover bg-center relative"
+        className="bg-cover bg-center relative -mt-px bg-[#03070f]"
         style={{
           backgroundImage: `url(${slice.primary.background_image?.url})`,
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
+          maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)'
         }}
       >
         {isFilled.image(slice.primary.seconday_background_image) && (

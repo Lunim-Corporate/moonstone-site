@@ -117,7 +117,12 @@ export default function Hero({ slice }: HeroProps) {
     return (
       <section
         ref={sectionRef}
-        className="relative min-h-screen overflow-hidden bg-(--background-color)"
+        className="relative min-h-screen overflow-hidden -mt-px bg-(--background-color)"
+        style={{
+          backgroundColor: "#03070f",
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
+          maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)'
+        }}
       >
         {/* Background Image */}
         <div
@@ -199,8 +204,11 @@ export default function Hero({ slice }: HeroProps) {
     <div
       style={{
         backgroundImage: `url(${slice.primary.background_image.url})`,
+        backgroundColor: "#03070f",
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
+        maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)'
       }}
-      className="bg-cover bg-center min-h-screen relative"
+      className="bg-cover bg-center min-h-screen relative -mt-px"
     >
       <div className="min-h-screen grid items-center absolute inset-0 bg-[rgba(0,0,0,0.5)]">
         <div className="max-w-4xl text-center mx-auto">
