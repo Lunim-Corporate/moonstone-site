@@ -2,7 +2,7 @@
 import { Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useIsMobile } from "../../hooks/useMediaQuery";
@@ -29,7 +29,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   const defaultBgParallaxRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
-  const animateTextContent = () => {
+  const animateTextContent = useCallback(() => {
     const animationPreset =
       "animation_preset" in slice.primary
         ? (slice.primary.animation_preset as string)
@@ -100,7 +100,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
         0
       );
     }
-  };
+  }, [slice.primary, isMobile]);
 
   // GSAP animations for parallaxTextImage variation
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [slice.variation, slice.primary, isMobile]);
+  }, [slice.variation, slice.primary, isMobile, animateTextContent]);
 
   useEffect(() => {
     if (slice.variation !== "imageAboveTextBelow") return;
@@ -221,7 +221,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [slice.variation, slice.primary, isMobile]);
+  }, [slice.variation, slice.primary, isMobile, animateTextContent]);
 
   // ParallaxTextImage variation (The Hook, Why Now, Audience & Market)
   if (slice.variation === "parallaxTextImage") {
