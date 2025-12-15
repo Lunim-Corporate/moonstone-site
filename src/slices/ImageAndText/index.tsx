@@ -310,10 +310,10 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   // The Hook, Why now, Transmedia, Potential Investors
   if (slice.variation === "default") {
     return (
-      <div className="bg-black">
+      <div>
         <section
           ref={sectionRef}
-          className="relative overflow-hidden -mt-px bg-black"
+          className="relative overflow-hidden -mt-px"
           style={{ WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)', maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)' }}
         >
           {/* Background Parallax Layer */}
@@ -342,44 +342,51 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
             }
             style={{ position: "relative", zIndex: 1 }}
           >
-            <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
-              <div>
-                <div className="w-[60ch]">
-                  <div data-pt-text>
-                    <PrismicRichText
-                      field={slice.primary.heading}
-                      components={{
-                        heading2: ({ children }) => (
-                          <h2 className="mb-6">{children}</h2>
-                        ),
-                      }}
-                    />
-                  </div>
-                  <div data-pt-text>
-                    <PrismicRichText
-                      field={slice.primary.body}
-                      components={{
-                        paragraph: ({ children }) => (
-                          <p className="mb-6">{children}</p>
-                        ),
-                      }}
-                    />
-                  </div>
-                  {isFilled.link(slice.primary.cta) && (
+            <div className="md:max-w-(--max-wrapper-width) md:mx-auto">
+              <div className="md:grid md:grid-cols-[1fr_2fr] md:gap-x-8">
+                {/* Text content - full width on mobile, right column on desktop */}
+                <div className="order-2 md:order-2 md:col-start-2 md:row-start-1">
+                  <div className="md:w-[60ch] pl-4 md:pl-0">
                     <div data-pt-text>
-                      <PrismicNextLink
-                        field={slice.primary.cta}
-                        className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                      <PrismicRichText
+                        field={slice.primary.heading}
+                        components={{
+                          heading2: ({ children }) => (
+                            <h2 className="mb-6">{children}</h2>
+                          ),
+                        }}
                       />
                     </div>
-                  )}
+                    <div data-pt-text>
+                      <PrismicRichText
+                        field={slice.primary.body}
+                        components={{
+                          paragraph: ({ children }) => (
+                            <p className="mb-6">{children}</p>
+                          ),
+                        }}
+                      />
+                    </div>
+                    {isFilled.link(slice.primary.cta) && (
+                      <div data-pt-text>
+                        <PrismicNextLink
+                          field={slice.primary.cta}
+                          className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div data-pt-text>
-                <PrismicNextImage
-                  field={slice.primary.main_image}
-                  className="rounded"
-                />
+                
+                {/* Image - full width on mobile (above text), left column on desktop extending to screen edge */}
+                <div className="order-1 md:order-1 md:col-start-1 md:row-start-1 mb-8 md:mb-0 md:-ml-4 lg:-ml-8 xl:-ml-16" data-pt-text>
+                  <div>
+                    <PrismicNextImage
+                      field={slice.primary.main_image}
+                      className="rounded w-full md:w-auto"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -390,10 +397,10 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
   // Comparables, Synopsis
   if (slice.variation === "imageAboveTextBelow") {
     return (
-      <div className="bg-black">
+      <div>
         <section
           ref={sectionRef}
-          className="bg-cover bg-center relative -mt-px bg-black"
+          className="bg-cover bg-center relative -mt-px"
           style={{
             backgroundImage: `url(${slice.primary.background_image?.url})`,
             WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
@@ -419,7 +426,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 field={slice.primary.heading}
                 components={{
                   heading2: ({ children }) => (
-                    <h2 className="mb-10">{children}</h2>
+                    <h2 className="mb-10 text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-(--heading-color)">{children}</h2>
                   ),
                 }}
               />

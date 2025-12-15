@@ -115,10 +115,10 @@ export default function Hero({ slice }: HeroProps) {
   // TransmediaHero variation with GSAP animations
   if (slice.variation === "transmediaHero") {
     return (
-      <div className="bg-black">
+      <div>
         <section
           ref={sectionRef}
-          className="relative min-h-screen overflow-hidden -mt-px bg-black"
+          className="relative min-h-screen overflow-hidden -mt-px"
           style={{
             backgroundColor: "#000",
             WebkitMaskImage: 'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
@@ -212,7 +212,7 @@ export default function Hero({ slice }: HeroProps) {
 
   // Default variation (keep existing implementation)
   return (
-    <div className="bg-black">
+    <div>
       <div
         style={{
           backgroundImage: `url(${slice.primary.background_image.url})`,

@@ -4,7 +4,7 @@
     --heading-color: #FFFBD0;
     --main-text-color: #F8F8F8;
     --cta-color: #03ECF2;
-    --background-color: #252222;
+    --background-color: #000000;
     --black-primary-color: #0F0F0F; /* #0A0A0A, #0D0D0D, #202124, #181818 */
     --black-secondary-color: #000;
     --brown: #201e1e;
@@ -28,6 +28,11 @@
         flex-direction: column;
         min-height: 100vh;
         overflow-x: hidden;
+    }
+    
+    /* Set background for main content areas but not images */
+    #layout-container > *:not(header):not(footer) {
+        background-color: var(--background-color) !important;
     }
     
     h1 {
