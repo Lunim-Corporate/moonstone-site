@@ -8,21 +8,30 @@ import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient();
-  const doc = await client.getSingle("homepage_next");
 
-  if (!doc) return {};
+  try {
+    const doc = await client.getSingle("homepage_next");
 
-  return {
-    title: doc.data.meta_title || "Moonstone - Homepage Next",
-    description: doc.data.meta_description || undefined,
-    openGraph: {
+    if (!doc) return {};
+
+    return {
       title: doc.data.meta_title || "Moonstone - Homepage Next",
       description: doc.data.meta_description || undefined,
-      images: doc.data.meta_image?.url
-        ? [{ url: doc.data.meta_image.url }]
-        : [],
-    },
-  };
+      openGraph: {
+        title: doc.data.meta_title || "Moonstone - Homepage Next",
+        description: doc.data.meta_description || undefined,
+        images: doc.data.meta_image?.url
+          ? [{ url: doc.data.meta_image.url }]
+          : [],
+      },
+    };
+  } catch {
+    // Document doesn't exist yet in Prismic; fall back to default metadata.
+    return {
+      title: "Moonstone - Homepage Next",
+      description: undefined,
+    };
+  }
 }
 
 export default async function HomepageNext() {
