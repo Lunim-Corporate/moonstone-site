@@ -96,6 +96,14 @@
             "placeholder_true": "true",
             "default_value": false
           }
+        },
+        "feature_image": {
+          "type": "Image",
+          "config": {
+            "label": "feature_image",
+            "constraint": {},
+            "thumbnails": []
+          }
         }
       },
       "items": {}

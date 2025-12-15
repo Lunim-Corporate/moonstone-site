@@ -1,5 +1,5 @@
 "use client";
-import { Content } from "@prismicio/client";
+import { Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import { useRef, useEffect } from "react";
@@ -194,6 +194,15 @@ export default function Hero({ slice }: HeroProps) {
                   }}
                 />
               </div>
+
+              {isFilled.image(slice.primary.feature_image) && (
+                <div className="mt-12" aria-label="Hero featured image">
+                  <PrismicNextImage
+                    field={slice.primary.feature_image}
+                    className="mx-auto max-h-[320px] w-auto object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </section>
