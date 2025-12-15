@@ -302,9 +302,15 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
               <div data-pt-text>
                 <PrismicNextImage
                   field={slice.primary.main_image}
-                  className="rounded shadow-2xl"
+                  className="rounded shadow-2xl -ml-4 w-[calc(100%+2rem)] max-w-none md:invisible"
                 />
               </div>
+            </div>
+            <div data-pt-text className="absolute top-0 bottom-0 right-0 invisible md:visible">
+              <PrismicNextImage
+                field={slice.primary.main_image}
+                className="rounded shadow-2xl w-full h-full"
+              />
             </div>
           </div>
         </section>
