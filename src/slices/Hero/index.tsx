@@ -1,5 +1,5 @@
 "use client";
-import { Content } from "@prismicio/client";
+import { Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage } from "@prismicio/next";
 import { useRef, useEffect } from "react";
@@ -115,110 +115,123 @@ export default function Hero({ slice }: HeroProps) {
   // TransmediaHero variation with GSAP animations
   if (slice.variation === "transmediaHero") {
     return (
-      <section
-        ref={sectionRef}
-        className="relative min-h-screen overflow-hidden -mt-px bg-(--background-color)"
-        style={{
-          backgroundColor: "#03070f",
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
-          maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)'
-        }}
-      >
-        {/* Background Image */}
-        <div
-          ref={backgroundRef}
-          className="absolute inset-0 will-change-transform"
+      <div className="bg-black">
+        <section
+          ref={sectionRef}
+          className="relative min-h-screen overflow-hidden -mt-px bg-black"
           style={{
-            transform: "translate3d(0, 0, 0)",
+            backgroundColor: "#000",
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+            maskImage: 'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)'
           }}
         >
-          <PrismicNextImage
-            field={slice.primary.background_image}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-[rgba(0,0,0,0.5)]" />
-        </div>
+          {/* Background Image */}
+          <div
+            ref={backgroundRef}
+            className="absolute inset-0 will-change-transform"
+            style={{
+              transform: "translate3d(0, 0, 0)",
+            }}
+          >
+            <PrismicNextImage
+              field={slice.primary.background_image}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)]" />
+          </div>
 
-        {/* Content */}
-        <div className="relative z-10 min-h-screen grid items-center">
-          <div className="max-w-4xl text-center mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Logo */}
-            {slice.primary.logo?.url && (
-              <div ref={logoRef} className="mb-6">
-                <PrismicNextImage
-                  field={slice.primary.logo}
-                  className="w-24 h-24 mx-auto"
+          {/* Content */}
+          <div className="relative z-10 min-h-screen grid items-center">
+            <div className="max-w-4xl text-center mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Logo */}
+              {slice.primary.logo?.url && (
+                <div ref={logoRef} className="mb-6">
+                  <PrismicNextImage
+                    field={slice.primary.logo}
+                    className="w-24 h-24 mx-auto"
+                  />
+                </div>
+              )}
+
+              {/* Title */}
+              <div ref={titleRef}>
+                <PrismicRichText
+                  field={slice.primary.title}
+                  components={{
+                    heading1: ({ children }) => (
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 text-(--heading-color)">
+                        {children}
+                      </h1>
+                    ),
+                  }}
                 />
               </div>
-            )}
 
-            {/* Title */}
-            <div ref={titleRef}>
-              <PrismicRichText
-                field={slice.primary.title}
-                components={{
-                  heading1: ({ children }) => (
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 text-(--heading-color)">
-                      {children}
-                    </h1>
-                  ),
-                }}
-              />
-            </div>
+              {/* Subtitle */}
+              <div ref={subtitleRef}>
+                <PrismicRichText
+                  field={slice.primary.subtitle}
+                  components={{
+                    heading2: ({ children }) => (
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
+                        {children}
+                      </h2>
+                    ),
+                  }}
+                />
+              </div>
 
-            {/* Subtitle */}
-            <div ref={subtitleRef}>
-              <PrismicRichText
-                field={slice.primary.subtitle}
-                components={{
-                  heading2: ({ children }) => (
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
-                      {children}
-                    </h2>
-                  ),
-                }}
-              />
-            </div>
+              {/* Tagline */}
+              <div ref={taglineRef} className="mt-16">
+                <PrismicRichText
+                  field={slice.primary.tagline}
+                  components={{
+                    paragraph: ({ children }) => (
+                      <p className="text-xl sm:text-2xl lg:text-3xl text-(--main-text-color)/90 max-w-2xl mx-auto">
+                        {children}
+                      </p>
+                    ),
+                  }}
+                />
+              </div>
 
-            {/* Tagline */}
-            <div ref={taglineRef} className="mt-16">
-              <PrismicRichText
-                field={slice.primary.tagline}
-                components={{
-                  paragraph: ({ children }) => (
-                    <p className="text-xl sm:text-2xl lg:text-3xl text-(--main-text-color)/90 max-w-2xl mx-auto">
-                      {children}
-                    </p>
-                  ),
-                }}
-              />
+              {isFilled.image(slice.primary.feature_image) && (
+                <div className="mt-12" aria-label="Hero featured image">
+                  <PrismicNextImage
+                    field={slice.primary.feature_image}
+                    className="mx-auto max-h-[320px] w-auto object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]"
+                  />
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     );
   }
 
   // Default variation (keep existing implementation)
   return (
-    <div
-      style={{
-        backgroundImage: `url(${slice.primary.background_image.url})`,
-        backgroundColor: "#03070f",
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)',
-        maskImage: 'linear-gradient(to bottom, transparent, #03070f 6%, #03070f 94%, transparent)'
-      }}
-      className="bg-cover bg-center min-h-screen relative -mt-px"
-    >
-      <div className="min-h-screen grid items-center absolute inset-0 bg-[rgba(0,0,0,0.5)]">
-        <div className="max-w-4xl text-center mx-auto">
-          <PrismicRichText
-            field={slice.primary.heading}
-            components={{
-              heading1: ({ children }) => <h1 className="mb-5">{children}</h1>,
-            }}
-          />
-          <PrismicRichText field={slice.primary.body} />
+    <div className="bg-black">
+      <div
+        style={{
+          backgroundImage: `url(${slice.primary.background_image.url})`,
+          backgroundColor: "#000",
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+          maskImage: 'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)'
+        }}
+        className="bg-cover bg-center min-h-screen relative -mt-px"
+      >
+        <div className="min-h-screen grid items-center absolute inset-0 bg-[rgba(0,0,0,0.6)]">
+          <div className="max-w-4xl text-center mx-auto">
+            <PrismicRichText
+              field={slice.primary.heading}
+              components={{
+                heading1: ({ children }) => <h1 className="mb-5">{children}</h1>,
+              }}
+            />
+            <PrismicRichText field={slice.primary.body} />
+          </div>
         </div>
       </div>
     </div>

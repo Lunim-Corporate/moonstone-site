@@ -78,7 +78,7 @@ export default function NavigationClient({
       {/* Logo */}
       <div>
         <PrismicNextLink field={data.home}>
-          <PrismicNextImage field={data.logo} className="w-30" />
+          <PrismicNextImage field={data.logo} className="w-12 max-w-[72px]" />
         </PrismicNextLink>
       </div>
       {/* Links */}

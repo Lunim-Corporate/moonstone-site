@@ -962,6 +962,16 @@ export interface HeroSliceTransmediaHeroPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/boolean
    */
   enable_parallax: prismic.BooleanField;
+
+  /**
+   * feature_image field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.feature_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  feature_image: prismic.ImageField<never>;
 }
 
 /**
