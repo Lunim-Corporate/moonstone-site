@@ -32,14 +32,17 @@
     
     h1 {
         font-size: 2rem;
+        line-height: 2rem;
     }
     
     h2 {
         font-size: 1.75rem;
+        line-height: 1.75rem;
     }
     
     h3 {
         font-size: 1.5rem;
+        line-height: 1.5rem;
     }
     
     :is(h1, h2, h3, h4, h5, h6) {
@@ -77,6 +80,8 @@
 .my-counter-section::before {
     counter-increment: section;
     content: counter(section, decimal-leading-zero);
+    position: absolute;
+    margin-top: -30px;
 }
 /* End Synopsis section */
 

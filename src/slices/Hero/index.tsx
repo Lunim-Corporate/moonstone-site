@@ -137,7 +137,6 @@ export default function Hero({ slice }: HeroProps) {
               field={slice.primary.background_image}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)]" />
           </div>
 
           {/* Content */}
@@ -187,7 +186,7 @@ export default function Hero({ slice }: HeroProps) {
                   field={slice.primary.tagline}
                   components={{
                     paragraph: ({ children }) => (
-                      <p className="text-xl sm:text-2xl lg:text-3xl text-(--main-text-color)/90 max-w-2xl mx-auto">
+                      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-(--main-text-color)/90 max-w-2xl mx-auto">
                         {children}
                       </p>
                     ),

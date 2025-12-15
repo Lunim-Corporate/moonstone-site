@@ -253,19 +253,19 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           {/* Only add opacity level for background images */}
           <div
             className={
-              slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.5)]" : ""
+              slice.primary.background_image?.url ? "px-4 md:px-8 bg-[rgba(0,0,0,0.5)]" : "px-4 md:px-8"
             }
             style={{ position: "relative", zIndex: 1 }}
           >
-            <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
+            <div className="grid md:grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
               <div className="pt-20">
-                <div className="w-[60ch]">
+                <div>
                   <div data-pt-text>
                     <PrismicRichText
                       field={slice.primary.heading}
                       components={{
                         heading2: ({ children }) => (
-                          <h2 className="mb-8 text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-(--heading-color)">
+                          <h2 className="mb-8 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-(--heading-color)">
                             {children}
                           </h2>
                         ),
@@ -276,6 +276,11 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                     <PrismicRichText
                       field={slice.primary.body}
                       components={{
+                        heading3: ({ children }) => (
+                          <h3 className="mb-4">
+                            {children}
+                          </h3>
+                        ),
                         paragraph: ({ children }) => (
                           <p className="mb-8 text-lg sm:text-xl leading-relaxed text-(--main-text-color)">
                             {children}
@@ -288,7 +293,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                     <div data-pt-text>
                         <PrismicNextLink
                           field={slice.primary.cta}
-                          className="inline-flex items-center justify-center px-6 py-3 text-lg sm:text-xl text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                          className="inline-flex items-center justify-center px-6 py-3 text-lg sm:text-xl text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-(--cta-color)/70 transition-colors duration-300 font-bold"
                         />
                     </div>
                   )}
@@ -337,20 +342,20 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           {/* Only add opacity level for background images */}
           <div
             className={
-              "py-20 " +
-              (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
+              "py-20 px-4 md:px-8 " +
+              (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.5)]" : "")
             }
             style={{ position: "relative", zIndex: 1 }}
           >
-            <div className="grid grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
+            <div className="grid md:grid-cols-[2fr_1.5fr] gap-x-8 max-w-(--max-wrapper-width) mx-auto">
               <div>
-                <div className="w-[60ch]">
+                <div>
                   <div data-pt-text>
                     <PrismicRichText
                       field={slice.primary.heading}
                       components={{
                         heading2: ({ children }) => (
-                          <h2 className="mb-6">{children}</h2>
+                          <h2 className="mb-6 text-4xl">{children}</h2>
                         ),
                       }}
                     />
@@ -369,18 +374,18 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                     <div data-pt-text>
                       <PrismicNextLink
                         field={slice.primary.cta}
-                        className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300 font-bold"
+                        className="p-2.5 text-(--black-primary-color) bg-(--cta-color) rounded hover:bg-(--cta-color)/70 transition-colors duration-300 font-bold"
                       />
                     </div>
                   )}
                 </div>
               </div>
-              <div data-pt-text>
-                <PrismicNextImage
-                  field={slice.primary.main_image}
-                  className="rounded"
-                />
-              </div>
+            </div>
+            <div data-pt-text>
+              <PrismicNextImage
+                field={slice.primary.main_image}
+                className="rounded"
+              />
             </div>
           </div>
         </section>
@@ -410,7 +415,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           )}
           <div
             className={
-              "py-20 " +
+              "px-4 md:px-8 py-20 " +
               (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
             }
           >
@@ -419,13 +424,13 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                 field={slice.primary.heading}
                 components={{
                   heading2: ({ children }) => (
-                    <h2 className="mb-10">{children}</h2>
+                    <h2 className="mb-10 text-3xl sm:text-4xl">{children}</h2>
                   ),
                 }}
               />
               <div
                 ref={imageGridRef}
-                className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10 my-counter"
+                className="grid sm:grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-x-10 my-counter"
               >
                 {slice.primary.item.map((item, idx) => {
                   return (
@@ -442,18 +447,30 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                         </div>
                       ) : (
                         <div
-                          className="my-counter-section border-b-2 my-4"
+                          className="my-counter-section border-b-2 mt-8 mb-2 border-b-(--cta-color) bg-(--cta-color)"
                           style={{
-                            borderBottomColor: "#000",
-                            backgroundColor: "#000",
                             boxShadow: "0 12px 38px rgba(0,0,0,0.9)",
                             height: "2px",
                             filter: "blur(1px)",
                           }}
                         ></div>
                       )}
-                      <div>
-                        <PrismicRichText field={item.body} />
+                      <div className="mb-4">
+                        <PrismicRichText
+                          field={item.body}
+                          components={{
+                            heading3: ({ children }) => (
+                              <h3 className="mt-2 mb-3">
+                                {children}
+                              </h3>
+                            ),
+                            paragraph: ({ children }) => (
+                              <p className="mb-16 md:mb-0">
+                                {children}
+                              </p>
+                            ),
+                          }}
+                        />
                       </div>
                     </div>
                   );

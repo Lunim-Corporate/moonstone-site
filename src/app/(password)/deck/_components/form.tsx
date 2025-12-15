@@ -268,7 +268,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
             <Link
               href={protectedLink}
               target="_blank"
-              className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer text-center"
+              className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-(--cta-color)/70 transition-colors duration-500 cursor-pointer text-center"
             >
               <PrismicRichText
                 field={
