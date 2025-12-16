@@ -29,6 +29,22 @@ export default function Hero({ slice }: HeroProps) {
   const backgroundRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
+  const handleScrollDown = () => {
+    const sectionElement = sectionRef.current;
+    if (!sectionElement) return;
+
+    const wrapperElement = sectionElement.parentElement;
+    const nextSection = wrapperElement?.nextElementSibling as HTMLElement | null;
+
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    const topOffset = sectionElement.getBoundingClientRect().bottom + window.scrollY;
+    window.scrollTo({ top: topOffset, behavior: "smooth" });
+  };
+
   // GSAP animations for TransmediaHero variation
   useEffect(() => {
     if (slice.variation !== "transmediaHero") return;
@@ -204,12 +220,32 @@ export default function Hero({ slice }: HeroProps) {
                 <div className="mt-4 xs:mt-8 sm:mt-12" aria-label="Hero featured image">
                   <PrismicNextImage
                     field={slice.primary.feature_image}
-                    className="mx-auto max-w-[240px] md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
+                    className="mx-auto max-w-60 md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
                   />
                 </div>
               )}
             </div>
           </div>
+
+          {/* Scroll hint */}
+          <button
+            type="button"
+            onClick={handleScrollDown}
+            className="absolute z-20 bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center rounded-full border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 h-12 w-12"
+            aria-label="Scroll to next section"
+          >
+            <svg
+              className="h-6 w-6 animate-bounce"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </section>
       </div>
     );
