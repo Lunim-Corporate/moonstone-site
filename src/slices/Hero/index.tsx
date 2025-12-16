@@ -220,7 +220,7 @@ export default function Hero({ slice }: HeroProps) {
                 <div className="mt-4 xs:mt-8 sm:mt-12" aria-label="Hero featured image">
                   <PrismicNextImage
                     field={slice.primary.feature_image}
-                    className="mx-auto max-w-[240px] md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
+                    className="mx-auto max-w-60 md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
                   />
                 </div>
               )}
