@@ -17,7 +17,7 @@ export default async function Page() {
       className="bg-top bg-cover min-h-full pt-(--padding-top) px-5 px:sm-0"
     >
       <div className="max-w-(--max-wrapper-width) mx-auto">
-        <div className="max-w-lg mx-auto py-10">
+        <div className="max-w-lg mx-auto py-10" style={{ height: `64rem` }}>
           <div>
             <PrismicRichText
               field={doc.data.heading}
