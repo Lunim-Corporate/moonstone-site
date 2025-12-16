@@ -35,7 +35,7 @@ export default async function Page() {
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
-        className="bg-top bg-cover min-h-screen pt-(--padding-top) px-5 px:sm-0"
+        className="bg-top bg-cover bg-fixed min-h-screen pt-(--padding-top) px-5 px:sm-0"
       >
         <div className="max-w-(--max-wrapper-width) mx-auto">
           <div className="max-w-lg mx-auto py-10">
@@ -64,7 +64,7 @@ export default async function Page() {
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
-        className="bg-top bg-cover min-h-screen pt-(--padding-top) px-5 px:sm-0"
+        className="bg-top bg-cover bg-fixed min-h-screen pt-(--padding-top) px-5 px:sm-0"
       >
         <div className="max-w-(--max-wrapper-width) mx-auto">
           <div className="max-w-lg mx-auto py-10">
