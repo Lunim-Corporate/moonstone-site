@@ -76,12 +76,12 @@ export default function NavigationClient({
 
   return (
     <header
-      className={`py-6 transition-colors duration-300 fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-10 ${headerHasBg ? "bg-(--black-primary-color) shadow-md" : "bg-transparent"} flex-wrap`}
+      className={`py-2 transition-colors duration-300 fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-10 ${headerHasBg ? "bg-(--black-primary-color) shadow-md" : "bg-transparent"} flex-wrap`}
     >
       {/* Logo */}
       <div>
         <PrismicNextLink field={data.home}>
-          <PrismicNextImage field={data.logo} className="w-30" />
+          <PrismicNextImage field={data.logo} className="w-12 max-w-[72px]" />
         </PrismicNextLink>
       </div>
       {/* Links */}
@@ -93,7 +93,7 @@ export default function NavigationClient({
           (isOpen && !windowInnerWidthGreaterThanMd ? "flex!" : "")
         }
       >
-        <menu className={"flex gap-8 mx-auto " + (isOpen ? "flex-col w-full" : "")}>
+        <menu className={"flex gap-8 mx-auto font-bold " + (isOpen ? "flex-col w-full" : "")}>
           {data.nav_links.map(
             (
               link: Simplify<NavigationDocumentDataNavLinksItem>,
@@ -143,7 +143,7 @@ export default function NavigationClient({
           title={isOpen ? "Close menu" : "Open menu"}
         >
           <svg
-            className="w-6 h-6"
+            className="w-8 h-8"
             viewBox="0 0 24 24"
             fill="none"
             aria-hidden="true"
@@ -156,8 +156,8 @@ export default function NavigationClient({
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                transformOrigin: 'center',
-                transform: isOpen ? 'translateY(5px) rotate(45deg)' : 'none',
+                transformOrigin: '57% center',
+                transform: isOpen ? 'translateY(5px) translateX(-3px) rotate(45deg)' : 'none',
                 transition: 'transform 250ms ease, opacity 250ms ease'
               }}
             />
@@ -183,8 +183,8 @@ export default function NavigationClient({
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                transformOrigin: 'center',
-                transform: isOpen ? 'translateY(-5px) rotate(-45deg)' : 'none',
+                transformOrigin: '57% center',
+                transform: isOpen ? 'translateY(-5px) translateX(-3px) rotate(-45deg)' : 'none',
                 transition: 'transform 250ms ease, opacity 250ms ease'
               }}
             />

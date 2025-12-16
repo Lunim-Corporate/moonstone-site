@@ -3,7 +3,7 @@
 import { FC, useState, FormEvent } from "react";
 // Prismic
 import { Content } from "@prismicio/client";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { PrismicRichText, PrismicText, SliceComponentProps } from "@prismicio/react";
 
 /**
  * Props for `ContactUs`.
@@ -59,16 +59,19 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
   }
 
   return (
-    <div className="py-20">
+    <div className="py-20" style={{ backgroundColor: "#0a0a0a" }}>
       <div className="text-center mb-16">
-        <PrismicRichText field={slice.primary.heading} />
+        <h2 className="mb-4 text-4xl"><PrismicText field={slice.primary.heading} /></h2>
         <PrismicRichText field={slice.primary.body} />
       </div>
-      <div className="max-w-(--max-wrapper-width) mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="max-w-(--max-wrapper-width) mx-auto px-4 sm:px-8 md:px-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
           {/* Contact Us and Opening Hours */}
           <div className="flex flex-col gap-8">
-            <div className="bg-[#201e1e] rounded p-8 max-w-[50ch]">
+            <div
+              className="rounded p-8"
+              style={{ backgroundColor: "#1a1a1a" }}
+            >
               <div className="mb-8">
                 <PrismicRichText
                   field={slice.primary.contact_us_heading}
@@ -109,7 +112,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 );
               })}
             </div>
-            <div className="bg-[#201e1e] rounded p-8 max-w-[50ch]">
+            <div
+              className="rounded p-8"
+              style={{ backgroundColor: "#1a1a1a" }}
+            >
               <PrismicRichText
                 field={slice.primary.office_hours_heading}
                 components={{
@@ -136,7 +142,10 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
             </div>
           </div>
           {/* Contact Us Form */}
-          <div className="bg-[#201e1e] rounded py-6">
+          <div
+            className="rounded p-8"
+            style={{ backgroundColor: "#1a1a1a" }}
+          >
             <PrismicRichText
               field={slice.primary.form_heading}
               components={{
@@ -243,7 +252,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                     field={slice.primary.cta}
                     components={{
                       paragraph: ({ children }) => (
-                        <button className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-transparent hover:text-(--cta-color) transition-colors duration-300"
+                        <button className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300"
                           type="submit"
                         >
                           {children}

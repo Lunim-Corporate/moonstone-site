@@ -94,8 +94,7 @@
           "type": "Boolean",
           "config": {
             "label": "Display as Bullet Point",
-            "default_value": false,
-            "placeholder": ""
+            "default_value": false
           }
         },
         "bullet_point_1": {
@@ -161,7 +160,6 @@
             "thumbnails": []
           }
         },
-
         "heading": {
           "type": "StructuredText",
           "config": {
@@ -177,22 +175,21 @@
             "label": "Item",
             "repeat": true,
             "fields": {
-              "title": {
-                "type": "StructuredText",
+              "main_image": {
+                "type": "Image",
                 "config": {
-                  "label": "Title",
-                  "placeholder": "",
-                  "allowTargetBlank": true,
-                  "single": "heading3"
+                  "label": "main image",
+                  "constraint": {},
+                  "thumbnails": []
                 }
               },
-              "description": {
+              "body": {
                 "type": "StructuredText",
                 "config": {
-                  "label": "Description",
+                  "label": "body",
                   "placeholder": "",
                   "allowTargetBlank": true,
-                  "multi": "paragraph,strong,em"
+                  "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
                 }
               }
             }
@@ -205,6 +202,23 @@
             "placeholder": "Themes: Empowerment, mysticism, legacy, adventure",
             "allowTargetBlank": true,
             "multi": "heading2,heading3,paragraph,heading4,heading5,heading6,strong,em"
+          }
+        },
+        "body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "body",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "seconday_background_image": {
+          "type": "Image",
+          "config": {
+            "label": "seconday_background_image",
+            "constraint": {},
+            "thumbnails": []
           }
         }
       },
@@ -315,7 +329,6 @@
             "thumbnails": []
           }
         },
-
         "title": {
           "type": "StructuredText",
           "config": {
@@ -415,7 +428,6 @@
         }
       },
       "items": {}
-    }
     }
   ]
 }

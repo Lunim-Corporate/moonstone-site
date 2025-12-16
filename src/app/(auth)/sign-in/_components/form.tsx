@@ -237,7 +237,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
+                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
               >
                 {loading ? "Creating..." : "Create Account"}
               </button>
@@ -335,7 +335,7 @@ function SignInFormContent({ doc }: { doc: any }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
+                className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
               </button>
@@ -422,7 +422,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           <button
             type="submit"
             disabled={loading}
-            className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-transparent hover:text-(--cta-color) cursor-pointer transition-colors disabled:opacity-50 min-w-[100px] tracking-[0.05rem]"
+            className="bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 cursor-pointer transition-colors disabled:opacity-50 min-w-[100px] tracking-[0.05rem]"
           >
             {loading ? "SIGNING IN..." : doc.data.sign_in_btn || "SIGN IN"}
           </button>

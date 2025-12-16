@@ -100,7 +100,8 @@ export type FooterDocument<Lang extends string = string> =
 type HomepageDocumentDataSlicesSlice =
   | ContactUsSlice
   | ImageAndTextSlice
-  | HeroSlice;
+  | HeroSlice
+  | InvestmentChartSlice;
 
 /**
  * Content for Homepage documents
@@ -864,20 +865,20 @@ export interface HeroSliceDefaultPrimary {
   background_image: prismic.ImageField<never>;
 
   /**
-   * Heading field in *Hero → Default → Primary*
+   * Main Title field in *Hero → Default → Primary*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
+   * - **Placeholder**: MOONSTONE
    * - **API ID Path**: hero.default.primary.heading
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   heading: prismic.RichTextField;
 
   /**
-   * Body field in *Hero → Default → Primary*
+   * Bottom Title field in *Hero → Default → Primary*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
+   * - **Placeholder**: LEGACY QUARTET
    * - **API ID Path**: hero.default.primary.body
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
@@ -961,6 +962,16 @@ export interface HeroSliceTransmediaHeroPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/boolean
    */
   enable_parallax: prismic.BooleanField;
+
+  /**
+   * feature_image field in *Hero → transmediaHero → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.transmediaHero.primary.feature_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  feature_image: prismic.ImageField<never>;
 }
 
 /**
@@ -995,7 +1006,7 @@ export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
  */
 export interface ImageAndTextSliceImageAboveTextBelowPrimaryItemItem {
   /**
-   * Main Image field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
+   * main image field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -1005,7 +1016,7 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimaryItemItem {
   main_image: prismic.ImageField<never>;
 
   /**
-   * Body field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
+   * body field in *ImageAndText → ImageAboveTextBelow → Primary → Item*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -1013,6 +1024,51 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimaryItemItem {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   body: prismic.RichTextField;
+}
+
+/**
+ * Item in *ImageAndText → CollapsingCard → Primary → Cards*
+ */
+export interface ImageAndTextSliceCollapsingCardPrimaryCardsItem {
+  /**
+   * Card Image field in *ImageAndText → CollapsingCard → Primary → Cards*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.collapsingCard.primary.cards[].card_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  card_image: prismic.ImageField<never>;
+
+  /**
+   * Title field in *ImageAndText → CollapsingCard → Primary → Cards*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Card Title
+   * - **API ID Path**: image_and_text.collapsingCard.primary.cards[].title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *ImageAndText → CollapsingCard → Primary → Cards*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Card description
+   * - **API ID Path**: image_and_text.collapsingCard.primary.cards[].description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Accent Color field in *ImageAndText → CollapsingCard → Primary → Cards*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: #FFCE54
+   * - **API ID Path**: image_and_text.collapsingCard.primary.cards[].color
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  color: prismic.KeyTextField;
 }
 
 /**
@@ -1068,6 +1124,103 @@ export interface ImageAndTextSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/link
    */
   cta: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * Tilt Angle field in *ImageAndText → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **Default Value**: None
+   * - **API ID Path**: image_and_text.default.primary.tilt_angle
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  tilt_angle: prismic.SelectField<"None" | "Left" | "Right", "filled">;
+}
+
+/**
+ * Primary content in *ImageAndText → Items*
+ */
+export interface ImageAndTextSliceDefaultItem {
+  /**
+   * Title field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Display as Bullet Point field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: image_and_text.items[].is_bullet
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  is_bullet: prismic.BooleanField;
+
+  /**
+   * Bullet Point 1 field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].bullet_point_1
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bullet_point_1: prismic.RichTextField;
+
+  /**
+   * Bullet Point 2 field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].bullet_point_2
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bullet_point_2: prismic.RichTextField;
+
+  /**
+   * Bullet Point 3 field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].bullet_point_3
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bullet_point_3: prismic.RichTextField;
+
+  /**
+   * Bullet Point 4 field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].bullet_point_4
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bullet_point_4: prismic.RichTextField;
+
+  /**
+   * Bullet Point 5 field in *ImageAndText → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.items[].bullet_point_5
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  bullet_point_5: prismic.RichTextField;
 }
 
 /**
@@ -1080,7 +1233,7 @@ export interface ImageAndTextSliceDefaultPrimary {
 export type ImageAndTextSliceDefault = prismic.SharedSliceVariation<
   "default",
   Simplify<ImageAndTextSliceDefaultPrimary>,
-  never
+  Simplify<ImageAndTextSliceDefaultItem>
 >;
 
 /**
@@ -1096,16 +1249,6 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/image
    */
   background_image: prismic.ImageField<never>;
-
-  /**
-   * Seconday Background Image field in *ImageAndText → ImageAboveTextBelow → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.seconday_background_image
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  seconday_background_image: prismic.ImageField<never>;
 
   /**
    * Heading field in *ImageAndText → ImageAboveTextBelow → Primary*
@@ -1130,7 +1273,17 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
   >;
 
   /**
-   * Body field in *ImageAndText → ImageAboveTextBelow → Primary*
+   * Theme field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Themes: Empowerment, mysticism, legacy, adventure
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.theme
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  theme: prismic.RichTextField;
+
+  /**
+   * body field in *ImageAndText → ImageAboveTextBelow → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -1138,6 +1291,16 @@ export interface ImageAndTextSliceImageAboveTextBelowPrimary {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   body: prismic.RichTextField;
+
+  /**
+   * seconday_background_image field in *ImageAndText → ImageAboveTextBelow → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.imageAboveTextBelow.primary.seconday_background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  seconday_background_image: prismic.ImageField<never>;
 }
 
 /**
@@ -1258,12 +1421,122 @@ export type ImageAndTextSliceParallaxTextImage = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *ImageAndText → TextOverBackground → Primary*
+ */
+export interface ImageAndTextSliceTextOverBackgroundPrimary {
+  /**
+   * Background Image field in *ImageAndText → TextOverBackground → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.textOverBackground.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Title field in *ImageAndText → TextOverBackground → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: TRANSMEDIA PLAYBOOK
+   * - **API ID Path**: image_and_text.textOverBackground.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *ImageAndText → TextOverBackground → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Reinventing how stories are experienced and funded
+   * - **API ID Path**: image_and_text.textOverBackground.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Tagline field in *ImageAndText → TextOverBackground → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Virtual-First, AI-First, Human-Centred
+   * - **API ID Path**: image_and_text.textOverBackground.primary.tagline
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  tagline: prismic.RichTextField;
+}
+
+/**
+ * TextOverBackground variation for ImageAndText Slice
+ *
+ * - **API ID**: `textOverBackground`
+ * - **Description**: Hero-style centered text over a background image
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSliceTextOverBackground = prismic.SharedSliceVariation<
+  "textOverBackground",
+  Simplify<ImageAndTextSliceTextOverBackgroundPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *ImageAndText → CollapsingCard → Primary*
+ */
+export interface ImageAndTextSliceCollapsingCardPrimary {
+  /**
+   * Section Background Image field in *ImageAndText → CollapsingCard → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.collapsingCard.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Section Heading field in *ImageAndText → CollapsingCard → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Our Services
+   * - **API ID Path**: image_and_text.collapsingCard.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Cards field in *ImageAndText → CollapsingCard → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: image_and_text.collapsingCard.primary.cards[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  cards: prismic.GroupField<
+    Simplify<ImageAndTextSliceCollapsingCardPrimaryCardsItem>
+  >;
+}
+
+/**
+ * CollapsingCard variation for ImageAndText Slice
+ *
+ * - **API ID**: `collapsingCard`
+ * - **Description**: Interactive cards with vertical title animation
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ImageAndTextSliceCollapsingCard = prismic.SharedSliceVariation<
+  "collapsingCard",
+  Simplify<ImageAndTextSliceCollapsingCardPrimary>,
+  never
+>;
+
+/**
  * Slice variation for *ImageAndText*
  */
 type ImageAndTextSliceVariation =
   | ImageAndTextSliceDefault
   | ImageAndTextSliceImageAboveTextBelow
-  | ImageAndTextSliceParallaxTextImage;
+  | ImageAndTextSliceParallaxTextImage
+  | ImageAndTextSliceTextOverBackground
+  | ImageAndTextSliceCollapsingCard;
 
 /**
  * ImageAndText Shared Slice
@@ -1275,6 +1548,118 @@ type ImageAndTextSliceVariation =
 export type ImageAndTextSlice = prismic.SharedSlice<
   "image_and_text",
   ImageAndTextSliceVariation
+>;
+
+/**
+ * Item in *InvestmentChart → Default → Primary → Chart Items*
+ */
+export interface InvestmentChartSliceDefaultPrimaryChartItemsItem {
+  /**
+   * Label field in *InvestmentChart → Default → Primary → Chart Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Production
+   * - **API ID Path**: investment_chart.default.primary.chart_items[].label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Investment field in *InvestmentChart → Default → Primary → Chart Items*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: 25600
+   * - **API ID Path**: investment_chart.default.primary.chart_items[].investment
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  investment: prismic.NumberField;
+}
+
+/**
+ * Primary content in *InvestmentChart → Default → Primary*
+ */
+export interface InvestmentChartSliceDefaultPrimary {
+  /**
+   * Heading field in *InvestmentChart → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Development Investment
+   * - **API ID Path**: investment_chart.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Title field in *InvestmentChart → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: £119,400
+   * - **API ID Path**: investment_chart.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Description field in *InvestmentChart → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: A complete production-ready development package with all the elements needed to pitch and win commissions from the major broadcasters and streaming platforms.
+   * - **API ID Path**: investment_chart.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Background Image field in *InvestmentChart → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: investment_chart.default.primary.background_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
+   * Chart Items field in *InvestmentChart → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: investment_chart.default.primary.chart_items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  chart_items: prismic.GroupField<
+    Simplify<InvestmentChartSliceDefaultPrimaryChartItemsItem>
+  >;
+}
+
+/**
+ * Default variation for InvestmentChart Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default variation with pie chart and table of contents
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type InvestmentChartSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<InvestmentChartSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *InvestmentChart*
+ */
+type InvestmentChartSliceVariation = InvestmentChartSliceDefault;
+
+/**
+ * InvestmentChart Shared Slice
+ *
+ * - **API ID**: `investment_chart`
+ * - **Description**: Pie chart visualization with interactive table of contents
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type InvestmentChartSlice = prismic.SharedSlice<
+  "investment_chart",
+  InvestmentChartSliceVariation
 >;
 
 /**
@@ -1714,13 +2099,24 @@ declare module "@prismicio/client" {
       HeroSliceTransmediaHero,
       ImageAndTextSlice,
       ImageAndTextSliceDefaultPrimary,
+      ImageAndTextSliceDefaultItem,
       ImageAndTextSliceImageAboveTextBelowPrimaryItemItem,
       ImageAndTextSliceImageAboveTextBelowPrimary,
       ImageAndTextSliceParallaxTextImagePrimary,
+      ImageAndTextSliceTextOverBackgroundPrimary,
+      ImageAndTextSliceCollapsingCardPrimaryCardsItem,
+      ImageAndTextSliceCollapsingCardPrimary,
       ImageAndTextSliceVariation,
       ImageAndTextSliceDefault,
       ImageAndTextSliceImageAboveTextBelow,
       ImageAndTextSliceParallaxTextImage,
+      ImageAndTextSliceTextOverBackground,
+      ImageAndTextSliceCollapsingCard,
+      InvestmentChartSlice,
+      InvestmentChartSliceDefaultPrimaryChartItemsItem,
+      InvestmentChartSliceDefaultPrimary,
+      InvestmentChartSliceVariation,
+      InvestmentChartSliceDefault,
       PasswordFormSlice,
       PasswordFormSliceDefaultPrimary,
       PasswordFormSliceAccessFormPrimary,
