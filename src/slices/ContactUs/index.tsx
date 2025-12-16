@@ -61,7 +61,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
   return (
     <div className="py-20" style={{ backgroundColor: "#0a0a0a" }}>
       <div className="text-center mb-16">
-        <h3 className="mb-4 text-4xl"><PrismicText field={slice.primary.heading} /></h3>
+        <h2 className="mb-4 text-4xl"><PrismicText field={slice.primary.heading} /></h2>
         <PrismicRichText field={slice.primary.body} />
       </div>
       <div className="max-w-(--max-wrapper-width) mx-auto px-4 sm:px-8 md:px-32">
