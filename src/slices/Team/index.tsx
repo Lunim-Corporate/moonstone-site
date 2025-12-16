@@ -26,7 +26,7 @@ export default function Team({ slice }: TeamProps) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-y-20 sm:gap-x-5 sm:p-2.5">
         {slice.primary.team_member.map((teamMember, idx) => (
-            <div key={idx} className="rounded overflow-hidden bg-[#2d2b2b]">
+            <div key={idx} className="rounded overflow-hidden bg-[#2b2b2b]">
               <div className="relative mb-4">
                 <PrismicNextImage 
                 field={teamMember.headshot}

@@ -48,7 +48,7 @@ export default async function HomepageNext() {
             Please create and publish the &quot;Homepage&quot; document in
             Prismic.
           </p>
-          <div className="text-left max-w-2xl mx-auto bg-(--brown) p-6 rounded-lg">
+          <div className="text-left max-w-2xl mx-auto bg-(--background-color) p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-3 text-(--cta-color)">
               Steps to publish:
             </h2>

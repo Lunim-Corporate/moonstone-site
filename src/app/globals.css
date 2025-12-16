@@ -4,10 +4,9 @@
     --heading-color: #FFFBD0;
     --main-text-color: #F8F8F8;
     --cta-color: #03ECF2;
-    --background-color: #252222;
+    --background-color: #222222;
     --black-primary-color: #0F0F0F; /* #0A0A0A, #0D0D0D, #202124, #181818 */
     --black-secondary-color: #000;
-    --brown: #201e1e;
     --max-wrapper-width: 75rem; /* Controls the maximum width of all content */
     --padding-top: 10rem;
 }
