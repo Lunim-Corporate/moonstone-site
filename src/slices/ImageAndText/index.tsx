@@ -422,7 +422,7 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
           <div
             className={
               "px-4 md:px-8 py-20 " +
-              (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.8)]" : "")
+              (slice.primary.background_image?.url ? "bg-[rgba(0,0,0,0.2)]" : "")
             }
           >
             <div className="max-w-(--max-wrapper-width) mx-auto">
