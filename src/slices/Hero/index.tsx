@@ -231,11 +231,11 @@ export default function Hero({ slice }: HeroProps) {
           <button
             type="button"
             onClick={handleScrollDown}
-            className="absolute z-20 bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center rounded-full border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 h-12 w-12"
+            className="absolute z-20 bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center rounded-full border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 h-12 w-12 cursor-pointer"
             aria-label="Scroll to next section"
           >
             <svg
-              className="h-6 w-6 animate-bounce"
+              className="h-6 w-6 animate-bounce mt-2 ml-px"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
