@@ -154,7 +154,13 @@ export default function Hero({ slice }: HeroProps) {
 
               {/* Title */}
               <div ref={titleRef}>
-                <PrismicRichText
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 text-(--heading-color) text-shadow-lg">
+                  The
+                  <div className="text-7xl sm:text-8xl lg:text-9xl xl:text-10xl mb-2"> Moonstone </div>
+                  Legacy Quartet
+                </h1>
+                {/*Asish: Please Prismic-ise the above*/}
+{/*                <PrismicRichText
                   field={slice.primary.title}
                   components={{
                     heading1: ({ children }) => (
@@ -163,7 +169,7 @@ export default function Hero({ slice }: HeroProps) {
                       </h1>
                     ),
                   }}
-                />
+                /> */}
               </div>
 
               {/* Subtitle */}
@@ -172,7 +178,7 @@ export default function Hero({ slice }: HeroProps) {
                   field={slice.primary.subtitle}
                   components={{
                     heading2: ({ children }) => (
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
+                      <h2 className="text-shadow-lg text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
                         {children}
                       </h2>
                     ),
@@ -181,7 +187,7 @@ export default function Hero({ slice }: HeroProps) {
               </div>
 
               {/* Tagline */}
-              <div ref={taglineRef} className="mt-16">
+              <div ref={taglineRef} className="mt-4 xs:mt-8 sm:mt-12">
                 <PrismicRichText
                   field={slice.primary.tagline}
                   components={{
@@ -195,10 +201,10 @@ export default function Hero({ slice }: HeroProps) {
               </div>
 
               {isFilled.image(slice.primary.feature_image) && (
-                <div className="mt-12" aria-label="Hero featured image">
+                <div className="mt-4 xs:mt-8 sm:mt-12" aria-label="Hero featured image">
                   <PrismicNextImage
                     field={slice.primary.feature_image}
-                    className="mx-auto max-h-[320px] w-auto object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]"
+                    className="mx-auto max-w-[240px] md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
                   />
                 </div>
               )}
