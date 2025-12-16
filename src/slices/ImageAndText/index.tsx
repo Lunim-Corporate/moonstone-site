@@ -453,11 +453,9 @@ export default function ImageAndText({ slice }: ImageAndTextProps) {
                         </div>
                       ) : (
                         <div
-                          className="my-counter-section border-b-2 mt-8 mb-2 border-b-(--cta-color) bg-(--cta-color)"
+                          className="my-counter-section mt-8 mb-2 bg-(--cta-color) opacity-70"
                           style={{
-                            boxShadow: "0 12px 38px rgba(0,0,0,0.9)",
                             height: "2px",
-                            filter: "blur(1px)",
                           }}
                         ></div>
                       )}
