@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { signIn } from "next-auth/react";
 
@@ -11,7 +11,6 @@ interface AuthFormContentProps {
 
 function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormContentProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [showSignIn, setShowSignIn] = useState<boolean>(!defaultToCreateAccount);
   const signInToggle = useRef<HTMLDivElement | null>(null);
   const createAccountToggle = useRef<HTMLDivElement | null>(null);
@@ -20,8 +19,10 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [nickName, setNickName] = useState("");
+  const [accessReason, setAccessReason] = useState("");
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
   const inactiveClass = "bg-transparent";
@@ -87,8 +88,8 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         // Refresh to re-check authentication and subscription
         router.refresh();
       }
-    } catch (err: any) {
-      setError(err.message || "An error occurred during sign in");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred during sign in");
     } finally {
       setLoading(false);
     }
@@ -119,6 +120,11 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       return;
     }
 
+    if (!accessReason) {
+      setError("Please provide a reason for access request");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -140,25 +146,63 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         return;
       }
 
-      // Auto sign-in after registration
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError("Account created but sign-in failed. Please try signing in.");
-      } else {
-        // Refresh to re-check authentication and subscription
-        router.refresh();
+      // Send access request email
+      try {
+        await fetch("/api/deal-room/access-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullName,
+            email,
+            nickName,
+            accessReason,
+          }),
+        });
+        // Don't fail registration if email fails, just log it
+      } catch (emailError) {
+        console.error("Failed to send access request email:", emailError);
       }
+
+      // Show success message instead of auto sign-in
+      setRegistrationSuccess(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred during registration");
     } finally {
       setLoading(false);
     }
   };
+
+  // Show success message if registration was successful
+  if (registrationSuccess) {
+    return (
+      <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
+        <div className="text-center">
+          <div className="mb-4">
+            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+          </div>
+
+          <h2 className="text-2xl font-semibold mb-4">Access Request Submitted!</h2>
+          <p className="text-sm mb-4">
+            Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
+          </p>
+          <p className="text-xs text-gray-400 mb-6">
+            You&apos;ll receive an email once your access has been approved.
+          </p>
+
+          <button
+            onClick={() => router.push("/")}
+            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-sm font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -345,6 +389,26 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                   setError("");
                 }}
                 className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="access-reason" className="block text-xs font-normal mb-1">
+                Reason for Access Request
+              </label>
+              <p className="uppercase mb-1 text-gray-400 text-xs">
+                Please briefly describe why you need access to the Deal Room
+              </p>
+              <textarea
+                id="access-reason"
+                value={accessReason}
+                onChange={(e) => {
+                  setAccessReason(e.target.value);
+                  setError("");
+                }}
+                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white resize-none"
+                rows={3}
                 required
               />
             </div>
