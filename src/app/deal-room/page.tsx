@@ -10,11 +10,22 @@ import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
 import { getUserSubscription } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
+import LogoutAndRedirect from "./_components/logout-and-redirect"
 
 export default async function Page() {
   const client = createClient()
   const doc = await client.getByUID("page", "deal-room")
   if (!doc) notFound()
+
+  // Get allowed tiers from environment variable
+  const allowedTiers = (process.env.DEAL_ROOM_ALLOWED_TIERS || "bronze,silver")
+    .split(",")
+    .map(tier => tier.trim().toLowerCase());
+
+  // Format allowed tiers for display
+  const allowedTiersDisplay = allowedTiers
+    .map(tier => tier.charAt(0).toUpperCase() + tier.slice(1))
+    .join(", ");
 
   // Check authentication
   const session = await getServerSession(authOptions);
@@ -49,7 +60,7 @@ export default async function Page() {
   const subscription = await getUserSubscription(session.user?.id ?? "");
 
   if (!subscription.hasAccess) {
-    // Sign out the user and show the auth form with a message
+    // Log out the user and redirect back to this page (which will show the auth form)
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
@@ -67,10 +78,11 @@ export default async function Page() {
                 }}
               />
             </div>
-            <AuthForm
-              defaultToCreateAccount={true}
-              message="You need a Bronze or Silver tier subscription to access the Deal Room. Please create an account to request access."
-            />
+            <div className="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded text-center">
+              <p className="text-sm font-medium mb-2">You need a {allowedTiersDisplay} tier subscription to access the Deal Room.</p>
+              <p className="text-xs">Your current tier: {subscription.tier ? subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1) : 'None'}</p>
+            </div>
+            <LogoutAndRedirect />
           </div>
         </div>
       </main>
