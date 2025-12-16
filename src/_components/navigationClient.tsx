@@ -7,12 +7,15 @@ import { NavigationDocumentData, NavigationDocumentDataNavLinksItem, Simplify } 
 import { asLink } from "@prismicio/client";
 // Next
 import { usePathname } from "next/navigation";
+// Auth
+import { useSession, signOut } from "next-auth/react";
 
 export default function NavigationClient({
   data,
 }: {
   data: Simplify<NavigationDocumentData>;
 }) {
+  const { data: session } = useSession();
   const [scrolled, setScrolled] = useState(false); // whether the page has been scrolled down
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false); // mobile menu state (open or closed)
@@ -96,14 +99,35 @@ export default function NavigationClient({
               link: Simplify<NavigationDocumentDataNavLinksItem>,
               idx: number
             ) => {
+              const linkUrl = asLink(link.link);
+              const isDealRoom = linkUrl === "/deal-room";
+              const isSignIn = linkUrl === "/sign-in";
+              const isLocked = isDealRoom && !session;
+
+              // Replace sign-in with log out when logged in
+              if (isSignIn && session) {
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="hover:opacity-75 text-center p-2"
+                  >
+                    Log Out
+                  </button>
+                );
+              }
+
               return (
                 <PrismicNextLink
                   key={idx}
                   field={link.link}
                   className={
-                    "hover:opacity-75 text-center p-2 bold" +
-                    (pathname === asLink(link.link) ? "text-(--cta-color)" : "")
+                    "text-center p-2 " +
+                    (pathname === linkUrl ? "text-(--cta-color)" : "") +
+                    (isLocked ? " opacity-50 cursor-not-allowed pointer-events-none" : " hover:opacity-75")
                   }
+                  aria-disabled={isLocked}
+                  title={isLocked ? "Sign in to access Deal Room" : undefined}
                 />
               );
             }
