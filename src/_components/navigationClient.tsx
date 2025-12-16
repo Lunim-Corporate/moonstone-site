@@ -100,21 +100,11 @@ export default function NavigationClient({
               idx: number
             ) => {
               const linkUrl = asLink(link.link);
-              const isDealRoom = linkUrl === "/deal-room";
               const isSignIn = linkUrl === "/sign-in";
-              const isLocked = isDealRoom && !session;
 
-              // Replace sign-in with log out when logged in
-              if (isSignIn && session) {
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="hover:opacity-75 text-center p-2"
-                  >
-                    Log Out
-                  </button>
-                );
+              // Hide sign-in link entirely
+              if (isSignIn) {
+                return null;
               }
 
               return (
@@ -122,15 +112,21 @@ export default function NavigationClient({
                   key={idx}
                   field={link.link}
                   className={
-                    "text-center p-2 " +
-                    (pathname === linkUrl ? "text-(--cta-color)" : "") +
-                    (isLocked ? " opacity-50 cursor-not-allowed pointer-events-none" : " hover:opacity-75")
+                    "text-center p-2 hover:opacity-75 " +
+                    (pathname === linkUrl ? "text-(--cta-color)" : "")
                   }
-                  aria-disabled={isLocked}
-                  title={isLocked ? "Sign in to access Deal Room" : undefined}
                 />
               );
             }
+          )}
+          {/* Show logout button if signed in AND on deal room page */}
+          {session && pathname === "/deal-room" && (
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="hover:opacity-75 text-center p-2"
+            >
+              Log Out
+            </button>
           )}
         </menu>
       </nav>
