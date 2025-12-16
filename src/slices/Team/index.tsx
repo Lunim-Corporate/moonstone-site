@@ -32,7 +32,7 @@ export default function Team({ slice }: TeamProps) {
                 field={teamMember.headshot}
                 className="w-full"
               />
-                <div className="px-5 absolute bottom-0 py-6 text-shadow-lg">
+                <div className="px-5 absolute bottom-0 py-3 text-shadow-lg">
                   <PrismicRichText field={teamMember.name} />
                 </div>
               </div>
