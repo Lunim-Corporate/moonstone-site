@@ -32,12 +32,12 @@ export default function Team({ slice }: TeamProps) {
                 field={teamMember.headshot}
                 className="w-full"
               />
-                <div className="px-5 absolute bottom-0 py-6">
+                <div className="px-5 absolute bottom-0 py-6 text-shadow-lg">
                   <PrismicRichText field={teamMember.name} />
                 </div>
               </div>
               <div className="px-5">
-                <div className="mb-8">
+                <div className="mb-4">
                 <PrismicRichText field={teamMember.role} />
                 </div>
               <PrismicRichText field={teamMember.bio} components={{paragraph: ({children}) => <p className="mb-2 last:mb-0 pb-6">{children}</p>}} />
