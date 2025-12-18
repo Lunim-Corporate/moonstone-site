@@ -157,7 +157,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
 
   return (
     <>
-      <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
+      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Password Form toggle */}
           <div
