@@ -116,7 +116,7 @@ interface HomepageDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>; /**
    * Meta Title field in *Homepage*
    *
    * - **Field Type**: Text
@@ -124,7 +124,7 @@ interface HomepageDocumentData {
    * - **API ID Path**: homepage.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -184,7 +184,7 @@ interface HomepageNextDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<HomepageNextDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<HomepageNextDocumentDataSlicesSlice>; /**
    * Meta Title field in *Homepage Next*
    *
    * - **Field Type**: Text
@@ -192,7 +192,7 @@ interface HomepageNextDocumentData {
    * - **API ID Path**: homepage_next.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -354,7 +354,7 @@ interface PageDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<PageDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<PageDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page*
    *
    * - **Field Type**: Text
@@ -362,7 +362,7 @@ interface PageDocumentData {
    * - **API ID Path**: page.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -559,7 +559,7 @@ interface SigninDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<SigninDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<SigninDocumentDataSlicesSlice>; /**
    * Meta Title field in *Sign-in*
    *
    * - **Field Type**: Text
@@ -567,7 +567,7 @@ interface SigninDocumentData {
    * - **API ID Path**: signin.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -1980,6 +1980,32 @@ export interface TeamSliceDefaultPrimaryTeamMemberItem {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   bio: prismic.RichTextField;
+
+  /**
+   * CTA Label field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].cta_label
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  cta_label: prismic.RichTextField;
+
+  /**
+   * CTA Link field in *Team → Default → Primary → Team Member*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: team.default.primary.team_member[].cta_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  cta_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 }
 
 /**

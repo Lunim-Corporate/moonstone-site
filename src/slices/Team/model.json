@@ -70,6 +70,26 @@
                   "allowTargetBlank": true,
                   "multi": "paragraph,heading2,heading3,heading4,heading5,heading6,strong,em"
                 }
+              },
+              "cta_label": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "CTA Label",
+                  "placeholder": "",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
+                }
+              },
+              "cta_link": {
+                "type": "Link",
+                "config": {
+                  "label": "CTA Link",
+                  "placeholder": "",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
               }
             }
           }
