@@ -175,7 +175,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   // Show success message if registration was successful
   if (registrationSuccess) {
     return (
-      <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
+      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
           <div className="mb-4">
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
@@ -211,7 +211,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
           <p className="text-sm font-medium">{message}</p>
         </div>
       )}
-      <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
+      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Sign In toggle */}
           <div
@@ -253,15 +253,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
 
         {/* Sign In Form */}
         {showSignIn && (
-          <form onSubmit={handleSignIn} className="space-y-4">
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-xs">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <label htmlFor="email" className="block text-xs mb-1">
+          <form onSubmit={handleSignIn} className="max-w-lg mx-auto">
+            <div className="mb-6">
+              <label htmlFor="email" className="block mb-2 text-(--cta-color)">
                 Email Address
               </label>
               <input
@@ -272,9 +266,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                   setEmail(e.target.value);
                   setEmailError("");
                 }}
-                className={`w-full px-3 py-2 rounded border ${
+                className={`w-full p-2 rounded border ${
                   emailError ? "border-red-500 border-2" : ""
-                } text-white text-sm bg-transparent`}
+                }`}
                 required
               />
               {emailError && (
@@ -282,8 +276,8 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               )}
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-xs mb-1">
+            <div className="mb-6">
+              <label htmlFor="password" className="block mb-2 text-(--cta-color)">
                 Password
               </label>
               <input
@@ -294,18 +288,24 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                   setPassword(e.target.value);
                   setError("");
                 }}
-                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white"
+                className="w-full p-2 rounded border"
                 required
               />
             </div>
 
-            <div className="pt-4">
+            {error && (
+              <div className="text-red-500 mt-4 text-center">
+                {error}
+              </div>
+            )}
+
+            <div className="text-center mt-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
+                className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "SIGNING IN..." : "SIGN IN"}
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </div>
           </form>
@@ -313,93 +313,85 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
 
         {/* Create Account Form */}
         {!showSignIn && (
-          <form onSubmit={handleCreateAccount} className="space-y-4">
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded text-xs">
-                {error}
+          <form onSubmit={handleCreateAccount} className="max-w-lg mx-auto">
+            {/* Row 1: Full Name and Nickname */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div>
+                <label htmlFor="full-name" className="block mb-2 text-(--cta-color)">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  id="full-name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full p-2 rounded border"
+                  placeholder="First and last name"
+                  required
+                />
               </div>
-            )}
-
-            <div>
-              <label htmlFor="full-name" className="block text-xs font-normal mb-1">
-                Full Name
-              </label>
-              <p className="uppercase mb-1 text-gray-400 text-xs">
-                At least your first name and your last name
-              </p>
-              <input
-                type="text"
-                id="full-name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white"
-                required
-              />
+              <div>
+                <label htmlFor="nick-name" className="block mb-2 text-(--cta-color)">
+                  Nickname
+                </label>
+                <input
+                  type="text"
+                  id="nick-name"
+                  value={nickName}
+                  onChange={(e) => setNickName(e.target.value)}
+                  className="w-full p-2 rounded border"
+                  placeholder="What shall we call you?"
+                  required
+                />
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="nick-name" className="block text-xs font-normal mb-1">
-                What shall we call you?
-              </label>
-              <p className="uppercase mb-1 text-gray-400 text-xs">
-                Just one word - a first name or nickname etc.
-              </p>
-              <input
-                type="text"
-                id="nick-name"
-                value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
-                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white"
-                required
-              />
+            {/* Row 2: Email and Password */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div>
+                <label htmlFor="create-email" className="block mb-2 text-(--cta-color)">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="create-email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError("");
+                  }}
+                  className={`w-full p-2 rounded border ${
+                    emailError ? "border-red-500 border-2" : ""
+                  }`}
+                  required
+                />
+                {emailError && (
+                  <p className="text-red-500 text-xs mt-1">{emailError}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="create-password" className="block mb-2 text-(--cta-color)">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="create-password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError("");
+                  }}
+                  className="w-full p-2 rounded border"
+                  required
+                />
+              </div>
             </div>
 
+            {/* Row 3: Access Reason */}
             <div>
-              <label htmlFor="create-email" className="block text-xs font-normal mb-1">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="create-email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setEmailError("");
-                }}
-                className={`w-full px-3 py-2 rounded border ${
-                  emailError ? "border-red-500 border-2" : ""
-                } text-white text-sm bg-transparent`}
-                required
-              />
-              {emailError && (
-                <p className="text-red-500 text-xs mt-1">{emailError}</p>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="create-password" className="block text-xs mb-1">
-                Password
-              </label>
-              <input
-                type="password"
-                id="create-password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setError("");
-                }}
-                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="access-reason" className="block text-xs font-normal mb-1">
+              <label htmlFor="access-reason" className="mb-2 block text-(--cta-color)">
                 Reason for Access Request
               </label>
-              <p className="uppercase mb-1 text-gray-400 text-xs">
-                Please briefly describe why you need access to the Deal Room
-              </p>
               <textarea
                 id="access-reason"
                 value={accessReason}
@@ -407,17 +399,24 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                   setAccessReason(e.target.value);
                   setError("");
                 }}
-                className="w-full px-3 py-2 rounded border text-sm bg-transparent text-white resize-none"
+                className="w-full p-2 rounded border"
                 rows={3}
+                placeholder="Please briefly describe why you need access to the Deal Room"
                 required
               />
             </div>
 
-            <div className="pt-4">
+            {error && (
+              <div className="text-red-500 mt-4 text-center">
+                {error}
+              </div>
+            )}
+
+            <div className="text-center mt-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 transition-colors disabled:opacity-50 cursor-pointer tracking-[0.05rem]"
+                className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
                 {loading ? "Creating..." : "Create Account"}
               </button>
