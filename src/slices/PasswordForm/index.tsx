@@ -61,7 +61,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
         <div>
           <form onSubmit={onSubmit} className="max-w-lg mx-auto">
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2">
+              <label htmlFor="password" className="block mb-2 text-(--cta-color)">
                 <PrismicRichText
                   field={slice.primary.password_label}
                   components={{
@@ -122,7 +122,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             {/* Row 1: Name and Email */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="full-name" className="block mb-2">
+                <label htmlFor="full-name" className="block mb-2 text-(--cta-color)">
                   <PrismicRichText field={slice.primary.full_name_label} />
                 </label>
                 <input
@@ -136,7 +136,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block mb-2">
+                <label htmlFor="email" className="block mb-2 text-(--cta-color)">
                   <PrismicRichText field={slice.primary.email_label} />
                 </label>
                 <input
@@ -154,7 +154,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             {/* Row 2: Phone Number and Company Name */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="phone_number" className="block mb-2">
+                <label htmlFor="phone_number" className="block mb-2 text-(--cta-color)">
                   <PrismicRichText field={slice.primary.phone_number_label} />
                 </label>
                 <input
@@ -168,7 +168,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
                 />
               </div>
               <div>
-                <label htmlFor="company_name" className="block mb-2">
+                <label htmlFor="company_name" className="block mb-2 text-(--cta-color)">
                   <PrismicRichText field={slice.primary.company_name_label} />
                 </label>
                 <input
@@ -183,7 +183,7 @@ export default function PasswordForm({ slice, context }: PasswordFormProps) {
             </div>
             {/* Row 3: Message */}
             <div>
-              <label htmlFor="message" className="mb-2 block">
+              <label htmlFor="message" className="mb-2 block text-(--cta-color)">
                 <PrismicRichText field={slice.primary.message_label} />
               </label>
               <textarea

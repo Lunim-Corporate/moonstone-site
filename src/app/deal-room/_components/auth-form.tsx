@@ -255,7 +255,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         {showSignIn && (
           <form onSubmit={handleSignIn} className="max-w-lg mx-auto">
             <div className="mb-6">
-              <label htmlFor="email" className="block mb-2">
+              <label htmlFor="email" className="block mb-2 text-(--cta-color)">
                 Email Address
               </label>
               <input
@@ -277,7 +277,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             </div>
 
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2">
+              <label htmlFor="password" className="block mb-2 text-(--cta-color)">
                 Password
               </label>
               <input
@@ -317,7 +317,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             {/* Row 1: Full Name and Nickname */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="full-name" className="block mb-2">
+                <label htmlFor="full-name" className="block mb-2 text-(--cta-color)">
                   Full Name
                 </label>
                 <input
@@ -331,7 +331,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 />
               </div>
               <div>
-                <label htmlFor="nick-name" className="block mb-2">
+                <label htmlFor="nick-name" className="block mb-2 text-(--cta-color)">
                   Nickname
                 </label>
                 <input
@@ -349,7 +349,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             {/* Row 2: Email and Password */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="create-email" className="block mb-2">
+                <label htmlFor="create-email" className="block mb-2 text-(--cta-color)">
                   Email Address
                 </label>
                 <input
@@ -370,7 +370,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 )}
               </div>
               <div>
-                <label htmlFor="create-password" className="block mb-2">
+                <label htmlFor="create-password" className="block mb-2 text-(--cta-color)">
                   Password
                 </label>
                 <input
@@ -389,7 +389,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
 
             {/* Row 3: Access Reason */}
             <div>
-              <label htmlFor="access-reason" className="mb-2 block">
+              <label htmlFor="access-reason" className="mb-2 block text-(--cta-color)">
                 Reason for Access Request
               </label>
               <textarea
