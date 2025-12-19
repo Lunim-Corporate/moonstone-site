@@ -126,8 +126,8 @@ const TeamMember = ({ member, isActive, setActive, isMobile }: TeamMemberProps) 
           <PrismicRichText
             field={member.name}
             components={{
-              paragraph: ({ children }) => (
-                <h3 className="text-lg font-semibold text-white text-left">{children}</h3>
+              heading2: ({ children }) => (
+                <h2 className="text-left">{children}</h2>
               ),
             }}
           />
@@ -152,18 +152,18 @@ type BioCardProps = {
 const BioCard = ({ member, memberCtaLabel, memberCtaLink }: BioCardProps) => {
   return (
     <div className={`bg-slate-900/90 p-5 text-start h-full`}>
-      <div className="mb-4">
+      <div className="mb-1">
         <PrismicRichText
           field={member.role}
           components={{
             paragraph: ({ children }) => (
-              <span className="text-sm text-slate-400">{children}</span>
+              <span className="text-xl text-strong text-slate-400">{children}</span>
             ),
           }}
         />
       </div>
 
-      <div className="text-slate-200 text-sm py-2">
+      <div className="text-slate-200 text-md py-2">
         <PrismicRichText
           field={member.bio}
           components={{
@@ -178,7 +178,7 @@ const BioCard = ({ member, memberCtaLabel, memberCtaLink }: BioCardProps) => {
         {isFilled.richText(memberCtaLabel ?? null) && isFilled.link(memberCtaLink) ? (
           <PrismicNextLink
             field={memberCtaLink}
-            className="inline-block rounded bg-linear-to-r from-sky-400 to-cyan-400 px-6 py-2 text-slate-900 font-semibold hover:from-sky-500 hover:to-cyan-500 transition-all duration-300"
+            className="inline-block rounded px-6 py-2 border text-cyan-400 border-color-cyan-400 hover:text-cyan-200 hover:border-color-cyan-200 font-semibold transition-all duration-300"
           >
             <PrismicRichText
               field={memberCtaLabel ?? null}
