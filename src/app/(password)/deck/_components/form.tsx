@@ -182,7 +182,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading2: ({ children }) => (
-                  <h2 className="mb-2 text-xl">{children}</h2>
+                  <h2 className="mb-2 text-xl text-(--cta-color)">{children}</h2>
                 ),
               }}
             />
@@ -224,7 +224,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading2: ({ children }) => (
-                  <h2 className="mb-2 text-xl">{children}</h2>
+                  <h2 className="mb-2 text-xl text-(--cta-color)">{children}</h2>
                 ),
               }}
             />

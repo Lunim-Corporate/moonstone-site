@@ -178,24 +178,24 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
           <div className="mb-4">
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-(--cta-color)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-4">Access Request Submitted!</h2>
-          <p className="text-sm mb-4">
+          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">Access Request Submitted!</h2>
+          <p className="text-md mb-4">
             Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
           </p>
-          <p className="text-xs text-gray-400 mb-6">
+          <p className="text-md text-gray-400 mb-6">
             You&apos;ll receive an email once your access has been approved.
           </p>
 
           <button
             onClick={() => router.push("/")}
-            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-sm font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
+            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
           >
             Return to Home
           </button>
@@ -228,7 +228,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               }
             }}
           >
-            <h2 className="mb-2 text-xl">Already have an account?</h2>
+            <h2 className="mb-2 text-xl text-(--cta-color)">Already have an account?</h2>
             <p className="mb-6 text-m">Sign in to access the deal room</p>
           </div>
           {/* Create Account Toggle */}
@@ -246,7 +246,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               }
             }}
           >
-            <h2 className="mb-2 text-xl">New here?</h2>
+            <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
             <p className="mb-6 text-m">Create an account and request access</p>
           </div>
         </div>
@@ -305,7 +305,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? "Signing In..." : "Access Deal Room"}
               </button>
             </div>
           </form>
@@ -418,7 +418,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Creating..." : "Create Account"}
+                {loading ? "Creating Account..." : "Request Access"}
               </button>
             </div>
           </form>
