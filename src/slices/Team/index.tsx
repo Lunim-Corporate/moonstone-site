@@ -1,6 +1,8 @@
 "use client"
+// React
+import { useEffect, useState } from "react";
 // Prismic
-import { Content, isFilled, LinkField, RichTextField } from "@prismicio/client";
+import { Content, isFilled, LinkField, RichTextField, asText } from "@prismicio/client";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 
@@ -18,55 +20,178 @@ type TeamMemberWithCta = Content.TeamSlice["primary"]["team_member"][number] & {
 };
 
 export default function Team({ slice }: TeamProps) {
+  const [active, setActive] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+
   return (
-    <div className="max-w-(--max-wrapper-width) mx-auto mt-30 mb-10">
-      <div className="mb-14 max-w-lg text-center mx-auto">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 to-slate-800 text-slate-200">
+      <div className="w-full max-w-6xl px-4 mx-auto py-16">
+        <div className="mb-12 mt-12 text-center">
+          {/* Start header */}
+          <header className="text-center mb-12 px-4">
+            <PrismicRichText
+              field={slice.primary.heading}
+              components={{
+                heading1: ({ children }) => (
+                  <h1 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-sky-400 to-cyan-400 bg-clip-text text-transparent mb-4">
+                    {children}
+                  </h1>
+                ),
+              }}
+            />
+            <div className="text-slate-400 max-w-2xl mx-auto text-lg">
+              <PrismicRichText field={slice.primary.body_text} />
+            </div>
+          </header>
+          {/* End header */}
+
+          {/* Team Section */}
+          <section className="max-w-6xl mx-auto px-4">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {slice.primary.team_member.map((teamMember, idx) => {
+                const memberName = asText(teamMember?.name);
+                return (
+                  <div
+                    key={idx}
+                    className={`transition duration-300 ${
+                      active && active !== memberName && !isMobile
+                        ? "blur-sm opacity-70"
+                        : ""
+                    }`}
+                  >
+                    <TeamMember
+                      member={teamMember}
+                      isActive={active === memberName}
+                      setActive={setActive}
+                      isMobile={isMobile}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          {/* End Team Section */}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Team Member Component
+ */
+type TeamMemberProps = {
+  member: Content.TeamSlice["primary"]["team_member"][number];
+  isActive: boolean;
+  setActive: (name: string | null) => void;
+  isMobile: boolean;
+};
+
+const TeamMember = ({ member, isActive, setActive, isMobile }: TeamMemberProps) => {
+  const memberName = asText(member?.name);
+  const { cta_label: memberCtaLabel, cta_link: memberCtaLink } = member as TeamMemberWithCta;
+
+  return (
+    <div
+      className={`relative rounded-xl shadow-xl overflow-hidden transition-all duration-500 h-full
+        ${isActive && !isMobile ? "z-10 scale-[1.02]" : "hover:scale-[1.01]"}
+        ${!isActive && !isMobile ? "hover:z-5" : ""}`}
+      onMouseEnter={() => !isMobile && setActive(memberName)}
+      onMouseLeave={() => !isMobile && setActive(null)}
+    >
+      {/* Background Image */}
+      <div className="h-80 sm:h-96 relative">
+        <PrismicNextImage
+          field={member.headshot}
+          className="w-full h-full object-cover"
+        />
+
+        {/* Overlay with Name */}
+        <div
+          className={`absolute bottom-0 left-0 w-full bg-linear-to-t from-black/70 to-transparent p-4
+          transition-all duration-500 ease-in-out opacity-100 translate-y-0 block`}
+        >
+          <PrismicRichText
+            field={member.name}
+            components={{
+              paragraph: ({ children }) => (
+                <h3 className="text-lg font-semibold text-white text-left">{children}</h3>
+              ),
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Bio Section */}
+      <BioCard member={member} memberCtaLabel={memberCtaLabel} memberCtaLink={memberCtaLink} />
+    </div>
+  );
+};
+
+/**
+ * Bio Card Component
+ */
+type BioCardProps = {
+  member: Content.TeamSlice["primary"]["team_member"][number];
+  memberCtaLabel?: RichTextField | null;
+  memberCtaLink?: LinkField | null;
+};
+
+const BioCard = ({ member, memberCtaLabel, memberCtaLink }: BioCardProps) => {
+  return (
+    <div className={`bg-slate-900/90 p-5 text-start h-full`}>
+      <div className="mb-4">
         <PrismicRichText
-          field={slice.primary.heading}
+          field={member.role}
           components={{
-            heading1: ({ children }) => <h1 className="text-center mb-5">{children}</h1>
+            paragraph: ({ children }) => (
+              <span className="text-sm text-slate-400">{children}</span>
+            ),
           }}
         />
-        <PrismicRichText field={slice.primary.body_text} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-y-20 sm:gap-x-5 sm:p-2.5">
-        {slice.primary.team_member.map((teamMember, idx) => {
-          const { cta_label: memberCtaLabel, cta_link: memberCtaLink } = teamMember as TeamMemberWithCta;
-          return (
-            <div key={idx} className="rounded overflow-hidden bg-[#2b2b2b]">
-              <div className="relative mb-4">
-                <PrismicNextImage 
-                field={teamMember.headshot}
-                className="w-full"
-              />
-                <div className="px-5 absolute bottom-0 py-3 text-shadow-lg">
-                  <PrismicRichText field={teamMember.name} />
-                </div>
-              </div>
-              <div className="px-5">
-                <div className="mb-4">
-                <PrismicRichText field={teamMember.role} />
-                </div>
-              <PrismicRichText field={teamMember.bio} components={{paragraph: ({children}) => <p className="mb-2 last:mb-0 pb-6">{children}</p>}} />
-              {isFilled.richText(memberCtaLabel ?? null) && isFilled.link(memberCtaLink) && (
-                <div className="pb-6">
-                  <PrismicNextLink
-                    field={memberCtaLink}
-                    className="inline-block rounded bg-(--cta-color) px-6 py-2 text-(--black-primary-color) font-semibold hover:bg-(--cta-color)/70 transition-colors duration-300"
-                  >
-                    <PrismicRichText
-                      field={memberCtaLabel ?? null}
-                      components={{
-                        paragraph: ({ children }) => <span>{children}</span>,
-                      }}
-                    />
-                  </PrismicNextLink>
-                </div>
-              )}
-              </div>
-            </div>
-          );
-        })}
+
+      <div className="text-slate-200 text-sm py-2">
+        <PrismicRichText
+          field={member.bio}
+          components={{
+            paragraph: ({ children }) => (
+              <p className="whitespace-pre-wrap">{children}</p>
+            ),
+          }}
+        />
+      </div>
+
+      <div className="mt-4">
+        {isFilled.richText(memberCtaLabel ?? null) && isFilled.link(memberCtaLink) ? (
+          <PrismicNextLink
+            field={memberCtaLink}
+            className="inline-block rounded bg-linear-to-r from-sky-400 to-cyan-400 px-6 py-2 text-slate-900 font-semibold hover:from-sky-500 hover:to-cyan-500 transition-all duration-300"
+          >
+            <PrismicRichText
+              field={memberCtaLabel ?? null}
+              components={{
+                paragraph: ({ children }) => <span>{children}</span>,
+              }}
+            />
+          </PrismicNextLink>
+        ) : (
+          <div className="invisible inline-block rounded px-6 py-2">
+            <span>Placeholder</span>
+          </div>
+        )}
       </div>
     </div>
   );
