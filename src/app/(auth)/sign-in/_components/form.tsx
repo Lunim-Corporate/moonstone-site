@@ -46,13 +46,13 @@ function SignInFormContent({ doc }: { doc: any }) {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError("Details not recognised. Please try again.");
       } else {
         const callbackUrl = searchParams.get("callbackUrl") || "/deal-room";
         router.push(callbackUrl);
       }
     } catch (err: any) {
-      setError(err.message || "An error occurred during sign in");
+      setError(err.message || "Sorry, an error occurred during sign in");
     } finally {
       setLoading(false);
     }
