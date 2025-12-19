@@ -164,8 +164,8 @@ export default function Team({ slice }: TeamProps) {
                     }}
                   />
 
-                  {isFilled.richText(memberCtaLabel ?? null) && isFilled.link(memberCtaLink) && (
-                    <div className="mt-4">
+                  <div className="mt-4">
+                    {isFilled.richText(memberCtaLabel ?? null) && isFilled.link(memberCtaLink) ? (
                       <PrismicNextLink
                         field={memberCtaLink}
                         className="inline-block rounded bg-linear-to-r from-sky-400 to-cyan-400 px-6 py-2 text-slate-900 font-semibold hover:from-sky-500 hover:to-cyan-500 transition-all duration-300"
@@ -177,8 +177,12 @@ export default function Team({ slice }: TeamProps) {
                           }}
                         />
                       </PrismicNextLink>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="invisible inline-block rounded px-6 py-2">
+                        <span>Placeholder</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
