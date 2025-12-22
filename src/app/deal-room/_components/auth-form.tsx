@@ -25,7 +25,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
-  const inactiveClass = "bg-transparent";
+  const inactiveClass = "inset-ring-2 inset-ring-cyan-300/10";
 
   // Keyboard accessibility for toggling forms
   useEffect(() => {
@@ -83,7 +83,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError("Details not recognised. Please try again.");
       } else {
         // Refresh to re-check authentication and subscription
         router.refresh();
@@ -178,24 +178,24 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
           <div className="mb-4">
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-(--cta-color)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-4">Access Request Submitted!</h2>
-          <p className="text-sm mb-4">
+          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">Access Request Submitted!</h2>
+          <p className="text-md mb-4">
             Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
           </p>
-          <p className="text-xs text-gray-400 mb-6">
+          <p className="text-md text-gray-400 mb-6">
             You&apos;ll receive an email once your access has been approved.
           </p>
 
           <button
             onClick={() => router.push("/")}
-            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-sm font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
+            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
           >
             Return to Home
           </button>
@@ -228,8 +228,8 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               }
             }}
           >
-            <h2 className="mb-2 text-xl">Already have an account?</h2>
-            <p className="mb-6 text-sm">Sign in to access the deal room</p>
+            <h2 className="mb-2 text-xl text-(--cta-color)">Already have an account?</h2>
+            <p className="mb-6 text-m">Sign in to access the deal room</p>
           </div>
           {/* Create Account Toggle */}
           <div
@@ -246,8 +246,8 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               }
             }}
           >
-            <h2 className="mb-2 text-xl">New here?</h2>
-            <p className="mb-6 text-sm">Create an account to get started</p>
+            <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
+            <p className="mb-6 text-m">Create an account and request access</p>
           </div>
         </div>
 
@@ -255,7 +255,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         {showSignIn && (
           <form onSubmit={handleSignIn} className="max-w-lg mx-auto">
             <div className="mb-6">
-              <label htmlFor="email" className="block mb-2 text-(--cta-color)">
+              <label htmlFor="email" className="block mb-2 text-white">
                 Email Address
               </label>
               <input
@@ -277,7 +277,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             </div>
 
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2 text-(--cta-color)">
+              <label htmlFor="password" className="block mb-2 text-white">
                 Password
               </label>
               <input
@@ -299,13 +299,13 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               </div>
             )}
 
-            <div className="text-center mt-4">
+            <div className="text-left mt-4">
               <button
                 type="submit"
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Signing In..." : "Sign In"}
+                {loading ? "Signing In..." : "Access Deal Room"}
               </button>
             </div>
           </form>
@@ -317,7 +317,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             {/* Row 1: Full Name and Nickname */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="full-name" className="block mb-2 text-(--cta-color)">
+                <label htmlFor="full-name" className="block mb-2 text-white">
                   Full Name
                 </label>
                 <input
@@ -331,7 +331,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 />
               </div>
               <div>
-                <label htmlFor="nick-name" className="block mb-2 text-(--cta-color)">
+                <label htmlFor="nick-name" className="block mb-2 text-white">
                   Nickname
                 </label>
                 <input
@@ -349,7 +349,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             {/* Row 2: Email and Password */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label htmlFor="create-email" className="block mb-2 text-(--cta-color)">
+                <label htmlFor="create-email" className="block mb-2 text-white">
                   Email Address
                 </label>
                 <input
@@ -370,7 +370,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 )}
               </div>
               <div>
-                <label htmlFor="create-password" className="block mb-2 text-(--cta-color)">
+                <label htmlFor="create-password" className="block mb-2 text-white">
                   Password
                 </label>
                 <input
@@ -389,7 +389,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
 
             {/* Row 3: Access Reason */}
             <div>
-              <label htmlFor="access-reason" className="mb-2 block text-(--cta-color)">
+              <label htmlFor="access-reason" className="mb-2 block text-white">
                 Reason for Access Request
               </label>
               <textarea
@@ -407,18 +407,18 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             </div>
 
             {error && (
-              <div className="text-red-500 mt-4 text-center">
+              <div className="text-red-500 mt-4 text-left">
                 {error}
               </div>
             )}
 
-            <div className="text-center mt-4">
+            <div className="text-left mt-4">
               <button
                 type="submit"
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Creating..." : "Create Account"}
+                {loading ? "Creating Account..." : "Request Access"}
               </button>
             </div>
           </form>

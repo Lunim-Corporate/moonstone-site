@@ -150,7 +150,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
               field={slice.primary.form_heading}
               components={{
                 heading3: ({ children }) => (
-                  <h3 className="mb-8 text-center">{children}</h3>
+                  <h3 className="mb-8 text-left">{children}</h3>
                 ),
               }}
             />
@@ -232,14 +232,14 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 ></textarea>
               </div>
               {success && (
-                <div className="text-green-500 mt-4 text-center">
+                <div className="text-green-500 mt-4 text-left">
                   <PrismicRichText
                     field={slice.primary.email_success_message}
                   />
                 </div>
               )}
               {error && (
-                <div className="text-red-500 mt-4 text-center">
+                <div className="text-red-500 mt-4 text-left">
                   {/* <PrismicRichText
                     field={slice.primary.email_error_message}
                   /> */}
@@ -247,7 +247,7 @@ const ContactUs: FC<ContactUsProps> = ({ slice }) => {
                 </div>
               )}
               {/* End Row 3 */}
-              <div className="text-center mt-4">
+              <div className="text-left mt-4">
                   <PrismicRichText
                     field={slice.primary.cta}
                     components={{

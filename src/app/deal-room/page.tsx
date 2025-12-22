@@ -123,7 +123,7 @@ export default async function Page() {
     >
       <div className="max-w-(--max-wrapper-width) mx-auto text-center">
         <PrismicRichText field={doc.data.heading} />
-        <div className="mt-8 text-sm">
+        <div className="mt-8 text-md">
           <p>Welcome, {session.user?.name || "User"}!</p>
         </div>
       </div>
