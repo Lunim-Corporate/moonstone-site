@@ -2,6 +2,7 @@
 import { createClient } from "@/src/prismicio"
 import { PrismicRichText } from "@prismicio/react"
 // Next
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 // Auth
 import { getServerSession } from "next-auth"
@@ -11,6 +12,29 @@ import { getUserSubscription } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
 import LogoutAndRedirect from "./_components/logout-and-redirect"
+
+export async function generateMetadata(): Promise<Metadata> {
+  const client = createClient()
+
+  try {
+    const doc = await client.getByUID("page", "deal-room")
+    if (!doc) return {}
+
+    return {
+      title: doc.data.meta_title || "Moonstone",
+      description: doc.data.meta_description || undefined,
+      openGraph: {
+        title: doc.data.meta_title || "Moonstone",
+        description: doc.data.meta_description || undefined,
+        images: doc.data.meta_image?.url
+          ? [{ url: doc.data.meta_image.url }]
+          : [],
+      },
+    }
+  } catch {
+    return {}
+  }
+}
 
 export default async function Page() {
   const client = createClient()
