@@ -1,6 +1,6 @@
 import { prisma } from "./prisma";
 
-export type SubscriptionTier = "iron" | "bronze" | "silver" | null;
+export type SubscriptionTier = "iron" | "bronze" | "silver" | "gold" | null;
 
 export interface UserSubscription {
   tier: SubscriptionTier;
@@ -11,7 +11,7 @@ export interface UserSubscription {
 
 // Tiers that have access to premium content (deal room)
 // Can be overridden via DEAL_ROOM_ALLOWED_TIERS env variable
-const DEFAULT_ALLOWED_TIERS = ["bronze", "silver"];
+const DEFAULT_ALLOWED_TIERS = ["gold"];
 
 function getAllowedTiers(): string[] {
   const envTiers = process.env.DEAL_ROOM_ALLOWED_TIERS;

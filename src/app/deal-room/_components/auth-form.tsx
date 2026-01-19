@@ -7,9 +7,14 @@ import { signIn } from "next-auth/react";
 interface AuthFormContentProps {
   defaultToCreateAccount?: boolean;
   message?: string;
+  variant?: "deal-room" | "deck";
 }
 
-function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormContentProps) {
+function AuthFormContent({
+  defaultToCreateAccount = false,
+  message,
+  variant = "deal-room",
+}: AuthFormContentProps) {
   const router = useRouter();
   const [showSignIn, setShowSignIn] = useState<boolean>(!defaultToCreateAccount);
   const signInToggle = useRef<HTMLDivElement | null>(null);
@@ -23,6 +28,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const isDeck = variant === "deck";
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
   const inactiveClass = "inset-ring-2 inset-ring-cyan-300/10";
@@ -146,21 +152,40 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         return;
       }
 
-      // Send access request email
+      // Send access request notification
       try {
-        await fetch("/api/deal-room/access-request", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName,
-            email,
-            nickName,
-            accessReason,
-          }),
-        });
+        await fetch(
+          isDeck ? "/api/pitch-deck/access-request" : "/api/deal-room/access-request",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fullName,
+              email,
+              nickName,
+              accessReason,
+            }),
+          }
+        );
         // Don't fail registration if email fails, just log it
       } catch (emailError) {
         console.error("Failed to send access request email:", emailError);
+      }
+
+      if (isDeck) {
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          setError("Account created, but sign in failed. Please sign in.");
+          return;
+        }
+
+        router.refresh();
+        return;
       }
 
       // Show success message instead of auto sign-in
@@ -173,7 +198,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   };
 
   // Show success message if registration was successful
-  if (registrationSuccess) {
+  if (registrationSuccess && !isDeck) {
     return (
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
@@ -185,19 +210,22 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">Access Request Submitted!</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">
+            Access Request Submitted!
+          </h2>
           <p className="text-md mb-4">
             Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
           </p>
           <p className="text-md text-gray-400 mb-6">
-            You&apos;ll receive an email once your access has been approved.
+            A request has been sent to the Producers for you to be upgraded to view the deal room.
+            If you have authority, you will be informed when this has happened.
           </p>
 
           <button
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/deck")}
             className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
           >
-            Return to Home
+            View Pitch Deck
           </button>
         </div>
       </div>
@@ -229,7 +257,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             }}
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">Already have an account?</h2>
-            <p className="mb-6 text-m">Sign in to access the deal room</p>
+            <p className="mb-6 text-m">
+              Sign in to access the {isDeck ? "pitch deck" : "deal room"}
+            </p>
           </div>
           {/* Create Account Toggle */}
           <div
@@ -247,7 +277,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             }}
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
-            <p className="mb-6 text-m">Create an account and request access</p>
+            <p className="mb-6 text-m">
+              Create an account and request access{isDeck ? " to the pitch deck" : ""}
+            </p>
           </div>
         </div>
 
@@ -305,7 +337,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Signing In..." : "Access Deal Room"}
+                {loading ? "Signing In..." : `Access ${isDeck ? "Pitch Deck" : "Deal Room"}`}
               </button>
             </div>
           </form>
@@ -399,11 +431,15 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                   setAccessReason(e.target.value);
                   setError("");
                 }}
-                className="w-full p-2 rounded border"
-                rows={3}
-                placeholder="Please briefly describe why you need access to the Deal Room"
-                required
-              />
+              className="w-full p-2 rounded border"
+              rows={3}
+              placeholder={
+                isDeck
+                  ? "Please briefly describe why you would like access to the pitch deck"
+                  : "Please briefly describe why you need access to the Deal Room"
+              }
+              required
+            />
             </div>
 
             {error && (
@@ -428,10 +464,22 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   );
 }
 
-export default function AuthForm({ defaultToCreateAccount = false, message }: { defaultToCreateAccount?: boolean; message?: string }) {
+export default function AuthForm({
+  defaultToCreateAccount = false,
+  message,
+  variant = "deal-room",
+}: {
+  defaultToCreateAccount?: boolean;
+  message?: string;
+  variant?: "deal-room" | "deck";
+}) {
   return (
     <Suspense fallback={<div className="text-center text-xs">Loading...</div>}>
-      <AuthFormContent defaultToCreateAccount={defaultToCreateAccount} message={message} />
+      <AuthFormContent
+        defaultToCreateAccount={defaultToCreateAccount}
+        message={message}
+        variant={variant}
+      />
     </Suspense>
   );
 }
