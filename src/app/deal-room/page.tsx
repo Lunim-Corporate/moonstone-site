@@ -11,7 +11,6 @@ import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
 import { getUserSubscription } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
-import AccessAttemptNotifier from "./_components/access-attempt-notifier"
 import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -114,12 +113,6 @@ export default async function Page() {
               </p>
             </div>
             <PitchDeckDownloads />
-            <AccessAttemptNotifier
-              fullName={session.user?.name}
-              email={session.user?.email}
-              nickName={session.user?.friendlyName}
-              currentTier={subscription.tier}
-            />
           </div>
         </div>
       </main>
