@@ -20,6 +20,7 @@ function SignInFormContent({ doc }: { doc: any }) {
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +99,10 @@ function SignInFormContent({ doc }: { doc: any }) {
     setLoading(true);
 
     try {
+      // Determine source from callback URL or default to 'deck'
+      const callbackUrl = searchParams.get("callbackUrl") || "";
+      const source = callbackUrl.includes("deal-room") ? "deal-room" : "deck";
+
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,6 +111,7 @@ function SignInFormContent({ doc }: { doc: any }) {
           password,
           name: fullName,
           friendly_name: nickName,
+          source,
         }),
       });
 
@@ -116,18 +122,24 @@ function SignInFormContent({ doc }: { doc: any }) {
         return;
       }
 
-      // Auto sign-in after registration
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError("Account created but sign-in failed. Please try signing in.");
+      // Check if email confirmation is required
+      if (data.requiresConfirmation) {
+        setRegistrationSuccess(true);
+        // Don't auto sign-in, show confirmation message instead
       } else {
-        const callbackUrl = searchParams.get("callbackUrl") || "/deal-room";
-        router.push(callbackUrl);
+        // Legacy flow: auto sign-in if confirmation not required
+        const result = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          setError("Account created but sign-in failed. Please try signing in.");
+        } else {
+          const redirectUrl = searchParams.get("callbackUrl") || "/deal-room";
+          router.push(redirectUrl);
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred during registration");
@@ -137,6 +149,36 @@ function SignInFormContent({ doc }: { doc: any }) {
   };
 
   if (showCreateAccount) {
+    if (registrationSuccess) {
+      return (
+        <div className="py-1">
+          <h1 className="text-xl text-center mb-0 mt-3">Check Your Email</h1>
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded my-6">
+            <p className="text-sm font-medium mb-2">Account created successfully!</p>
+            <p className="text-xs">
+              We&apos;ve sent a confirmation email to <strong>{email}</strong>.
+            </p>
+            <p className="text-xs mt-2">
+              Please check your inbox and click the confirmation link to activate your account.
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              setShowCreateAccount(false);
+              setRegistrationSuccess(false);
+              setEmail("");
+              setPassword("");
+              setFullName("");
+              setNickName("");
+            }}
+            className="w-full bg-(--cta-color) text-(--black-primary-color) px-4 py-2 rounded text-xs uppercase hover:bg-(--cta-color)/70 transition-colors tracking-[0.05rem]"
+          >
+            Back to Sign In
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div className="py-1">
         <h1 className="text-xl text-center mb-0 mt-3">Join Us</h1>

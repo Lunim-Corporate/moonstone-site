@@ -8,7 +8,7 @@ import { notFound } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
 // Subscription
-import { getUserSubscription } from "@/src/_lib/subscription"
+import { getUserSubscription, sendAccessAttemptNotification } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
 import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
@@ -84,6 +84,10 @@ export default async function Page() {
   const subscription = await getUserSubscription(session.user?.id ?? "");
 
   if (!subscription.hasAccess) {
+    // Send access attempt notification for iron tier users trying to access deal room
+    if (session.user?.id) {
+      await sendAccessAttemptNotification(session.user.id);
+    }
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}

@@ -1,5 +1,8 @@
 import { prisma } from "./prisma";
 
+const TECH_SUITE_URL = process.env.TABB_BACKEND_URL || "http://localhost:3001";
+const MOONSTONE_HUB_ID = parseInt(process.env.MOONSTONE_HUB_ID || "3", 10);
+
 export type SubscriptionTier = "iron" | "bronze" | "silver" | "gold" | null;
 
 export interface UserSubscription {
@@ -123,5 +126,28 @@ export async function getMoonstonePricePlans() {
   } catch (error) {
     console.error("Error fetching price plans:", error);
     return [];
+  }
+}
+
+/**
+ * Send access attempt notification when a non-gold user tries to access deal room
+ */
+export async function sendAccessAttemptNotification(
+  userId: string
+): Promise<void> {
+  try {
+    await fetch(`${TECH_SUITE_URL}/api/notifications/access-attempt`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: parseInt(userId, 10),
+        hub_id: MOONSTONE_HUB_ID,
+      }),
+    });
+  } catch (error) {
+    console.error("Error sending access attempt notification:", error);
+    // Don't throw - this is a non-critical notification
   }
 }
