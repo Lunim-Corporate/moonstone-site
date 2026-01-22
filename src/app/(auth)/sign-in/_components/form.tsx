@@ -47,7 +47,9 @@ function SignInFormContent({ doc }: { doc: any }) {
       });
 
       if (result?.error) {
-        setError("Details not recognised. Please try again.");
+        // Display the actual error message from the backend
+        console.log('Login error from NextAuth:', result.error);
+        setError(result.error);
       } else {
         const callbackUrl = searchParams.get("callbackUrl") || "/deal-room";
         router.push(callbackUrl);

@@ -89,7 +89,7 @@ function AuthFormContent({
       });
 
       if (result?.error) {
-        setError("Details not recognised. Please try again.");
+        setError(result.error);
       } else {
         // Refresh to re-check authentication and subscription
         router.refresh();
