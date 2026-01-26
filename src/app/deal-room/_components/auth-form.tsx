@@ -24,7 +24,6 @@ function AuthFormContent({
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [nickName, setNickName] = useState("");
-  const [accessReason, setAccessReason] = useState("");
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
@@ -126,11 +125,6 @@ function AuthFormContent({
       return;
     }
 
-    if (!accessReason) {
-      setError("Please provide a reason for access request");
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -152,25 +146,7 @@ function AuthFormContent({
         return;
       }
 
-      // Send access request notification
-      try {
-        await fetch(
-          isDeck ? "/api/pitch-deck/access-request" : "/api/deal-room/access-request",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              fullName,
-              email,
-              nickName,
-              accessReason,
-            }),
-          }
-        );
-        // Don't fail registration if email fails, just log it
-      } catch (emailError) {
-        console.error("Failed to send access request email:", emailError);
-      }
+      // Access request notification removed - now handled by backend via email confirmation flow
 
       if (isDeck) {
         const result = await signIn("credentials", {
@@ -417,29 +393,6 @@ function AuthFormContent({
                   required
                 />
               </div>
-            </div>
-
-            {/* Row 3: Access Reason */}
-            <div>
-              <label htmlFor="access-reason" className="mb-2 block text-white">
-                Reason for Access Request
-              </label>
-              <textarea
-                id="access-reason"
-                value={accessReason}
-                onChange={(e) => {
-                  setAccessReason(e.target.value);
-                  setError("");
-                }}
-              className="w-full p-2 rounded border"
-              rows={3}
-              placeholder={
-                isDeck
-                  ? "Please briefly describe why you would like access to the pitch deck"
-                  : "Please briefly describe why you need access to the Deal Room"
-              }
-              required
-            />
             </div>
 
             {error && (
