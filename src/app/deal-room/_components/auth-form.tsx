@@ -146,25 +146,7 @@ function AuthFormContent({
         return;
       }
 
-      // Access request notification removed - now handled by backend via email confirmation flow
-
-      if (isDeck) {
-        const result = await signIn("credentials", {
-          email,
-          password,
-          redirect: false,
-        });
-
-        if (result?.error) {
-          setError("Account created, but sign in failed. Please sign in.");
-          return;
-        }
-
-        router.refresh();
-        return;
-      }
-
-      // Show success message instead of auto sign-in
+      // Show success message for email confirmation
       setRegistrationSuccess(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred during registration");
@@ -174,7 +156,7 @@ function AuthFormContent({
   };
 
   // Show success message if registration was successful
-  if (registrationSuccess && !isDeck) {
+  if (registrationSuccess) {
     return (
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
@@ -187,14 +169,14 @@ function AuthFormContent({
           </div>
 
           <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">
-            Access Request Submitted!
+            Account Created Successfully!
           </h2>
           <p className="text-md mb-4">
-            Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
+            Thank you for creating an account. Please check your email to confirm your account.
           </p>
           <p className="text-md text-gray-400 mb-6">
-            A request has been sent to the Producers for you to be upgraded to view the deal room.
-            If you have authority, you will be informed when this has happened.
+            We&apos;ve sent a confirmation email to <strong>{email}</strong>.
+            Click the link in the email to activate your account and sign in.
           </p>
 
           <button

@@ -42,28 +42,12 @@ function ConfirmEmailContent() {
 
         // Email confirmed successfully
         setStatus("success");
-        setMessage("Email confirmed successfully! Signing you in...");
+        setMessage("Email confirmed successfully! Redirecting to pitch deck...");
 
-        // Auto sign-in using the email from the response
-        const signInResult = await signIn("credentials", {
-          email: data.user.email,
-          password: "__confirmed__", // Special marker to skip password check on backend
-          redirect: false,
-        });
-
-        if (signInResult?.error) {
-          // If auto sign-in fails, redirect to sign-in page
-          setMessage("Email confirmed! Redirecting to sign-in...");
-          setTimeout(() => {
-            router.push("/sign-in");
-          }, 2000);
-        } else {
-          // Sign-in successful, redirect based on source
-          const redirectPath = data.source === "deal-room" ? "/deal-room" : "/pitch-deck";
-          setTimeout(() => {
-            router.push(redirectPath);
-          }, 1500);
-        }
+        // Redirect to pitch deck sign-in page (with password entry)
+        setTimeout(() => {
+          router.push("/deck");
+        }, 2000);
       } catch (error) {
         setStatus("error");
         setMessage("An error occurred during email confirmation. Please try again.");

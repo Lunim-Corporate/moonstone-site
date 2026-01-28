@@ -12,6 +12,7 @@ import { getUserSubscription } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "@/src/app/deal-room/_components/auth-form"
 import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
+import RequestAccessButton from "@/src/_components/request-access-button"
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient()
@@ -77,7 +78,7 @@ export default async function Page() {
         className="bg-top bg-cover min-h-screen pt-(--padding-top) px-5 px:sm-0"
       >
         <div className="max-w-(--max-wrapper-width) mx-auto">
-          <div className="max-w-lg mx-auto py-10">
+          <div className="max-w-2xl mx-auto py-10">
             <div>
               <PrismicRichText
                 field={doc.data.heading}
@@ -89,6 +90,7 @@ export default async function Page() {
               />
             </div>
             <PitchDeckDownloads />
+            <RequestAccessButton />
           </div>
         </div>
       </main>
