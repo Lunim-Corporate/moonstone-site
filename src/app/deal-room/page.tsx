@@ -12,6 +12,7 @@ import { getUserSubscription, sendAccessAttemptNotification } from "@/src/_lib/s
 // Components
 import AuthForm from "./_components/auth-form"
 import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
+import DealRoomDownloads from "@/src/_components/deal-room-downloads"
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient()
@@ -137,6 +138,7 @@ export default async function Page() {
           <p>Welcome, {session.user?.name || "User"}!</p>
         </div>
         <PitchDeckDownloads />
+        {subscription.tier === "gold" && <DealRoomDownloads />}
       </div>
     </div>
   );
