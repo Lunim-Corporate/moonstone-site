@@ -1,5 +1,3 @@
-import { prisma } from "./prisma";
-
 const TECH_SUITE_URL = process.env.TABB_BACKEND_URL || "http://localhost:3001";
 const MOONSTONE_HUB_ID = parseInt(process.env.MOONSTONE_HUB_ID || "3", 10);
 
@@ -26,36 +24,28 @@ function getAllowedTiers(): string[] {
 
 /**
  * Get user's active subscription for Moonstone hub
+ * Now uses tech-suite API instead of direct database access
  */
 export async function getUserSubscription(
   userId: string
 ): Promise<UserSubscription> {
   try {
-    const moonstoneHubId = BigInt(process.env.MOONSTONE_HUB_ID || "3");
-    const userIdBigInt = BigInt(userId);
+    const allowedTiers = getAllowedTiers();
+    const allowedTiersParam = allowedTiers.join(",");
 
-    // Find active subscription for user in Moonstone hub
-    const subscription = await prisma.subscriptions.findFirst({
-      where: {
-        user_id: Number(userIdBigInt),
-        hub_id: moonstoneHubId,
-        current: true, // Only current subscriptions
-      },
-      include: {
-        price_plans: {
-          select: {
-            id: true,
-            code: true,
-            name: true,
-          },
+    // Call tech-suite API to check subscription
+    const response = await fetch(
+      `${TECH_SUITE_URL}/api/subscriptions/check-access/${userId}/${MOONSTONE_HUB_ID}?allowedTiers=${allowedTiersParam}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-      orderBy: {
-        created_at: "desc",
-      },
-    });
+      }
+    );
 
-    if (!subscription || !subscription.price_plans) {
+    if (!response.ok) {
+      console.error("Failed to fetch subscription from API:", response.status);
       return {
         tier: null,
         hasAccess: false,
@@ -64,14 +54,13 @@ export async function getUserSubscription(
       };
     }
 
-    const tier = subscription.price_plans.code as SubscriptionTier;
-    const allowedTiers = getAllowedTiers();
+    const data = await response.json();
 
     return {
-      tier,
-      hasAccess: tier !== null && allowedTiers.includes(tier),
-      pricePlanId: subscription.price_plans.id,
-      subscriptionId: subscription.id,
+      tier: data.tier as SubscriptionTier,
+      hasAccess: data.hasAccess,
+      pricePlanId: data.pricePlanId,
+      subscriptionId: data.subscriptionId,
     };
   } catch (error) {
     console.error("Error fetching user subscription:", error);
@@ -97,31 +86,26 @@ export async function hasAccessToDealRoom(
 
 /**
  * Get all price plans for Moonstone hub
+ * Now uses tech-suite API instead of direct database access
  */
 export async function getMoonstonePricePlans() {
   try {
-    const moonstoneHubId = BigInt(process.env.MOONSTONE_HUB_ID || "3");
+    const response = await fetch(
+      `${TECH_SUITE_URL}/api/subscriptions/price-plans/${MOONSTONE_HUB_ID}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const pricePlans = await prisma.price_plans.findMany({
-      where: {
-        hub_id: moonstoneHubId,
-      },
-      orderBy: {
-        id: "asc",
-      },
-      select: {
-        id: true,
-        code: true,
-        name: true,
-        charge_pence: true,
-        charge_us_cents: true,
-        charge_eu_cents: true,
-        charge_pence_yearly: true,
-        charge_us_cents_yearly: true,
-        charge_eu_cents_yearly: true,
-      },
-    });
+    if (!response.ok) {
+      console.error("Failed to fetch price plans from API:", response.status);
+      return [];
+    }
 
+    const pricePlans = await response.json();
     return pricePlans;
   } catch (error) {
     console.error("Error fetching price plans:", error);
