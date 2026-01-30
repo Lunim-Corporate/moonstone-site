@@ -8,10 +8,11 @@ import { notFound } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
 // Subscription
-import { getUserSubscription } from "@/src/_lib/subscription"
+import { getUserSubscription, sendAccessAttemptNotification } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
-import LogoutAndRedirect from "./_components/logout-and-redirect"
+import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
+import DealRoomDownloads from "@/src/_components/deal-room-downloads"
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient()
@@ -42,7 +43,7 @@ export default async function Page() {
   if (!doc) notFound()
 
   // Get allowed tiers from environment variable
-  const allowedTiers = (process.env.DEAL_ROOM_ALLOWED_TIERS || "bronze,silver")
+  const allowedTiers = (process.env.DEAL_ROOM_ALLOWED_TIERS || "gold")
     .split(",")
     .map(tier => tier.trim().toLowerCase());
 
@@ -73,7 +74,7 @@ export default async function Page() {
                 }}
               />
             </div>
-            <AuthForm />
+            <AuthForm variant="deal-room" />
           </div>
         </div>
       </main>
@@ -84,7 +85,10 @@ export default async function Page() {
   const subscription = await getUserSubscription(session.user?.id ?? "");
 
   if (!subscription.hasAccess) {
-    // Log out the user and redirect back to this page (which will show the auth form)
+    // Send access attempt notification for iron tier users trying to access deal room
+    if (session.user?.id) {
+      await sendAccessAttemptNotification(session.user.id);
+    }
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
@@ -103,10 +107,17 @@ export default async function Page() {
               />
             </div>
             <div className="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded text-center">
-              <p className="text-sm font-medium mb-2">You need a {allowedTiersDisplay} tier subscription to access the Deal Room.</p>
-              <p className="text-xs">Your current tier: {subscription.tier ? subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1) : 'None'}</p>
+              <p className="text-sm font-medium mb-2">
+                You need a {allowedTiersDisplay} tier subscription to access the Deal Room.
+              </p>
+              <p className="text-xs">
+                Your current tier: {subscription.tier ? subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1) : "None"}
+              </p>
+              <p className="text-xs mt-2">
+                You can still access and download the pitch deck below while we review your request.
+              </p>
             </div>
-            <LogoutAndRedirect />
+            <PitchDeckDownloads />
           </div>
         </div>
       </main>
@@ -126,6 +137,8 @@ export default async function Page() {
         <div className="mt-8 text-md">
           <p>Welcome, {session.user?.name || "User"}!</p>
         </div>
+        <PitchDeckDownloads />
+        {subscription.tier === "gold" && <DealRoomDownloads />}
       </div>
     </div>
   );

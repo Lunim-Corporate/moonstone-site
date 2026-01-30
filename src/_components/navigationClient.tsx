@@ -119,8 +119,8 @@ export default function NavigationClient({
               );
             }
           )}
-          {/* Show logout button if signed in AND on deal room page */}
-          {session && pathname === "/deal-room" && (
+          {/* Show logout button if signed in */}
+          {session && (
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
               className="hover:opacity-75 text-center p-2"

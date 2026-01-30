@@ -1,7 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/src/_lib/prisma";
-import * as bcrypt from "bcrypt";
+
+const TABB_BACKEND_URL = process.env.TABB_BACKEND_URL || "http://localhost:3001";
+const MOONSTONE_HUB_ID = parseInt(process.env.MOONSTONE_HUB_ID || "3", 10);
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,109 +18,38 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const moonstoneHubId = BigInt(
-            process.env.MOONSTONE_HUB_ID || "3"
-          );
-
-          // Find user with confirmed email
-          const emailRecord = await prisma.emails.findFirst({
-            where: {
-              email: credentials.email.toLowerCase(),
-              confirmed_at: { not: null },
+          // Call tabb-identity-backend login API
+          const response = await fetch(`${TABB_BACKEND_URL}/api/auth/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-            include: {
-              users: {
-                include: {
-                  emails: {
-                    where: { primary: true },
-                    take: 1,
-                  },
-                },
-              },
-            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+              hub_id: MOONSTONE_HUB_ID,
+            }),
           });
 
-          if (!emailRecord || !emailRecord.users) {
-            throw new Error("Invalid credentials");
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || "Invalid credentials");
           }
 
-          const user = emailRecord.users;
-
-          // Check if user is locked
-          if (user.locked_at) {
-            throw new Error("Account is locked. Please contact support.");
-          }
-
-          // Verify password
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            user.encrypted_password
-          );
-
-          if (!isPasswordValid) {
-            // Increment failed attempts
-            await prisma.users.update({
-              where: { id: user.id },
-              data: { failed_attempts: (user.failed_attempts || 0) + 1 },
-            });
-            throw new Error("Invalid credentials");
-          }
-
-          // Update sign-in tracking and set last used hub to Moonstone
-          await prisma.users.update({
-            where: { id: user.id },
-            data: {
-              sign_in_count: (user.sign_in_count || 0) + 1,
-              current_sign_in_at: new Date(),
-              last_sign_in_at: user.current_sign_in_at,
-              failed_attempts: 0,
-              last_used_hub_id: moonstoneHubId,
-            },
-          });
-
-          // Get user profile for Moonstone hub
-          const userProfile = await prisma.profiles.findFirst({
-            where: {
-              profileable_id: user.id,
-              profileable_type: "User",
-            },
-            include: {
-              profile_slugs: {
-                where: {
-                  redirect: false,
-                  hub_id: moonstoneHubId,
-                },
-                orderBy: { created_at: "desc" },
-                take: 1,
-              },
-              profile_images: {
-                where: { selected: true },
-                take: 1,
-              },
-            },
-          });
-
-          // Verify user is a member of Moonstone hub
-          const membership = await prisma.members.findFirst({
-            where: {
-              target_type: "Profile",
-              target_id: userProfile?.id,
-              hub_id: moonstoneHubId,
-            },
-          });
-
-          if (!membership) {
+          // Check if user is a member of Moonstone hub (profile will be null if not)
+          if (!data.profile) {
             throw new Error("User is not a member of Moonstone hub");
           }
 
           return {
-            id: user.id.toString(),
-            email: emailRecord.email,
-            name: user.name,
-            image: userProfile?.profile_images[0]?.image || null,
-            friendlyName: user.friendly_name,
-            admin: user.admin,
-            slug: userProfile?.profile_slugs[0]?.slug || null,
+            id: data.user.id.toString(),
+            email: data.user.email,
+            name: data.user.name,
+            image: data.profile.image || null,
+            friendlyName: data.user.friendlyName,
+            admin: data.user.admin,
+            slug: data.profile.slug || null,
           };
         } catch (error) {
           console.error("Auth error:", error);
@@ -145,6 +75,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id ?? "";
+        session.user.email = token.email as string;
         session.user.friendlyName = token.friendlyName;
         session.user.admin = token.admin;
         session.user.slug = token.slug;
