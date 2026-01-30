@@ -87,6 +87,32 @@
 										}
 									]
 								}
+							],
+							[
+								"cta_label",
+								{
+									"__TYPE__": "StructuredTextContent",
+									"value": [
+										{
+											"type": "paragraph",
+											"content": {
+												"text": "Aliqua do occaecat est. Ad incididunt minim laboris do cillum ad laborum ipsum in consectetur ut commodo. Sit aliquip aliquip dolor tempor dolore nisi nostrud sunt nulla nostrud."
+											}
+										}
+									]
+								}
+							],
+							[
+								"cta_link",
+								{
+									"key": "6aa1baee-1ee5-4dd0-a632-bbd220443b6d",
+									"__TYPE__": "LinkContent",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "http://google.com",
+										"text": "printed"
+									}
+								}
 							]
 						]
 					}

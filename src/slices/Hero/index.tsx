@@ -29,6 +29,22 @@ export default function Hero({ slice }: HeroProps) {
   const backgroundRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
+  const handleScrollDown = () => {
+    const sectionElement = sectionRef.current;
+    if (!sectionElement) return;
+
+    const wrapperElement = sectionElement.parentElement;
+    const nextSection = wrapperElement?.nextElementSibling as HTMLElement | null;
+
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    const topOffset = sectionElement.getBoundingClientRect().bottom + window.scrollY;
+    window.scrollTo({ top: topOffset, behavior: "smooth" });
+  };
+
   // GSAP animations for TransmediaHero variation
   useEffect(() => {
     if (slice.variation !== "transmediaHero") return;
@@ -137,7 +153,6 @@ export default function Hero({ slice }: HeroProps) {
               field={slice.primary.background_image}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)]" />
           </div>
 
           {/* Content */}
@@ -155,7 +170,13 @@ export default function Hero({ slice }: HeroProps) {
 
               {/* Title */}
               <div ref={titleRef}>
-                <PrismicRichText
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 text-(--heading-color) text-shadow-lg">
+                  The
+                  <div className="text-7xl sm:text-8xl lg:text-9xl xl:text-10xl mb-2"> Moonstone </div>
+                  Legacy Quartet
+                </h1>
+                {/*Asish: Please Prismic-ise the above*/}
+{/*                <PrismicRichText
                   field={slice.primary.title}
                   components={{
                     heading1: ({ children }) => (
@@ -164,7 +185,7 @@ export default function Hero({ slice }: HeroProps) {
                       </h1>
                     ),
                   }}
-                />
+                /> */}
               </div>
 
               {/* Subtitle */}
@@ -173,7 +194,7 @@ export default function Hero({ slice }: HeroProps) {
                   field={slice.primary.subtitle}
                   components={{
                     heading2: ({ children }) => (
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
+                      <h2 className="text-shadow-lg text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 bg-linear-to-r from-(--cta-color) to-cyan-500 bg-clip-text text-transparent">
                         {children}
                       </h2>
                     ),
@@ -182,12 +203,12 @@ export default function Hero({ slice }: HeroProps) {
               </div>
 
               {/* Tagline */}
-              <div ref={taglineRef} className="mt-16">
+              <div ref={taglineRef} className="mt-4 xs:mt-8 sm:mt-12">
                 <PrismicRichText
                   field={slice.primary.tagline}
                   components={{
                     paragraph: ({ children }) => (
-                      <p className="text-xl sm:text-2xl lg:text-3xl text-(--main-text-color)/90 max-w-2xl mx-auto">
+                      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-(--main-text-color)/90 max-w-2xl mx-auto">
                         {children}
                       </p>
                     ),
@@ -196,15 +217,35 @@ export default function Hero({ slice }: HeroProps) {
               </div>
 
               {isFilled.image(slice.primary.feature_image) && (
-                <div className="mt-12" aria-label="Hero featured image">
+                <div className="mt-4 xs:mt-8 sm:mt-12" aria-label="Hero featured image">
                   <PrismicNextImage
                     field={slice.primary.feature_image}
-                    className="mx-auto max-h-[320px] w-auto object-contain drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)]"
+                    className="mx-auto max-w-60 md:max-w-[280px] sm:max-w-[320px] w-auto object-contain"
                   />
                 </div>
               )}
             </div>
           </div>
+
+          {/* Scroll hint */}
+          <button
+            type="button"
+            onClick={handleScrollDown}
+            className="absolute z-20 bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center rounded-full border border-white/40 text-white/80 hover:text-white hover:border-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 h-12 w-12 cursor-pointer"
+            aria-label="Scroll to next section"
+          >
+            <svg
+              className="h-6 w-6 animate-bounce mt-2 ml-px"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
         </section>
       </div>
     );

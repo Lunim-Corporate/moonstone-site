@@ -46,7 +46,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
   );
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
-  const inactiveClass = "bg-transparent";
+  const inactiveClass = "inset-ring-2 inset-ring-cyan-300/10";
 
   // Keyboard accessibility for toggling forms
   useEffect(() => {
@@ -157,7 +157,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
 
   return (
     <>
-      <div className="p-8 inset-ring-1 inset-ring-cyan-300/20 rounded backdrop-blur-xl">
+      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Password Form toggle */}
           <div
@@ -182,7 +182,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading2: ({ children }) => (
-                  <h2 className="mb-2 text-xl">{children}</h2>
+                  <h2 className="mb-2 text-xl text-(--cta-color)">{children}</h2>
                 ),
               }}
             />
@@ -194,7 +194,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading3: ({ children }) => (
-                  <p className="mb-6 text-sm">{children}</p>
+                  <p className="mb-6 text-md">{children}</p>
                 ),
               }}
             />
@@ -224,7 +224,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading2: ({ children }) => (
-                  <h2 className="mb-2 text-xl">{children}</h2>
+                  <h2 className="mb-2 text-xl text-(--cta-color)">{children}</h2>
                 ),
               }}
             />
@@ -236,7 +236,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
               }
               components={{
                 heading3: ({ children }) => (
-                  <p className="mb-6 text-sm">{children}</p>
+                  <p className="mb-6 text-md">{children}</p>
                 ),
               }}
             />
@@ -268,7 +268,7 @@ export default function Form({ slices }: { slices: SliceZoneSlices }) {
             <Link
               href={protectedLink}
               target="_blank"
-              className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-transparent hover:text-(--cta-color) transition-colors duration-500 cursor-pointer text-center"
+              className="block font-bold mt-4 w-full py-2 rounded bg-(--cta-color) text-(--black-secondary-color) hover:bg-(--cta-color)/70 transition-colors duration-500 cursor-pointer text-center"
             >
               <PrismicRichText
                 field={

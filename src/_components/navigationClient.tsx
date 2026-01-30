@@ -7,12 +7,15 @@ import { NavigationDocumentData, NavigationDocumentDataNavLinksItem, Simplify } 
 import { asLink } from "@prismicio/client";
 // Next
 import { usePathname } from "next/navigation";
+// Auth
+import { useSession, signOut } from "next-auth/react";
 
 export default function NavigationClient({
   data,
 }: {
   data: Simplify<NavigationDocumentData>;
 }) {
+  const { data: session } = useSession();
   const [scrolled, setScrolled] = useState(false); // whether the page has been scrolled down
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false); // mobile menu state (open or closed)
@@ -73,7 +76,7 @@ export default function NavigationClient({
 
   return (
     <header
-      className={`py-6 transition-colors duration-300 fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-10 ${headerHasBg ? "bg-(--black-primary-color) shadow-md" : "bg-transparent"} flex-wrap`}
+      className={`py-2 transition-colors duration-300 fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-10 ${headerHasBg ? "bg-(--black-primary-color) shadow-md" : "bg-transparent"} flex-wrap`}
     >
       {/* Logo */}
       <div>
@@ -90,23 +93,40 @@ export default function NavigationClient({
           (isOpen && !windowInnerWidthGreaterThanMd ? "flex!" : "")
         }
       >
-        <menu className={"flex gap-8 mx-auto " + (isOpen ? "flex-col w-full" : "")}>
+        <menu className={"flex gap-8 mx-auto font-bold " + (isOpen ? "flex-col w-full" : "")}>
           {data.nav_links.map(
             (
               link: Simplify<NavigationDocumentDataNavLinksItem>,
               idx: number
             ) => {
+              const linkUrl = asLink(link.link);
+              const isSignIn = linkUrl === "/sign-in";
+
+              // Hide sign-in link entirely
+              if (isSignIn) {
+                return null;
+              }
+
               return (
                 <PrismicNextLink
                   key={idx}
                   field={link.link}
                   className={
-                    "hover:opacity-75 text-center p-2 " +
-                    (pathname === asLink(link.link) ? "text-(--cta-color)" : "")
+                    "text-center p-2 hover:opacity-75 " +
+                    (pathname === linkUrl ? "text-(--cta-color)" : "")
                   }
                 />
               );
             }
+          )}
+          {/* Show logout button if signed in */}
+          {session && (
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="hover:opacity-75 text-center p-2"
+            >
+              Log Out
+            </button>
           )}
         </menu>
       </nav>
@@ -119,7 +139,7 @@ export default function NavigationClient({
           title={isOpen ? "Close menu" : "Open menu"}
         >
           <svg
-            className="w-6 h-6"
+            className="w-8 h-8"
             viewBox="0 0 24 24"
             fill="none"
             aria-hidden="true"
@@ -132,8 +152,8 @@ export default function NavigationClient({
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                transformOrigin: 'center',
-                transform: isOpen ? 'translateY(5px) rotate(45deg)' : 'none',
+                transformOrigin: '57% center',
+                transform: isOpen ? 'translateY(5px) translateX(-3px) rotate(45deg)' : 'none',
                 transition: 'transform 250ms ease, opacity 250ms ease'
               }}
             />
@@ -159,8 +179,8 @@ export default function NavigationClient({
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                transformOrigin: 'center',
-                transform: isOpen ? 'translateY(-5px) rotate(-45deg)' : 'none',
+                transformOrigin: '57% center',
+                transform: isOpen ? 'translateY(-5px) translateX(-3px) rotate(-45deg)' : 'none',
                 transition: 'transform 250ms ease, opacity 250ms ease'
               }}
             />
