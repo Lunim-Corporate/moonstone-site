@@ -106,15 +106,12 @@ export default async function Page() {
                 }}
               />
             </div>
-            <div className="mb-4 p-4 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded text-center">
+            <div className="mt-8 rounded p-6" style={{ backgroundColor: "#1a1a1a" }}>
               <p className="text-sm font-medium mb-2">
-                You need a {allowedTiersDisplay} tier subscription to access the Deal Room.
-              </p>
-              <p className="text-xs">
-                Your current tier: {subscription.tier ? subscription.tier.charAt(0).toUpperCase() + subscription.tier.slice(1) : "None"}
+                An administrator is still reviewing your request access the Deal Room.
               </p>
               <p className="text-xs mt-2">
-                You can still access and download the pitch deck below while we review your request.
+                In the meantime, you can access the pitch deck below.
               </p>
             </div>
             <PitchDeckDownloads />

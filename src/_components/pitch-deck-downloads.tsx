@@ -18,7 +18,7 @@ export default function PitchDeckDownloads() {
     <div className="mt-8 rounded p-6" style={{ backgroundColor: "#1a1a1a" }}>
       <h2 className="text-xl mb-4 text-(--cta-color)">Pitch Deck Downloads</h2>
       {!hasAny && (
-        <p className="text-sm text-gray-300">
+        <p className="text-sm mb-4 text-gray-300">
           Documents are being prepared. Please check back soon.
         </p>
       )}

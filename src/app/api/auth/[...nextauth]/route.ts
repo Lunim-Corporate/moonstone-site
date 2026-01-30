@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
           const data = await response.json();
 
           if (!response.ok) {
-            throw new Error(data.message || "Invalid credentials");
+            throw new Error(data.message || "Sorry, that email and password combination is not recognized. Please try again.");
           }
 
           // Check if user is a member of Moonstone hub (profile will be null if not)

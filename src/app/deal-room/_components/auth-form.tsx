@@ -162,29 +162,22 @@ function AuthFormContent({
         <div className="text-center">
           <div className="mb-4">
             <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-(--cta-color)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
           <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">
-            Account Created Successfully!
+            {isDeck ? "Pitch Deck Access Granted" : "Account Created Successfully"}
           </h2>
           <p className="text-md mb-4">
-            Thank you for creating an account. Please check your email to confirm your account.
+            Thank you for creating an account. Please check your email to confirm your account{isDeck ? " and access the pitch deck" : ""}.
           </p>
           <p className="text-md text-gray-400 mb-6">
-            We&apos;ve sent a confirmation email to <strong>{email}</strong>.
-            Click the link in the email to activate your account and sign in.
+            We&apos;ve sent a confirmation email to <strong>{email}</strong>.<br />
+            Click the link in that email.
           </p>
-
-          <button
-            onClick={() => router.push("/deck")}
-            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
-          >
-            View Pitch Deck
-          </button>
         </div>
       </div>
     );
@@ -236,7 +229,7 @@ function AuthFormContent({
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
             <p className="mb-6 text-m">
-              Create an account and request access{isDeck ? " to the pitch deck" : ""}
+              Create an account to {isDeck ? " access the pitch deck" : "request access"}
             </p>
           </div>
         </div>
@@ -284,7 +277,7 @@ function AuthFormContent({
             </div>
 
             {error && (
-              <div className="text-red-500 mt-4 text-center">
+              <div className="text-red-500 mt-4 text-left">
                 {error}
               </div>
             )}

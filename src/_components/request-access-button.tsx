@@ -50,11 +50,11 @@ export default function RequestAccessButton() {
 
   return (
     <div className="w-full max-w-md mx-auto mt-8">
-      <div className="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg">
-        <h3 className="text-xl font-semibold mb-3 text-gray-900">
+      <div className="mt-8 rounded p-6" style={{ backgroundColor: "#1a1a1a" }}>
+        <h3 className="text-xl mb-4 text-(--cta-color)">
           Request Deal Room Access
         </h3>
-        <p className="text-gray-700 mb-4 text-sm leading-relaxed">
+        <p className="text-sm mb-4 text-gray-300">
           You currently have access to the pitch deck. To access the full Deal Room with exclusive
           documents and resources, request access below. An administrator will review your request.
         </p>
@@ -62,7 +62,7 @@ export default function RequestAccessButton() {
         <button
           onClick={handleRequestAccess}
           disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
+          className="w-full bg-(--cta-color) hover:bg-(--cta-color)/80 cursor-pointer disabled:bg-gray-400 text-black font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
         >
           {isLoading ? 'Submitting...' : 'Request Access to Deal Room'}
         </button>
