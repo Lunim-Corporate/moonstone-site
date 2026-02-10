@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 const TECH_SUITE_URL =
-  process.env.NEXT_PUBLIC_TECH_SUITE_URL || "http://localhost:3001";
+  process.env.TABB_BACKEND_URL || "http://localhost:3001";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);

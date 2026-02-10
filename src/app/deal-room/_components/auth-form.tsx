@@ -180,10 +180,14 @@ function AuthFormContent({
           </p>
 
           <button
-            onClick={() => router.push("/deck")}
+            onClick={() => {
+              setRegistrationSuccess(false);
+              setShowSignIn(true);
+              setPassword("");
+            }}
             className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
           >
-            View Pitch Deck
+            Sign In
           </button>
         </div>
       </div>
