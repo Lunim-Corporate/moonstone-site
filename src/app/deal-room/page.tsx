@@ -73,8 +73,12 @@ export default async function Page() {
   // Check subscription access
   const subscription = await getUserSubscription(session.user?.id ?? "");
 
-  // Notify on access attempt for non-premium users
-  if (!subscription.hasAccess && session.user?.id) {
+  // Notify admins on access attempt for non-premium users (disabled via env flag)
+  if (
+    process.env.ENABLE_ACCESS_ATTEMPT_EMAILS === "true" &&
+    !subscription.hasAccess &&
+    session.user?.id
+  ) {
     await sendAccessAttemptNotification(session.user.id);
   }
 
