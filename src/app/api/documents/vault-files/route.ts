@@ -16,19 +16,18 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const category = searchParams.get("category");
+  const hubId = searchParams.get("hubId") || process.env.MOONSTONE_HUB_ID || "3";
+  const categoryId = searchParams.get("categoryId");
 
-  if (!category) {
-    return NextResponse.json(
-      { success: false, error: "category is required" },
-      { status: 400 }
-    );
-  }
+  const params = new URLSearchParams({ hubId });
+  if (categoryId) params.append("categoryId", categoryId);
 
   const response = await fetch(
-    `${TECH_SUITE_URL}/api/documents/available-files?category=${category}&hubId=${process.env.MOONSTONE_HUB_ID || "3"}`,
+    `${TECH_SUITE_URL}/api/documents/vault-files?${params}`,
     {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${session.backendToken}`,
       },
     }
@@ -38,7 +37,7 @@ export async function GET(request: Request) {
 
   if (!response.ok) {
     return NextResponse.json(
-      { success: false, error: data.message || "Failed to get available files" },
+      { success: false, error: data.message || "Failed to fetch vault files" },
       { status: response.status }
     );
   }

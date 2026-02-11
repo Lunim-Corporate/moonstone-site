@@ -2,7 +2,6 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 const TECH_SUITE_URL = process.env.NEXT_PUBLIC_TECH_SUITE_URL || "http://localhost:3001";
 
@@ -42,11 +41,11 @@ function ConfirmEmailContent() {
 
         // Email confirmed successfully
         setStatus("success");
-        setMessage("Email confirmed successfully! Redirecting to pitch deck...");
+        setMessage("Email confirmed successfully! Redirecting to Deal Room...");
 
-        // Redirect to pitch deck sign-in page (with password entry)
+        // Redirect to deal room sign-in page
         setTimeout(() => {
-          router.push("/deck");
+          router.push("/deal-room");
         }, 2000);
       } catch (error) {
         setStatus("error");
