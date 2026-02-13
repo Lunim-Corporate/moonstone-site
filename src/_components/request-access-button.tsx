@@ -2,9 +2,11 @@
 
 import { useState } from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 export default function RequestAccessButton() {
   const { data: session } = useSession()
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
@@ -38,10 +40,14 @@ export default function RequestAccessButton() {
         type: 'success',
         text: 'Access request submitted! An administrator will review your request.',
       })
-    } catch (error: any) {
+
+      // Refresh server state so the page re-renders with hasRequestedAccess=true
+      router.refresh()
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Failed to submit request. Please try again.'
       setMessage({
         type: 'error',
-        text: error.message || 'Failed to submit request. Please try again.',
+        text: msg,
       })
     } finally {
       setIsLoading(false)
@@ -49,36 +55,26 @@ export default function RequestAccessButton() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto mt-8">
-      <div className="mt-8 rounded p-6" style={{ backgroundColor: "#1a1a1a" }}>
-        <h3 className="text-xl mb-4 text-(--cta-color)">
-          Request Deal Room Access
-        </h3>
-        <p className="text-sm mb-4 text-gray-300">
-          You currently have access to the pitch deck. To access the full Deal Room with exclusive
-          documents and resources, request access below. An administrator will review your request.
-        </p>
+    <div className="w-full max-w-md mx-auto">
+      <button
+        onClick={handleRequestAccess}
+        disabled={isLoading}
+        className="w-full bg-(--cta-color) hover:bg-(--cta-color)/70 disabled:bg-gray-600 text-(--black-primary-color) font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
+      >
+        {isLoading ? 'Submitting...' : 'Request Access'}
+      </button>
 
-        <button
-          onClick={handleRequestAccess}
-          disabled={isLoading}
-          className="w-full bg-(--cta-color) hover:bg-(--cta-color)/80 cursor-pointer disabled:bg-gray-400 text-black font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
+      {message && (
+        <div
+          className={`mt-4 p-3 rounded-lg text-sm ${
+            message.type === 'success'
+              ? 'bg-green-900/30 text-green-300 border border-green-700/50'
+              : 'bg-red-900/30 text-red-300 border border-red-700/50'
+          }`}
         >
-          {isLoading ? 'Submitting...' : 'Request Access to Deal Room'}
-        </button>
-
-        {message && (
-          <div
-            className={`mt-4 p-3 rounded-lg text-sm ${
-              message.type === 'success'
-                ? 'bg-green-100 text-green-800 border border-green-200'
-                : 'bg-red-100 text-red-800 border border-red-200'
-            }`}
-          >
-            {message.text}
-          </div>
-        )}
-      </div>
+          {message.text}
+        </div>
+      )}
     </div>
   )
 }

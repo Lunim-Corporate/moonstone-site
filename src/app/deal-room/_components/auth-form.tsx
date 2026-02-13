@@ -178,6 +178,16 @@ function AuthFormContent({
             We&apos;ve sent a confirmation email to <strong>{email}</strong>.<br />
             Click the link in that email.
           </p>
+          <button
+            onClick={() => {
+              setRegistrationSuccess(false);
+              setShowSignIn(true);
+              setPassword("");
+            }}
+            className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     );
@@ -191,6 +201,7 @@ function AuthFormContent({
         </div>
       )}
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
+        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">Welcome to the Investor Area</h1>
         <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Sign In toggle */}
           <div
@@ -229,7 +240,7 @@ function AuthFormContent({
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
             <p className="mb-6 text-m">
-              Create an account to {isDeck ? " access the pitch deck" : "request access"}
+              Create an account for immediate access to the pitch deck and/or to request access to all Deal Room documents.
             </p>
           </div>
         </div>
@@ -288,7 +299,7 @@ function AuthFormContent({
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Signing In..." : `Access ${isDeck ? "Pitch Deck" : "Deal Room"}`}
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </div>
           </form>
@@ -382,7 +393,7 @@ function AuthFormContent({
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Creating Account..." : "Request Access"}
+                {loading ? "Creating Account..." : "Create Account"}
               </button>
             </div>
           </form>

@@ -6,6 +6,7 @@ export type SubscriptionTier = "iron" | "bronze" | "silver" | "gold" | null;
 export interface UserSubscription {
   tier: SubscriptionTier;
   hasAccess: boolean;
+  hasRequestedAccess: boolean;
   pricePlanId: number | null;
   subscriptionId: number | null;
 }
@@ -49,6 +50,7 @@ export async function getUserSubscription(
       return {
         tier: null,
         hasAccess: false,
+        hasRequestedAccess: false,
         pricePlanId: null,
         subscriptionId: null,
       };
@@ -59,6 +61,7 @@ export async function getUserSubscription(
     return {
       tier: data.tier as SubscriptionTier,
       hasAccess: data.hasAccess,
+      hasRequestedAccess: data.hasRequestedAccess ?? false,
       pricePlanId: data.pricePlanId,
       subscriptionId: data.subscriptionId,
     };
@@ -67,6 +70,7 @@ export async function getUserSubscription(
     return {
       tier: null,
       hasAccess: false,
+      hasRequestedAccess: false,
       pricePlanId: null,
       subscriptionId: null,
     };

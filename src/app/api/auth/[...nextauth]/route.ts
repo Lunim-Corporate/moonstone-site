@@ -50,6 +50,7 @@ export const authOptions: NextAuthOptions = {
             friendlyName: data.user.friendlyName,
             admin: data.user.admin,
             slug: data.profile.slug || null,
+            backendToken: data.token,
           };
         } catch (error) {
           console.error("Auth error:", error);
@@ -69,6 +70,7 @@ export const authOptions: NextAuthOptions = {
         token.friendlyName = user.friendlyName;
         token.admin = user.admin;
         token.slug = user.slug;
+        token.backendToken = user.backendToken;
       }
       return token;
     },
@@ -80,6 +82,8 @@ export const authOptions: NextAuthOptions = {
         session.user.admin = token.admin;
         session.user.slug = token.slug;
       }
+      // Store backend token on session (not on session.user to avoid exposing to client)
+      session.backendToken = token.backendToken;
       return session;
     },
   },

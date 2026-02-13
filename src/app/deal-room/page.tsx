@@ -11,8 +11,7 @@ import { authOptions } from "@/src/app/api/auth/[...nextauth]/route"
 import { getUserSubscription, sendAccessAttemptNotification } from "@/src/_lib/subscription"
 // Components
 import AuthForm from "./_components/auth-form"
-import PitchDeckDownloads from "@/src/_components/pitch-deck-downloads"
-import DealRoomDownloads from "@/src/_components/deal-room-downloads"
+import DealRoomContent from "@/src/_components/deal-room-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   const client = createClient()
@@ -41,16 +40,6 @@ export default async function Page() {
   const client = createClient()
   const doc = await client.getByUID("page", "deal-room")
   if (!doc) notFound()
-
-  // Get allowed tiers from environment variable
-  const allowedTiers = (process.env.DEAL_ROOM_ALLOWED_TIERS || "gold")
-    .split(",")
-    .map(tier => tier.trim().toLowerCase());
-
-  // Format allowed tiers for display
-  const allowedTiersDisplay = allowedTiers
-    .map(tier => tier.charAt(0).toUpperCase() + tier.slice(1))
-    .join(", ");
 
   // Check authentication
   const session = await getServerSession(authOptions);
@@ -84,59 +73,31 @@ export default async function Page() {
   // Check subscription access
   const subscription = await getUserSubscription(session.user?.id ?? "");
 
-  if (!subscription.hasAccess) {
-    // Send access attempt notification for iron tier users trying to access deal room
-    if (session.user?.id) {
-      await sendAccessAttemptNotification(session.user.id);
-    }
-    return (
-      <main
-        style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
-        className="bg-top bg-cover bg-fixed min-h-screen pt-(--padding-top) px-5 px:sm-0"
-      >
-        <div className="max-w-(--max-wrapper-width) mx-auto">
-          <div className="max-w-lg mx-auto py-10">
-            <div>
-              <PrismicRichText
-                field={doc.data.heading}
-                components={{
-                  heading1: ({ children }) => (
-                    <h1 className="text-center mb-4">{children}</h1>
-                  ),
-                }}
-              />
-            </div>
-            <div className="mt-8 rounded p-6" style={{ backgroundColor: "#1a1a1a" }}>
-              <p className="text-sm font-medium mb-2">
-                An administrator is still reviewing your request access the Deal Room.
-              </p>
-              <p className="text-xs mt-2">
-                In the meantime, you can access the pitch deck below.
-              </p>
-            </div>
-            <PitchDeckDownloads />
-          </div>
-        </div>
-      </main>
-    );
+  // Notify admins on access attempt for non-premium users (disabled via env flag)
+  if (
+    process.env.ENABLE_ACCESS_ATTEMPT_EMAILS === "true" &&
+    !subscription.hasAccess &&
+    session.user?.id
+  ) {
+    await sendAccessAttemptNotification(session.user.id);
   }
 
-  // User is authenticated and has access
+  // Authenticated users see the two-column deal room layout
+  // Categories they don't have access to are shown greyed out
   return (
-    <div
-      className="min-h-screen pt-(--padding-top)"
-      style={{
-        backgroundImage: `url(${doc.data.main_image.url})`,
-      }}
-    >
-      <div className="max-w-(--max-wrapper-width) mx-auto text-center">
-        <PrismicRichText field={doc.data.heading} />
-        <div className="mt-8 text-md">
-          <p>Welcome, {session.user?.name || "User"}!</p>
+    <main className="min-h-screen pt-(--padding-top) px-5 sm:px-0">
+      <div className="max-w-(--max-wrapper-width) mx-auto">
+        <div className="text-center mb-6">
+          <PrismicRichText field={doc.data.heading} />
+          <p className="mt-4 text-md">
+            Welcome, {session.user?.name || "User"}!
+          </p>
         </div>
-        <PitchDeckDownloads />
-        {subscription.tier === "gold" && <DealRoomDownloads />}
+        <DealRoomContent
+          hasAccess={subscription.hasAccess}
+          hasRequestedAccess={subscription.hasRequestedAccess}
+        />
       </div>
-    </div>
+    </main>
   );
 }
