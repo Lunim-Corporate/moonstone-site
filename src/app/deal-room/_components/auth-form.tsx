@@ -172,7 +172,7 @@ function AuthFormContent({
             {isDeck ? "Pitch Deck Access Granted" : "Account Created Successfully"}
           </h2>
           <p className="text-md mb-4">
-            Thank you for creating an account. Please check your email to confirm your account{isDeck ? " and access the pitch deck" : ""}.
+            Thank you for creating an account. Please check your email to confirm your account{isDeck ? " and access the pitch deck" : " and request access to the Deal Room"}.
           </p>
           <p className="text-md text-gray-400 mb-6">
             We&apos;ve sent a confirmation email to <strong>{email}</strong>.<br />
