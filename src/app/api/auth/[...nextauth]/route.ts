@@ -3,6 +3,18 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const TABB_BACKEND_URL = process.env.TABB_BACKEND_URL || "http://localhost:3001";
 const MOONSTONE_HUB_ID = parseInt(process.env.MOONSTONE_HUB_ID || "3", 10);
+const DEBUG_MOONSTONE_AUTH = ["1", "true", "yes"].includes(
+  (process.env.DEBUG_MOONSTONE_AUTH || "").trim().toLowerCase()
+);
+
+function debugMoonstoneAuth(message: string, meta?: Record<string, unknown>) {
+  if (!DEBUG_MOONSTONE_AUTH) return;
+  if (meta) {
+    console.log(`[MoonstoneAuth] ${message}`, meta);
+    return;
+  }
+  console.log(`[MoonstoneAuth] ${message}`);
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,10 +26,20 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          debugMoonstoneAuth("Missing credentials", {
+            email: credentials?.email?.toLowerCase() || null,
+            hubId: MOONSTONE_HUB_ID,
+          });
           throw new Error("Missing credentials");
         }
 
         try {
+          debugMoonstoneAuth("Attempting backend login", {
+            email: credentials.email.toLowerCase(),
+            hubId: MOONSTONE_HUB_ID,
+            backendUrl: TABB_BACKEND_URL,
+          });
+
           // Call tabb-identity-backend login API
           const response = await fetch(`${TABB_BACKEND_URL}/api/auth/login`, {
             method: "POST",
@@ -32,6 +54,17 @@ export const authOptions: NextAuthOptions = {
           });
 
           const data = await response.json();
+          debugMoonstoneAuth("Backend login response", {
+            email: credentials.email.toLowerCase(),
+            status: response.status,
+            ok: response.ok,
+            userId: data?.user?.id ?? null,
+            globalAdmin: data?.user?.globalAdmin ?? null,
+            userAdmin: data?.user?.admin ?? null,
+            hasProfile: !!data?.profile,
+            hubId: data?.hub?.id ?? null,
+            backendMessage: data?.message ?? null,
+          });
 
           if (!response.ok) {
             throw new Error(data.message || "Sorry, that email and password combination is not recognized. Please try again.");
@@ -39,8 +72,23 @@ export const authOptions: NextAuthOptions = {
 
           // Check if user is a member of Moonstone hub (profile will be null if not)
           if (!data.profile) {
+            debugMoonstoneAuth("Moonstone membership check failed", {
+              email: credentials.email.toLowerCase(),
+              userId: data?.user?.id ?? null,
+              globalAdmin: data?.user?.globalAdmin ?? null,
+              userAdmin: data?.user?.admin ?? null,
+              hasProfile: false,
+              hubId: data?.hub?.id ?? MOONSTONE_HUB_ID,
+            });
             throw new Error("User is not a member of Moonstone hub");
           }
+
+          debugMoonstoneAuth("Moonstone login success", {
+            email: credentials.email.toLowerCase(),
+            userId: data.user.id,
+            hasProfile: true,
+            hubId: data?.hub?.id ?? MOONSTONE_HUB_ID,
+          });
 
           return {
             id: data.user.id.toString(),
@@ -54,6 +102,11 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("Auth error:", error);
+          debugMoonstoneAuth("Moonstone auth exception", {
+            email: credentials.email.toLowerCase(),
+            message: error instanceof Error ? error.message : "Unknown auth error",
+            hubId: MOONSTONE_HUB_ID,
+          });
           throw new Error(
             error instanceof Error ? error.message : "Authentication failed"
           );
