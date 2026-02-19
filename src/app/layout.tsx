@@ -42,6 +42,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${raleway.variable} ${lora.variable}`}>
+      <head>
+        <script
+          type="module"
+          dangerouslySetInnerHTML={{
+            __html: `import BugsnagPerformance from '//d2wy8f7a9ursnm.cloudfront.net/v1/bugsnag-performance.min.js'; BugsnagPerformance.start({ apiKey: '125d4e1a653190795d94c6d854a434d4' });`,
+          }}
+        />
+      </head>
       <body className="antialiased">
         <Providers>
           <div className="flex min-h-screen flex-col" id="layout-container">
