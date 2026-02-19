@@ -10,6 +10,7 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@bugsnag/js": "^8.8.1",
     "@next/third-parties": "^16.0.3",
     "@prisma/client": "^6.19.0",
     "@prismicio/client": "^7.21.0",
