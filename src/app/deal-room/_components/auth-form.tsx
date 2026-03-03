@@ -7,9 +7,14 @@ import { signIn } from "next-auth/react";
 interface AuthFormContentProps {
   defaultToCreateAccount?: boolean;
   message?: string;
+  variant?: "deal-room" | "deck";
 }
 
-function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormContentProps) {
+function AuthFormContent({
+  defaultToCreateAccount = false,
+  message,
+  variant = "deal-room",
+}: AuthFormContentProps) {
   const router = useRouter();
   const [showSignIn, setShowSignIn] = useState<boolean>(!defaultToCreateAccount);
   const signInToggle = useRef<HTMLDivElement | null>(null);
@@ -19,10 +24,10 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [nickName, setNickName] = useState("");
-  const [accessReason, setAccessReason] = useState("");
   const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const isDeck = variant === "deck";
 
   const activeClass = "inset-ring-2 inset-ring-cyan-300/60 scale-105";
   const inactiveClass = "inset-ring-2 inset-ring-cyan-300/10";
@@ -83,7 +88,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       });
 
       if (result?.error) {
-        setError("Details not recognised. Please try again.");
+        setError(result.error);
       } else {
         // Refresh to re-check authentication and subscription
         router.refresh();
@@ -120,11 +125,6 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
       return;
     }
 
-    if (!accessReason) {
-      setError("Please provide a reason for access request");
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -146,24 +146,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         return;
       }
 
-      // Send access request email
-      try {
-        await fetch("/api/deal-room/access-request", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName,
-            email,
-            nickName,
-            accessReason,
-          }),
-        });
-        // Don't fail registration if email fails, just log it
-      } catch (emailError) {
-        console.error("Failed to send access request email:", emailError);
-      }
-
-      // Show success message instead of auto sign-in
+      // Show success message for email confirmation
       setRegistrationSuccess(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred during registration");
@@ -179,25 +162,31 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         <div className="text-center">
           <div className="mb-4">
             <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-(--cta-color)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
-          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">Access Request Submitted!</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">
+            {isDeck ? "Pitch Deck Access Granted" : "Account Created Successfully"}
+          </h2>
           <p className="text-md mb-4">
-            Thank you for requesting access to the Deal Room. We&apos;ve received your request and will review it shortly.
+            Thank you for creating an account. Please check your email to confirm your account{isDeck ? " and access the pitch deck" : " and request access to the Deal Room"}.
           </p>
           <p className="text-md text-gray-400 mb-6">
-            You&apos;ll receive an email once your access has been approved.
+            We&apos;ve sent a confirmation email to <strong>{email}</strong>.<br />
+            Click the link in that email.
           </p>
-
           <button
-            onClick={() => router.push("/")}
+            onClick={() => {
+              setRegistrationSuccess(false);
+              setShowSignIn(true);
+              setPassword("");
+            }}
             className="px-6 py-2 bg-(--cta-color) text-(--black-primary-color) rounded text-md font-medium hover:bg-(--cta-color)/70 transition-colors cursor-pointer"
           >
-            Return to Home
+            Sign In
           </button>
         </div>
       </div>
@@ -212,6 +201,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
         </div>
       )}
       <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
+        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">Welcome to the Investor Area</h1>
         <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Sign In toggle */}
           <div
@@ -229,7 +219,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             }}
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">Already have an account?</h2>
-            <p className="mb-6 text-m">Sign in to access the deal room</p>
+            <p className="mb-6 text-m">
+              Sign in to access the {isDeck ? "pitch deck" : "deal room"}
+            </p>
           </div>
           {/* Create Account Toggle */}
           <div
@@ -247,7 +239,9 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             }}
           >
             <h2 className="mb-2 text-xl text-(--cta-color)">New here?</h2>
-            <p className="mb-6 text-m">Create an account and request access</p>
+            <p className="mb-6 text-m">
+              Create an account for immediate access to the pitch deck and/or to request access to all Deal Room documents.
+            </p>
           </div>
         </div>
 
@@ -294,7 +288,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
             </div>
 
             {error && (
-              <div className="text-red-500 mt-4 text-center">
+              <div className="text-red-500 mt-4 text-left">
                 {error}
               </div>
             )}
@@ -305,7 +299,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Signing In..." : "Access Deal Room"}
+                {loading ? "Signing In..." : "Sign In"}
               </button>
             </div>
           </form>
@@ -387,25 +381,6 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
               </div>
             </div>
 
-            {/* Row 3: Access Reason */}
-            <div>
-              <label htmlFor="access-reason" className="mb-2 block text-white">
-                Reason for Access Request
-              </label>
-              <textarea
-                id="access-reason"
-                value={accessReason}
-                onChange={(e) => {
-                  setAccessReason(e.target.value);
-                  setError("");
-                }}
-                className="w-full p-2 rounded border"
-                rows={3}
-                placeholder="Please briefly describe why you need access to the Deal Room"
-                required
-              />
-            </div>
-
             {error && (
               <div className="text-red-500 mt-4 text-left">
                 {error}
@@ -418,7 +393,7 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
                 disabled={loading}
                 className="bg-(--cta-color) text-(--black-primary-color) p-3.5 rounded cursor-pointer hover:bg-(--cta-color)/70 transition-colors duration-300 disabled:opacity-50"
               >
-                {loading ? "Creating Account..." : "Request Access"}
+                {loading ? "Creating Account..." : "Create Account"}
               </button>
             </div>
           </form>
@@ -428,10 +403,22 @@ function AuthFormContent({ defaultToCreateAccount = false, message }: AuthFormCo
   );
 }
 
-export default function AuthForm({ defaultToCreateAccount = false, message }: { defaultToCreateAccount?: boolean; message?: string }) {
+export default function AuthForm({
+  defaultToCreateAccount = false,
+  message,
+  variant = "deal-room",
+}: {
+  defaultToCreateAccount?: boolean;
+  message?: string;
+  variant?: "deal-room" | "deck";
+}) {
   return (
     <Suspense fallback={<div className="text-center text-xs">Loading...</div>}>
-      <AuthFormContent defaultToCreateAccount={defaultToCreateAccount} message={message} />
+      <AuthFormContent
+        defaultToCreateAccount={defaultToCreateAccount}
+        message={message}
+        variant={variant}
+      />
     </Suspense>
   );
 }

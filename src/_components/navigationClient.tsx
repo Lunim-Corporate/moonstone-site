@@ -101,9 +101,12 @@ export default function NavigationClient({
             ) => {
               const linkUrl = asLink(link.link);
               const isSignIn = linkUrl === "/sign-in";
+              const isPitchDeck = linkUrl === "/deck";
+              const isDealRoom = linkUrl === "/deal-room";
+              const linkText = isDealRoom ? "Investors" : link.link.text;
 
-              // Hide sign-in link entirely
-              if (isSignIn) {
+              // Hide sign-in and pitch deck links from navigation
+              if (isSignIn || isPitchDeck) {
                 return null;
               }
 
@@ -115,12 +118,14 @@ export default function NavigationClient({
                     "text-center p-2 hover:opacity-75 " +
                     (pathname === linkUrl ? "text-(--cta-color)" : "")
                   }
-                />
+                >
+                  {linkText}
+                </PrismicNextLink>
               );
             }
           )}
-          {/* Show logout button if signed in AND on deal room page */}
-          {session && pathname === "/deal-room" && (
+          {/* Show logout button if signed in */}
+          {session && (
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
               className="hover:opacity-75 text-center p-2"

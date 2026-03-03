@@ -6,6 +6,7 @@ declare module "next-auth" {
     friendlyName?: string | null;
     admin?: number;
     slug?: string | null;
+    backendToken?: string;
   }
 
   interface Session {
@@ -18,6 +19,7 @@ declare module "next-auth" {
       admin?: number;
       slug?: string | null;
     };
+    backendToken?: string;
   }
 }
 
@@ -27,5 +29,6 @@ declare module "next-auth/jwt" {
     friendlyName?: string | null;
     admin?: number;
     slug?: string | null;
+    backendToken?: string;
   }
 }
