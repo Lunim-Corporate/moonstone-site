@@ -49,11 +49,11 @@ export default async function Page() {
     return (
       <main
         style={{ backgroundImage: `url(${doc.data.main_image.url})` }}
-        className="bg-top bg-cover bg-fixed min-h-screen pt-(--padding-top) px-5 px:sm-0"
+        className="deal-room bg-top bg-cover bg-fixed min-h-screen pt-12 md:pt-(--padding-top)"
       >
         <div className="max-w-(--max-wrapper-width) mx-auto">
           <div className="max-w-lg mx-auto py-10">
-            <div>
+            <div className="px-5">
               <PrismicRichText
                 field={doc.data.heading}
                 components={{
@@ -85,9 +85,9 @@ export default async function Page() {
   // Authenticated users see the two-column deal room layout
   // Categories they don't have access to are shown greyed out
   return (
-    <main className="min-h-screen pt-(--padding-top) px-5 sm:px-0">
+    <main className="deal-room min-h-screen pt-(--padding-top) px-4 md:px-6">
       <div className="max-w-(--max-wrapper-width) mx-auto">
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 font-(family-name:--font-raleway)">
           <PrismicRichText field={doc.data.heading} />
           <p className="mt-4 text-md">
             Welcome, {session.user?.name || "User"}!
