@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
             email: credentials?.email?.toLowerCase() || null,
             hubId: MOONSTONE_HUB_ID,
           });
-          throw new Error("Missing credentials");
+          throw new Error("Sorry, credentials are missing");
         }
 
         try {
@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
               hasProfile: false,
               hubId: data?.hub?.id ?? MOONSTONE_HUB_ID,
             });
-            throw new Error("User is not a member of Moonstone hub");
+            throw new Error("Sorry, you are not a member of the Moonstone hub");
           }
 
           debugMoonstoneAuth("Moonstone login success", {
@@ -108,7 +108,7 @@ export const authOptions: NextAuthOptions = {
             hubId: MOONSTONE_HUB_ID,
           });
           throw new Error(
-            error instanceof Error ? error.message : "Authentication failed"
+            error instanceof Error ? error.message : "Sorry, authentication failed"
           );
         }
       },

@@ -56,6 +56,16 @@
         color: var(--cta-color);
     }
 
+    .deal-room :is(h1, h2, h3, h4, h5, h6) {
+        font-family: var(--font-raleway);
+        font-weight: 800;
+    }
+
+    .deal-room :is(h1, h2) {
+        font-family: var(--font-raleway);
+        color: var(--main-text-color);
+    }
+
     /* Sticky footer */
     header, footer {
         flex-grow: 0;
