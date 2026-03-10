@@ -158,7 +158,7 @@ function AuthFormContent({
   // Show success message if registration was successful
   if (registrationSuccess) {
     return (
-      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
+      <div className="rounded p-4 md:p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
           <div className="mb-4">
             <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
@@ -200,9 +200,9 @@ function AuthFormContent({
           <p className="text-sm font-medium">{message}</p>
         </div>
       )}
-      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
-        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">Welcome to the Investor Area</h1>
-        <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
+      <div className="rounded p-4 md:p-8" style={{ backgroundColor: "#1a1a1a" }}>
+        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">For Investors</h1>
+        <div className="md:grid md:grid-cols-2 flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Sign In toggle */}
           <div
             className={`rounded-2xl p-4 transform transition-transform duration-200 hover:scale-105 focus:scale-105 cursor-pointer ${
