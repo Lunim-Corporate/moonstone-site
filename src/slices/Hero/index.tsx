@@ -170,9 +170,9 @@ export default function Hero({ slice }: HeroProps) {
 
               {/* Title */}
               <div ref={titleRef}>
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 text-(--heading-color) text-shadow-lg">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl/12 font-bold mb-4 text-(--heading-color) text-shadow-lg">
                   The
-                  <div className="text-7xl sm:text-8xl lg:text-9xl xl:text-10xl mb-2"> Moonstone </div>
+                  <div className="mb-4 text-7xl sm:text-8xl lg:text-9xl xl:text-10xl mb-2"> Moonstone </div>
                   Legacy Quartet
                 </h1>
                 {/*Asish: Please Prismic-ise the above*/}

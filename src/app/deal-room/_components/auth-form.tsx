@@ -158,27 +158,26 @@ function AuthFormContent({
   // Show success message if registration was successful
   if (registrationSuccess) {
     return (
-      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
+      <div className="rounded p-4 md:p-8" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="text-center">
           <div className="mb-4">
             <div className="mx-auto w-16 h-16 bg-(--cta-color)/90 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-(--cta-color)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
           </div>
 
           <h2 className="text-2xl font-semibold mb-4 text-(--cta-color)">
-            Account Created Successfully!
+            {isDeck ? "Pitch Deck Access Granted" : "Account Created Successfully"}
           </h2>
           <p className="text-md mb-4">
-            Thank you for creating an account. Please check your email to confirm your account.
+            Thank you for creating an account. Please check your email to confirm your account{isDeck ? " and access the pitch deck" : " and request access to the Deal Room"}.
           </p>
           <p className="text-md text-gray-400 mb-6">
-            We&apos;ve sent a confirmation email to <strong>{email}</strong>.
-            Click the link in the email to activate your account and sign in.
+            We&apos;ve sent a confirmation email to <strong>{email}</strong>.<br />
+            Click the link in that email.
           </p>
-
           <button
             onClick={() => {
               setRegistrationSuccess(false);
@@ -201,9 +200,9 @@ function AuthFormContent({
           <p className="text-sm font-medium">{message}</p>
         </div>
       )}
-      <div className="rounded p-8" style={{ backgroundColor: "#1a1a1a" }}>
-        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">Welcome to the Investor Area</h1>
-        <div className="flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
+      <div className="rounded p-4 md:p-8" style={{ backgroundColor: "#1a1a1a" }}>
+        <h1 className="text-center mb-6 text-2xl text-(--cta-color)">For Investors</h1>
+        <div className="md:grid md:grid-cols-2 flex flex-col md:flex-row justify-around py-6 gap-6 mb-5">
           {/* Sign In toggle */}
           <div
             className={`rounded-2xl p-4 transform transition-transform duration-200 hover:scale-105 focus:scale-105 cursor-pointer ${
@@ -289,7 +288,7 @@ function AuthFormContent({
             </div>
 
             {error && (
-              <div className="text-red-500 mt-4 text-center">
+              <div className="text-red-500 mt-4 text-left">
                 {error}
               </div>
             )}
