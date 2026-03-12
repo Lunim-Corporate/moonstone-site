@@ -315,7 +315,7 @@ export default function DealRoomContent({
               return (
                 <div
                   key={doc.id}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/[0.03] text-gray-600 cursor-not-allowed select-none"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/[0.03] text-gray-400 cursor-not-allowed select-none"
                 >
                   <FileIcon ext={doc.extension} />
                   <span className="text-sm">{displayName}</span>
