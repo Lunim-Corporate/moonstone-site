@@ -336,7 +336,7 @@ export default function DealRoomContent({
                   {displayName}
                 </span>
                 <svg
-                  className="w-4 h-4 ml-auto text-gray-500 group-hover:text-[var(--cta-color)] transition-colors shrink-0"
+                  className="w-4 h-4 ml-auto text-inherit group-hover:text-(--cta-color) transition-colors shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
