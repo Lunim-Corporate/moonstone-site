@@ -44,6 +44,23 @@ export async function POST(req: Request) {
       }),
     });
 
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+      const body = await response.text();
+      console.error("Registration backend returned non-JSON response:", {
+        status: response.status,
+        url: TABB_BACKEND_URL,
+        bodyPreview: body.slice(0, 200),
+      });
+      return NextResponse.json(
+        {
+          error:
+            "Registration service is unavailable. Please try again later.",
+        },
+        { status: 502 }
+      );
+    }
+
     const data = await response.json();
 
     if (!response.ok) {
