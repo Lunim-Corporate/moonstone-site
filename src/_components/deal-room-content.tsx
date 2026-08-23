@@ -28,25 +28,115 @@ interface VaultFilesResponse {
   };
 }
 
-// File extension to icon mapping
-function getFileIcon(ext: string): string {
-  const lower = ext.toLowerCase();
-  const iconMap: Record<string, string> = {
-    pdf: "\u{1F4C4}",
-    doc: "\u{1F4DD}",
-    docx: "\u{1F4DD}",
-    xls: "\u{1F4CA}",
-    xlsx: "\u{1F4CA}",
-    csv: "\u{1F4CA}",
-    ppt: "\u{1F4CA}",
-    pptx: "\u{1F4CA}",
-    png: "\u{1F5BC}",
-    jpg: "\u{1F5BC}",
-    jpeg: "\u{1F5BC}",
-    mp4: "\u{1F3AC}",
-    zip: "\u{1F4E6}",
-  };
-  return iconMap[lower] || "\u{1F4CE}";
+// File extension to SVG icon component
+function FileIcon({ ext }: { ext: string }) {
+  const lower = (ext || "").toLowerCase();
+
+  // PDF — red document icon
+  if (lower === "pdf") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-label="PDF">
+        <rect x="3" y="2" width="13" height="17" rx="1.5" fill="#E53935" />
+        <path d="M16 2l5 5h-4.5A.5.5 0 0116 6.5V2z" fill="#EF9A9A" />
+        <text x="5.5" y="14.5" fontSize="4.5" fontWeight="bold" fill="white" fontFamily="sans-serif">PDF</text>
+      </svg>
+    );
+  }
+
+  // Word — blue document icon
+  if (lower === "doc" || lower === "docx") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-label="Word document">
+        <rect x="3" y="2" width="13" height="17" rx="1.5" fill="#1565C0" />
+        <path d="M16 2l5 5h-4.5A.5.5 0 0116 6.5V2z" fill="#90CAF9" />
+        <text x="4.5" y="14.5" fontSize="4" fontWeight="bold" fill="white" fontFamily="sans-serif">DOC</text>
+      </svg>
+    );
+  }
+
+  // Excel — green spreadsheet icon
+  if (lower === "xls" || lower === "xlsx") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-label="Excel spreadsheet">
+        <rect x="3" y="2" width="13" height="17" rx="1.5" fill="#2E7D32" />
+        <path d="M16 2l5 5h-4.5A.5.5 0 0116 6.5V2z" fill="#A5D6A7" />
+        <text x="4.5" y="14.5" fontSize="4" fontWeight="bold" fill="white" fontFamily="sans-serif">XLS</text>
+      </svg>
+    );
+  }
+
+  // CSV — teal table icon
+  if (lower === "csv") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-label="CSV file">
+        <rect x="3" y="2" width="13" height="17" rx="1.5" fill="#00695C" />
+        <path d="M16 2l5 5h-4.5A.5.5 0 0116 6.5V2z" fill="#80CBC4" />
+        <text x="4.5" y="14.5" fontSize="4" fontWeight="bold" fill="white" fontFamily="sans-serif">CSV</text>
+      </svg>
+    );
+  }
+
+  // PowerPoint — orange/red presentation icon
+  if (lower === "ppt" || lower === "pptx") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-label="PowerPoint presentation">
+        <rect x="3" y="2" width="13" height="17" rx="1.5" fill="#D84315" />
+        <path d="M16 2l5 5h-4.5A.5.5 0 0116 6.5V2z" fill="#FFCCBC" />
+        <text x="4.5" y="14.5" fontSize="4" fontWeight="bold" fill="white" fontFamily="sans-serif">PPT</text>
+      </svg>
+    );
+  }
+
+  // Images
+  if (lower === "png" || lower === "jpg" || lower === "jpeg" || lower === "gif" || lower === "webp" || lower === "svg") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} aria-label="Image file">
+        <rect x="3" y="3" width="18" height="18" rx="2" strokeLinejoin="round" className="stroke-purple-400" fill="none" />
+        <circle cx="8.5" cy="8.5" r="1.5" className="fill-purple-400 stroke-none" />
+        <path d="M3 15l5-5 4 4 3-3 6 6" className="stroke-purple-400" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  // Video
+  if (lower === "mp4" || lower === "mov" || lower === "avi" || lower === "mkv" || lower === "webm") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} aria-label="Video file">
+        <rect x="2" y="4" width="15" height="16" rx="2" className="stroke-pink-400" fill="none" />
+        <path d="M17 8.5l5-3v13l-5-3V8.5z" className="stroke-pink-400" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  // Archive / zip
+  if (lower === "zip" || lower === "rar" || lower === "7z" || lower === "tar" || lower === "gz") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} aria-label="Archive file">
+        <rect x="3" y="2" width="14" height="20" rx="1.5" className="stroke-yellow-400" fill="none" />
+        <path d="M9 2v20" className="stroke-yellow-400" strokeDasharray="3 2" />
+        <circle cx="11" cy="17" r="1.5" className="fill-yellow-400 stroke-none" />
+      </svg>
+    );
+  }
+
+  // Text / plain
+  if (lower === "txt" || lower === "md" || lower === "rtf") {
+    return (
+      <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} aria-label="Text file">
+        <rect x="4" y="2" width="13" height="19" rx="1.5" className="stroke-gray-400" fill="none" />
+        <path d="M7 7h7M7 11h7M7 15h4" className="stroke-gray-400" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // Default — generic document
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} aria-label="Document">
+      <rect x="4" y="2" width="13" height="19" rx="1.5" className="stroke-gray-500" fill="none" />
+      <path d="M4 2l13 0M17 2l4 4" className="stroke-gray-500" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 9h7M7 13h7M7 17h4" className="stroke-gray-500" strokeLinecap="round" />
+    </svg>
+  );
 }
 
 function createCategoryId(label: string): string {
@@ -225,11 +315,9 @@ export default function DealRoomContent({
               return (
                 <div
                   key={doc.id}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/[0.03] text-gray-600 cursor-not-allowed select-none"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/[0.03] text-gray-400 cursor-not-allowed select-none"
                 >
-                  <span className="text-lg leading-none">
-                    {getFileIcon(doc.extension)}
-                  </span>
+                  <FileIcon ext={doc.extension} />
                   <span className="text-sm">{displayName}</span>
                 </div>
               );
@@ -243,14 +331,12 @@ export default function DealRoomContent({
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] transition-colors no-underline text-inherit group"
               >
-                <span className="text-lg leading-none">
-                  {getFileIcon(doc.extension)}
-                </span>
+                <FileIcon ext={doc.extension} />
                 <span className="text-sm group-hover:text-[var(--cta-color)] transition-colors">
                   {displayName}
                 </span>
                 <svg
-                  className="w-4 h-4 ml-auto text-gray-500 group-hover:text-[var(--cta-color)] transition-colors flex-shrink-0"
+                  className="w-4 h-4 ml-auto text-inherit group-hover:text-(--cta-color) transition-colors shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -319,7 +405,7 @@ export default function DealRoomContent({
                       >
                         <span className="flex items-center gap-2">
                           <svg
-                            className="w-3.5 h-3.5 flex-shrink-0"
+                            className="w-3.5 h-3.5 shrink-0"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
