@@ -8,6 +8,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { email, password, name, friendly_name, source } = body;
 
+    const frontendUrl =
+      req.headers.get("origin")?.replace(/\/$/, "") ||
+      process.env.NEXT_PUBLIC_WEBSITE_URL?.replace(/\/$/, "");
+
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required" },
@@ -36,6 +40,7 @@ export async function POST(req: Request) {
         friendly_name,
         hub_id: MOONSTONE_HUB_ID,
         source: source || 'deck', // Default to 'deck' if not specified
+        ...(frontendUrl ? { frontend_url: frontendUrl } : {}),
       }),
     });
 
