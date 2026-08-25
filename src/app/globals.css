@@ -86,10 +86,10 @@
         outline: none;
         border-color: var(--cta-color);
     }
-}
 
-.nav-logout:hover {
-    cursor: pointer;
+    button.nav-logout {
+        cursor: pointer;
+    }
 }
 
 /* Synopsis section: see ImageAndText slice  */
