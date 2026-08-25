@@ -476,7 +476,7 @@ export default function DealRoomContent({
                     <p className="text-sm text-gray-300">
                       Your access request is being reviewed. We&rsquo;ll notify
                       you once it&rsquo;s approved. In the meantime, you can
-                      access the documents available to your current tier below.
+                      access the documents available to your current tier above.
                     </p>
                   </div>
                 )}
