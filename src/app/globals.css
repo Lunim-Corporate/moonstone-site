@@ -88,6 +88,10 @@
     }
 }
 
+.nav-logout:hover {
+    cursor: pointer;
+}
+
 /* Synopsis section: see ImageAndText slice  */
 .my-counter {
     counter-reset: section;

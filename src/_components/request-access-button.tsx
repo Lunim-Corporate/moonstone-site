@@ -2,12 +2,11 @@
 
 import { useState } from "react"
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
 
 export default function RequestAccessButton() {
   const { data: session } = useSession()
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [requestSent, setRequestSent] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
   const handleRequestAccess = async () => {
@@ -36,13 +35,11 @@ export default function RequestAccessButton() {
         throw new Error(data.message || 'Failed to request access')
       }
 
+      setRequestSent(true)
       setMessage({
         type: 'success',
-        text: 'Access request submitted! An administrator will review your request.',
+        text: 'Access request sent! An administrator will review your request.',
       })
-
-      // Refresh server state so the page re-renders with hasRequestedAccess=true
-      router.refresh()
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Failed to submit request. Please try again.'
       setMessage({
@@ -54,14 +51,20 @@ export default function RequestAccessButton() {
     }
   }
 
+  const buttonLabel = requestSent
+    ? 'Request Sent'
+    : isLoading
+      ? 'Sending Request...'
+      : 'Request Access'
+
   return (
     <div className="w-full max-w-md mx-auto">
       <button
         onClick={handleRequestAccess}
-        disabled={isLoading}
+        disabled={isLoading || requestSent}
         className="w-full bg-(--cta-color) hover:bg-(--cta-color)/70 disabled:bg-gray-600 text-(--black-primary-color) font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Submitting...' : 'Request Access'}
+        {buttonLabel}
       </button>
 
       {message && (
