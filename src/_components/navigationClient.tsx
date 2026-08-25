@@ -128,7 +128,7 @@ export default function NavigationClient({
           {session && (
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="hover:opacity-75 text-center p-2"
+              className="nav-logout hover:opacity-75 text-center p-2"
             >
               Log Out
             </button>
