@@ -62,7 +62,7 @@ export default function RequestAccessButton() {
       <button
         onClick={handleRequestAccess}
         disabled={isLoading || requestSent}
-        className="w-full bg-(--cta-color) hover:bg-(--cta-color)/70 disabled:bg-gray-600 text-(--black-primary-color) font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed"
+        className="w-full bg-(--cta-color) hover:bg-(--cta-color)/70 disabled:bg-gray-400 text-(--black-primary-color) font-semibold py-3 px-6 rounded-lg transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed"
       >
         {buttonLabel}
       </button>
